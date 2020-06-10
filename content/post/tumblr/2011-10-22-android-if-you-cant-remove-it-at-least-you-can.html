@@ -1,0 +1,8 @@
+---
+date: "2011-10-22T01:05:38Z"
+tags:
+- Android
+title: '[Android] If you can''t remove it, at least you can still "disable" it'
+tumblr_url: http://blog.jln.co/post/11736589601/android-if-you-cant-remove-it-at-least-you-can
+---
+<div class="posterous_autopost"><p>Android 4.0 Ice Cream Sandwich 有一個新功能是, 使用者可以停用(Disable)系統上預載的應用程式, 以往系統預載的應用程式是不能被刪除的, 現在, 新的版本多了一個按鈕讓你可以停用它:</p>  <div class="p_embed p_image_embed"> <img alt="Device-2011-10-22-001443" height="800" src="http://posterous.com/getfile/files.posterous.com/temp-2011-10-21/yolHiesqtddIlgAhBHapFyuAExhEeFkkszazpljJrrprhyxpDjFFsIqFyEkc/device-2011-10-22-001443.png.scaled500.png" width="480"/></div> 當你把預載應用程式的icon拖到App Info就可以看到一個Disable的按鈕, 按下去後, 你就不會在程式啟動介面上看到他了  <p>這是中國人所謂的&hellip;&ldquo;眼不見為淨&quot;嗎?</p>  <p>被Disable掉的應用程式基本上並沒被移除, 它還是在你手機裡面, 並不會因此多出一些可使用空間, 只是你看他不爽, 以後就可以不用再看到他了&hellip;.(呃, 不爽用就不要用不就好了)</p>  <p>這是新功能嗎? 對這介面上來說&hellip;這按鈕&hellip;是新的</p>  <p>PackageManager裡面有個叫做<a href="http://developer.android.com/reference/android/content/pm/PackageManager.html#setApplicationEnabledSetting(java.lang.String,%20int,%20int)">setApplicationEnabledSetting</a> , 這用途就是用來作這種事的, 所以做這樣一個功能到底多複雜呢?</p>  <blockquote class="posterous_short_quote">  <p>PackageManager pm = getPackageManager();         pm.setApplicationEnabledSetting(&quot;com.geekyouup.paug.awesomepager&rdquo;, PackageManager.COMPONENT_ENABLED_STATE_DISABLED, 0);</p>  </blockquote>  <p>就差不多上面那樣</p>  <p>當然啦, 是沒辦法隨便寫一個軟體去disable人家的應用程式的, 如果可以, 不就天下大亂了, 這API只能用在跟你的應用程式相同的uid的package</p>  <p>不過對於系統應用程式來說, 就沒這限制了吧</p>  <p>至於這API啥時有的?        Since API level <strong>&ldquo;1&rdquo;</strong></p>    <p>Ok, So&hellip;..</p>    <p>We got a new feature&hellip;&hellip;&hellip;.</p>  </div>

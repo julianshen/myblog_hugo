@@ -1,0 +1,17 @@
+---
+date: "2013-12-12T01:36:37Z"
+tags:
+- sparkcore
+- arduino
+title: 用Spark.function()自定REST API
+tumblr_url: http://blog.jln.co/post/69702065061/用sparkfunction自定rest-api
+---
+<p>前一篇有提到, TINKER API提供的四個功能都是很基本的, 如果只靠那四個, 那Spark cloud的負荷會很大, 想像一下, 如果說要做一台遙控車, 把馬達控制的程式都寫在遠端, 那需要發出多少命令? 如果REST API只是負責來發前進, 後退, 轉彎, 其他如該輸出多少給馬達或哪個腳位這類的邏輯留在core上面, 這樣的設計就會顯得合理多了</p>
+<p>所幸Spark其實有考慮到這問題, 只是目前的文件真的很殘缺, 還真很難找到相關資料, 這問題的答案就是:</p>
+<blockquote>
+<p>Spark.function()</p>
+</blockquote>
+<p>這函數的作用在於對應core上的函數以及自定的REST API:</p>
+<p>
+<script src="https://gist.github.com/julianshen/7914805.js" type="text/javascript"></script></p>
+<p>這函數第一個參數是REST命令的名字, 第二個則是處理這命令的函數, 相當簡單</p>

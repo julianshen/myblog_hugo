@@ -1,0 +1,31 @@
+baseURL= "http://blog.jln.co"
+disablePathToLower= true
+languageCode="zh-tw"
+title= "Le murmure de Julian"
+theme="hpstr"
+googleAnalytics = "UA-79243751-1"
+PygmentsCodeFences = true
+Paginate = 5
+hasCJKLanguage = true
+enableEmoji = true
+
+[params]
+        subtitle = "朱隸安貓囈語錄"
+        images = ["/images/avatar.png"]
+        [params.author]
+                name = "Julian Shen"
+                avatar = "/images/avatar.png"
+                bio = "Softward developer"
+                github = "julianshen"
+                email = "julianshen22@gmail.com"
+                linkedin = "julianshen"
+                instagram = "julianshen"
+        [params.image]
+                feature = "/images/bkg2.jpg"
+
+[outputFormats.RSS]
+    mediatype = "application/rss"
+    baseName = "feed"
+
+[permalinks]
+    post = "/:slug/"

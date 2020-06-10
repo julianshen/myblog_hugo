@@ -1,0 +1,12 @@
+---
+date: "2012-01-29T13:52:40Z"
+tags:
+- Linux
+- Mac
+- SSH
+- Tips
+- Utilities
+title: '[筆記] 用SSH X11 forwarding連結Mac & Linux'
+tumblr_url: http://blog.jln.co/post/16682402273/筆記-用ssh-x11-forwarding連結mac-linux
+---
+<div class="posterous_autopost"><p>兩台電腦沒兩台螢幕還挺不方便的, 用ssh連到另一台Linux用command line的缺點是一些X11 apps都沒辦法用, 不過好像ssh也不是只有文字可用</p>  <blockquote>  <p><span style="font-size: medium;"><em><strong>ssh -X my_host</strong></em></span></p>  </blockquote>  <p>用上面的方式就可以用X11 forwarding的模式連到Linux的那台, 這時候執行任何一個X11程式, 視窗就會在你的電腦顯示而非遠端那台Linux, 舉個例, 我從mac mini連到一台遠端的Linux執行banshee, 這就是mac mini上得到的結果（這screenshot有兩個視窗, 上頭是banshee run on X11, 下頭是terminal, 用ssh -X連到Linux並執行banshee）:</p>  <div class="p_embed p_image_embed"> <a href="http://getfile3.posterous.com/getfile/files.posterous.com/temp-2012-01-28/GqgeFectoEGjzoogIEituexjHjBnoqbiFJeAGvsnvninqixozfsAIFpxAGeE/_2012-01-29_1.36.03.png.scaled1000.png"><img alt="_2012-01-29_1" height="407" src="http://getfile5.posterous.com/getfile/files.posterous.com/temp-2012-01-28/GqgeFectoEGjzoogIEituexjHjBnoqbiFJeAGvsnvninqixozfsAIFpxAGeE/_2012-01-29_1.36.03.png.scaled500.png" width="500"/></a> </div>   <p>&ldquo;男人&rdquo;(man)的說明是這樣寫的:</p>  <blockquote>    <p>-X      Enables X11 forwarding.  This can also be specified on a per-host basis in a configuration file.</p>  <p>             X11 forwarding should be enabled with caution.  Users with the ability to bypass file permissions on the remote host (for the user&rsquo;s X authorization database) can access the local X11 display through the forwarded connection.  An attacker may then be able to perform activities such as keystroke monitoring.</p>  <p>             For this reason, X11 forwarding is subjected to X11 SECURITY extension restrictions by default.  Please refer to the ssh -Y option and the ForwardX11Trusted directive in ssh_config(5) for more information.</p>    </blockquote>  <p> </p>    <p> </p></div>

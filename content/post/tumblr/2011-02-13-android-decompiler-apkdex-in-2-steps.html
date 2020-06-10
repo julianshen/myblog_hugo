@@ -1,0 +1,9 @@
+---
+date: "2011-02-13T01:20:48Z"
+tags:
+- Android
+- Mobile Dev
+title: '[Android] DeCompiler APK/DEX in 2 steps'
+tumblr_url: http://blog.jln.co/post/3254117684/android-decompiler-apkdex-in-2-steps
+---
+<div class="posterous_autopost"><p>真的, 這真的很簡單, 只要兩個步驟</p>  <p>首先, 你要有兩個工具:</p>  <ul><li><a href="http://code.google.com/p/dex2jar/">dex2jar</a></li>  <li><a href="http://java.decompiler.free.fr/">JD-GU</a>I 或其他Java decompliler (這邊我用JD-GUI當範例)</li>  </ul><p>步驟1: 拿dex2jar把apk或是dex轉成jar (裡面包含從dex轉譯過來的class file)</p>  <blockquote>  <p><span style="font-size: medium;"><em><strong>command &gt; </strong></em></span>./dex2jar.sh ~/SKeyTest.apk </p>  <p>version:0.0.7.8-SNAPSHOT</p>  <p>5 [main] INFO pxb.android.dex2jar.v3.Main - dex2jar /Users/julianshen/SKeyTest.apk -&gt; /Users/julianshen/SKeyTest.apk.dex2jar.jar</p>  <p>Done.</p>    </blockquote>  <p>步驟2: 拿JD-GUI開啟/Users/julianshen/SKeyTest.apk.dex2jar.jar (轉出的檔名即是原始檔SKeyTest.apk加上dex2jar.jar)</p>  <p>結果就像這樣:</p>  <p><a href="http://posterous.com/getfile/files.posterous.com/temp-2011-02-12/vJBtjoHhrGIChJllstkEFiJAgehzpHsEDkhqhnchgAIxqJcdfkIGwzJmlEJE/_2011-02-13_1.14.21.png.scaled1000.png"><img src="http://posterous.com/getfile/files.posterous.com/temp-2011-02-12/vJBtjoHhrGIChJllstkEFiJAgehzpHsEDkhqhnchgAIxqJcdfkIGwzJmlEJE/_2011-02-13_1.14.21.png.scaled500.png" width="500" height="304"/></a> </p>    <p> </p>  </div>

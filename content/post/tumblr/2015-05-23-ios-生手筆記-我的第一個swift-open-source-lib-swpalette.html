@@ -1,0 +1,32 @@
+---
+date: "2015-05-23T00:29:59Z"
+tags: []
+title: '[iOS 生手筆記] 我的第一個Swift open source lib- SWPalette'
+tumblr_url: http://blog.jln.co/post/119609976147/ios-生手筆記-我的第一個swift-open-source-lib-swpalette
+---
+<p>基本上, 應該不算完全完成, 所以還沒打算真正的寫README, 不過實際上看起來應該是有點效果了</p>
+
+<p><a href="https://github.com/julianshen/SWPalette">https://github.com/julianshen/SWPalette</a></p>
+
+<p>這個lib主要是由Android support lib v7 那邊porting過來的, 它應該是屬於material design設計上的一個元素, 關於Android版本的Palette可以參考:</p>
+
+<p><a href="https://developer.android.com/reference/android/support/v7/graphics/Palette.html">https://developer.android.com/reference/android/support/v7/graphics/Palette.html</a>
+<a href="https://www.bignerdranch.com/blog/extracting-colors-to-a-palette-with-android-lollipop/">https://www.bignerdranch.com/blog/extracting-colors-to-a-palette-with-android-lollipop/</a>
+<a href="http://baoyz.com/android/2014/10/21/android-palette-use/">http://baoyz.com/android/2014/10/21/android-palette-use/</a></p>
+
+<p>它的用途就是從Image裡面取得一些顏色, 讓你融入UI配色之中, 不過現在也好像沒看到幾個Android app目前有用這個設計, 它原理也不難, 就是做historgram quantization 而已, 我一開始照著原本的邏輯照po並不是用同樣的演算法重寫, 導致需要花很多時間debug, 到目前應該也還有很多bug, 不過主要的目的是練習Swift, 想說從一個很熟悉的語言的東西出發用新的東西來改寫可能更容易上手, 還蠻有趣的就是Swift一些語言上的特性, 讓一些地方簡化了不少  以下是目前的結果(有請Lena小姐示範一下):</p>
+
+<p><img src="http://i.imgur.com/RLUmL13l.png" alt="Imgur"/></p>
+
+<p>API基本上跟原本差不多, 分sync (swp_generatePalette)跟async (swp_generatePaletteAsync)兩種型態, 只是把method附掛到UIImage:</p>
+
+<pre>
+let p = image.swp_generatePalette(maxColors: 32)
+        
+if let s = p.lightMutedSwatch {
+   self.textView?.textColor = s.bodyTextColor
+   self.textView?.backgroundColor = s.color
+}
+</pre>
+
+<p>目前產生的結果可能跟Android版本的結果會有落差, 可能還需要很用力的debug吧&hellip;.</p>

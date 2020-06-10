@@ -1,0 +1,12 @@
+---
+date: "2013-06-27T01:46:42Z"
+tags:
+- IFTTT
+- Blogger
+- android
+- android development
+title: '[Android] 自定義View屬性'
+tumblr_url: http://blog.jln.co/post/53943168434/android-自定義view屬性
+---
+<p>在<a href="http://bit.ly/14xA3IP" target="_blank">前一篇寫了一個自訂義的layout - SimpleCellLayout</a>, 前一個版本的問題就是, 必須是寫程式把child view加進這個layout之中, 而且針對像是欄與行的數目也必須在程式裡設定, 並無法寫到layout xml中, 所以這次的目邊就是要讓這個layout可以像下面這樣用layout xml來擺佈:<br/><br/><script src="http://bit.ly/1af6Kkh"></script><br/>在這範例之中, 用到幾個像是col, row, gapsize, cellX這些在原生Android並不存在的屬性, 為了這些屬性, 就需要定義一個attrs.xml在res/values目錄內, attrs.xml 裡面要定義的就是這些樣式描述屬性, 這邊定義了: 給SimpleCellLayout本身用的col(欄數), row(行數), gapsize(間距大小), 以及給他的Child views用的cellX(格子的橫軸位置), cellY(格子的縱軸位置), colspan(格子寬), rowspan(格子高), 除了gapsize我們需要的跟實際螢幕上的大小有關, 所以格式定義為dimension外(就是可以用3dp, 1px這類的值), 其他都是整數就可<br/><br/><script src="http://bit.ly/14xA5Ap"></script> 這些屬性, 到時候就是要放在xml標籤內的屬性  <br/><br/>要用到這些屬性, 需要先在tag裡面定義一個新的name space, 如同在前面範例寫的:<br/><br/></p><blockquote class="tr_bq">xmlns:celllayout=&ldquo;http://bit.ly/GEGVYd&rdquo;</blockquote>文件內的範例大多是apk/後面接著package name, 不過Android Studio卻是建議使用&quot;res-auto&quot;, 定義了這個name space後, 便可以在後面的tag內使用像是&quot;celllayout:col&quot;這樣的屬性了<br/><br/>那在layout內又要怎處理這些屬性? ViewGroup有兩個建構子所需要帶的參數含有AttributeSet, 基本上只要從這兩個建構子處理就好<br/><br/><script src="http://bit.ly/14xA5Ar"></script> 這範例內的initFromAttributes就是用來從AttributeSet擷取這些屬性, 前面attrs.xml有定義stylable, 所以基本上有一堆相對應的Resource ID可以使用,這邊只處理了col, row, 和gapsize, 因為只有這三個屬性直接跟這layout相關, 至於這layout的child views該怎處理呢? 它就要靠LayoutParams了, 我在SimpleCellLayout內定義了一個CellLayoutParams, 基本上這類別也有一個建構子是用來處理AttributeSet的<br/><br/><br/><script src="http://bit.ly/1af6Lor"></script> 這邊比較重要的就是要overwrite掉generateLayoutParams, 因為ViewGroup原有的generateLayoutParams實作的是回傳ViewGroup.LayoutParams, 他並不認得CellLayoutParams, 但SimpleCellLayout靠的是CellLayoutParams來儲存layout所需的資訊, 原本用程式來加入view的範例部份, 我是手動產生一個CellLayoutParams來給child view, 但如果是放在layout xml, 並無法指定要用哪個LayoutParams類別, 這時候就要靠generateLayoutParams了  有趣的是, 雖然是我自訂的layout, 但在我做完這些後, Android studio的UI編輯器, 卻知道怎去依據我的layout把元件畫到正確的位子上面: <br/><div class="separator" style="clear: both; text-align: center;"><a href="http://bit.ly/14xA3IR" imageanchor="1" style="clear: left; float: left; margin-bottom: 1em; margin-right: 1em;"><img border="0" height="304" src="http://bit.ly/1af6Kkn" width="640"/></a></div><br/><br/><br/>
+via Blogger <a href="http://bit.ly/1af6KAB">http://bit.ly/1af6KAB</a>

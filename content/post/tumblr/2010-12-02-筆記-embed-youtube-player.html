@@ -1,0 +1,8 @@
+---
+date: "2010-12-02T02:48:17Z"
+tags:
+- Web Dev
+title: '[筆記] Embed Youtube player'
+tumblr_url: http://blog.jln.co/post/2061643972/筆記-embed-youtube-player
+---
+<div class="posterous_autopost"><p>以往嵌入Youtube video到網頁中要貼一大堆醜醜的object tag像是:</p>  <p>&lt;object width=&ldquo;640&rdquo; height=&ldquo;385&rdquo;&gt;&lt;param name=&ldquo;movie&rdquo; value=&ldquo;http://www.youtube.com/v/<strong><span style="font-size: small;">VIDEO_ID</span></strong>?fs=1&amp;amp;hl=zh_TW&rdquo;&gt;&lt;/param&gt;&lt;param name=&ldquo;allowFullScreen&rdquo; value=&ldquo;true&rdquo;&gt;&lt;/param&gt;&lt;param name=&ldquo;allowscriptaccess&rdquo; value=&ldquo;always&rdquo;&gt;&lt;/param&gt;&lt;embed src=&ldquo;http://www.youtube.com/v/<strong><span style="font-size: small;">VIDEO_ID</span></strong>?fs=1&amp;amp;hl=zh_TW&rdquo; type=&ldquo;application/x-shockwave-flash&rdquo; allowscriptaccess=&ldquo;always&rdquo; allowfullscreen=&ldquo;true&rdquo; width=&ldquo;640&rdquo; height=&ldquo;385&rdquo;&gt;&lt;/embed&gt;&lt;/object&gt;</p>  <p>後來股溝大神&hellip;.提供了一個新的方式, 這方式不用太過複雜的tag (說穿了不過就是用iframe包裝起來), 而且會隨使用者設定選擇到底是用Flash還是HTML5 player :</p>  <p><span style="font-family: Courier New; line-height: 18px; font-size: small;">&lt;iframe class=&ldquo;youtube-player&rdquo; type=&ldquo;text/html&rdquo; width=&ldquo;640&rdquo; height=&ldquo;385&rdquo; src=&ldquo;http://www.youtube.com/embed/</span><strong><span style="font-size: small;">VIDEO_ID</span></strong><span style="font-size: small;">&rdquo; frameborder=&ldquo;0&rdquo;&gt;<br/>&lt;/iframe&gt;</span></p>  <p><span style="font-size: small;">底下是實際的範例:</span></p>  <p><iframe src="http://www.youtube.com/embed/VeLUWap80jY" frameborder="0" height="385" width="640"> </iframe></p></div>

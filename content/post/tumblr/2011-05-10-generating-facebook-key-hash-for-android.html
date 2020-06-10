@@ -1,0 +1,10 @@
+---
+date: "2011-05-10T14:19:21Z"
+tags:
+- Android
+- Facebook
+- Mobile Dev
+title: Generating Facebook key hash for Android
+tumblr_url: http://blog.jln.co/post/5354885089/generating-facebook-key-hash-for-android
+---
+<div class="posterous_autopost"><p>According to<a href="http://developers.facebook.com/docs/guides/mobile/#android"> Facebook mobile development document</a> (Android), you need to generate a key hash for your application in order to apply Facebook SSO(Single Sign on).</p>  <p>Here is the formal way to do this:</p>  <blockquote>  <p><span style="color: #99cc00;">keytool -exportcert -alias androiddebugkey -keystore ~/.android/debug.keystore  | openssl sha1 -binary | openssl base64</span></p>  </blockquote>  <p>But sometimes you won&rsquo;t have a tradtional key store especially when building with Android open sources. Keys in Android open sources are in pk8 format. In order to generate key hashes with these keys, you need to tranfer them into a pk12 key store.</p>  <p>I created another way to generate keyhash without <em><strong>keytool</strong></em> and <em><strong>openssl</strong></em>. Here is the source codes: <a href="https://github.com/julianshen/FacebookKeyHashGen">FacebookKeyHashGen</a></p>  <p>This program get package sigature directly from package itself. </p></div>

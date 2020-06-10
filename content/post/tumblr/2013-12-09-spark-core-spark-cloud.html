@@ -1,0 +1,37 @@
+---
+date: "2013-12-09T09:15:00Z"
+tags:
+- arduino
+- sparkcore
+title: Spark core & Spark cloud
+tumblr_url: http://blog.jln.co/post/69435579761/spark-core-spark-cloud
+---
+<p><img alt="image" src="http://67.media.tumblr.com/0a4f7bd098a99f604b05c5d4b640ea0f/tumblr_inline_mxik2nylQO1qzg4zq.png"/></p>
+<p>Spark core跟一般Arduino不同, 它並沒有一個在PC上的IDE供你寫及編譯程式, 這動作完全是在雲端, 開發者在Web IDE上攥寫程式, 之後server會去編譯並下載firmware到Spark core端執行</p>
+<p>明明電腦跟Spark core都在眼前, 但程式卻不是在眼前編譯反而繞了一段路從Spark cloud下來, 感覺是有點多此一舉, 但其實Spark cloud的功能不僅於此, 它還提供了一個叫<a href="http://docs.spark.io/#/start/tinkering-with-tinker-the-tinker-api">TINKER</a>的服務</p>
+<p>TINKER分為兩部分, 一個是手機上的TINKER APP</p>
+<p><img alt="image" height="400" src="http://docs.spark.io/images/tinker.png"/></p>
+<p>這App的用途就是讓你可以在不用寫任何一行程式的情況下, 就可以測試你的Spark core, 它背後的作法就是發送REST API, 也就是另一部分, 所謂的TINKER API, 到Spark cloud上, Spark cloud在把對應的命令轉到core上面, 由於core設定只要一打開就會連上網連到Spark cloud上, 因此可以用如此的方式控制它</p>
+<p>因為可以透過TINKER API來控制core, 加上TINKER API也是公開的REST API, 因此, 我們未必要用Arduino的程式寫法來控制core, 我們也可以透過TINKER API用自己想用的程式語言來做開發</p>
+<p>以以下的閃爍LED當做例子:</p>
+<p><img alt="image" src="http://67.media.tumblr.com/216e79553b156474a48bfc5c36381bb4/tumblr_inline_mxil05iRQw1qzg4zq.gif"/></p>
+
+<p>以傳統Arduino的寫法, 這樣一個程式(這範例應該老到掉牙了), 應該是這樣的:</p>
+<p>
+<script src="https://gist.github.com/julianshen/7865855.js" type="text/javascript"></script></p>
+<p>跟C有點像, 當然啦,你不用期待它有啥多執行緒(Multiple threading), 或是啥事件驅動(event driven)等等東西可以用啦, 基本上它也是編譯好跑在Spark core上, core並沒有強大的運算能力跟複雜的硬體可以搞這麼複雜的東西, 有一點要注意的是, 這樣一個程式從Spark cloud燒錄到core去, 原本的TINKER就會被取代而失效, 必須由TINKER APP重新燒錄</p>
+<p>至於說到<a href="http://docs.spark.io/#/start/tinkering-with-tinker-the-tinker-api">TINKER API</a>, 由於是REST API, 因此你可以用你習慣的語言去包裝, 不管是java, javascript, 或是go也好, 包裝它相當容易, 基本上目前也只有四個API: digitalwrite, digitalread, analogread, analogwrite</p>
+<p>我包裝了Node.js跟Go可以使用的版本, 需要的人可以直接取用:</p>
+<ol><li>Node.js module: <a href="https://github.com/julianshen/SparkCoreJs">https://github.com/julianshen/SparkCoreJs</a></li>
+<li>Go: <a href="https://github.com/julianshen/SparkGo">https://github.com/julianshen/SparkGo</a></li>
+</ol><p>如果改用了Node.js或是Go, 那這個閃爍程式該如何寫?</p>
+<p>Node.js:</p>
+<p>
+<script src="https://gist.github.com/julianshen/7865942.js" type="text/javascript"></script></p>
+<p>這邊就可以把原本用&quot;delay&quot;的方式改用javascript中的setTimeout來實作</p>
+<p>Go:</p>
+<p>
+<script src="https://gist.github.com/julianshen/7865955.js" type="text/javascript"></script></p>
+<p>Go這邊則就是用了Tick</p>
+<p>Access token跟device ID其實是可以去你的Web IDE上查到的</p>
+<p>透過TINKER API, 這樣程式就不用一定得要&quot;on board&quot;去執行, 而且使用的程式語言也不會有侷限, 但缺點是, 首先要考慮到網路所造成的時間差問題, 另一個問題是, 現在提供的API像是digitalread這樣的API都非常的基本, 如果所有程式全部放在遠端, 遠端程式就必須要很頻繁的透過Spark cloud來發號司令, 如果連上Spark cloud的core越多, Spark cloud的負擔就相當可觀, 如果能提供custom command或custom api的方式, 把部分常態的邏輯變成在core端執行的內儲程序被呼叫, 或許可以減輕些Spark cloud的負擔</p>

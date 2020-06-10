@@ -1,0 +1,86 @@
+---
+date: "2015-05-03T19:58:12Z"
+tags:
+- ios
+- software development
+- swift
+title: '[iOS 開發生手筆記] 在Swift上使用ReactiveCocoa : 初始篇'
+tumblr_url: http://blog.jln.co/post/118016618417/ios-開發生手筆記-在swift上使用reactivecocoa-初始篇
+---
+<p>想說既然打定主意想玩一下iOS上的開發, 就從一些最夯的東西開始, 使用Swift自是不用說(另一個原因是我還是不喜歡看Objective-C), 另外想說最近<a href="http://en.wikipedia.org/wiki/Functional_reactive_programming">FRP (Functional Reactive Programming)</a>, 搭配Swift也剛剛好, 因此想說就從<a href="https://github.com/ReactiveCocoa/ReactiveCocoa">ReactiveCocoa</a>來上手吧&hellip;.</p>
+
+<p>似乎在iOS流行著用<a href="https://cocoapods.org">CocoaPods</a>來做相依性管理(dependency management), 如果用Objective-C, ReactiveCocoa 2.x版就已經夠用了, 用CocoaPads也非常簡單沒啥問題, 只要在Podfile裡加入即可:</p>
+
+<blockquote>
+  <p>pod &lsquo;ReactiveCocoa&rsquo;, &rsquo;~&gt; 2.4.4&rsquo;</p>
+</blockquote>
+
+<p>但根據下面這篇</p>
+
+<blockquote>
+  <p><a href="http://blog.scottlogic.com/2014/07/24/mvvm-reactivecocoa-swift.html"> &ldquo;MVVM, SWIFT AND REACTIVECOCOA - IT&rsquo;S ALL GOOD!&rdquo;</a></p>
+</blockquote>
+
+<p>但2.x跟swift不搭,如果要在Swift上使用2.x版的ReactiveCocoa,就必須要使用這個<strong><a href="https://github.com/yusefnapora/ReactiveCocoa/tree/de3c9a76666b1bf847f3f50df6a3791035defd9a">分支</a></strong> 但使用這個分支的話, 就沒辦法透過CococaPods來管理了</p>
+
+<p>不過所幸, ReactiveCocoa打算在3.0之後直接支援swift, 那如果, 把pod改成:</p>
+
+<blockquote>
+  <p>pod 'ReactiveCocoa&rsquo;, &rsquo;~&gt; 3.0&rsquo;</p>
+</blockquote>
+
+<p>不就應該搞定了嘛?代誌當然不是我這笨蛋想的那麼簡單, 首先, 把這些library含進swift project裡要使用dynamic frameworks而不是static library, 這在iOS是iOS8之後才支援的, 而<a href="http://blog.cocoapods.org/CocoaPods-0.36/">CocoaPods要到0.36才有支援</a>, 針對這個, 就必須要在Podfile裡加上一行</p>
+
+<blockquote>
+  <p>use_frameworks!</p>
+</blockquote>
+
+<p>但&hellip;這樣還沒結束, CocoaPods的repository裡的ReactiveCocoa 3的版本其實只有到 <strong>3.0.0 alpha 1</strong>, 那是相當早期的版本, swift版本的ReactiveCocoa正在積極開發中, 因此這版本舊到如果是用最新的XCode是會編譯不過的, 問題會出在LlamaKit, LlamaKit版本在CocoaPods上是<strong>0.1.0</strong>, 但最新的則是<strong>0.6.0</strong>, 在最新版已經解掉這問題了</p>
+
+<p>那這樣表示我得放棄方便相依管理系統轉向手動了嗎? 還好還有<strong><a href="https://github.com/Carthage/Carthage">Carthage</a></strong>, 這個跟ReactiveCocoa都是同一個作者做的(好像是Github的員工), Carthage跟CocoaPods的概念不同, CocoaPods的採取的是傳統的中心化的管理, 但Carthage的套件則沒有中心的repository, 而是分散在各個git(github project)中, 相對來說比較簡單單純(感覺就像做git clone後再用xcodebuild去build成framework而已), 不過我在這反而碰到更多的陷阱</p>
+
+<p>像CocoaPods的Podfile一樣, Carthage也有一個設定檔<strong><em>Cartfile</em></strong>, Cartfile的內容跟Podfile很像, 像是要加入ReactiveCocoa 3的話只要加入一行:</p>
+
+<blockquote>
+  <p>github &ldquo;ReactiveCocoa/ReactiveCocoa&rdquo; ~&gt; 3.0</p>
+</blockquote>
+
+<p>這邊跟CocoaPods不一樣的地方是, 它的版本管理部分完全靠git, 因此這行它會去github抓tag是v3.0的最新版本(以現在來說最新的是v3.0-beta.1), 它也可以接某個git branch, 比如說github &ldquo;ReactiveCocoa/ReactiveCocoa&rdquo; &ldquo;swift-development&rdquo;, 寫好Cartfile後只要執行:</p>
+
+<blockquote>
+  <p>carthage update</p>
+</blockquote>
+
+<p>它應該&hellip;理論上啦&hellip;就會把相關的porject抓回來build成framework, 然後去General settings把這些framework”手動”含進來(它不像CocoaPod那麼自動):
+<img src="http://67.media.tumblr.com/523aebfb075c2dd32f92f18831216983/tumblr_inline_nnrukxrrTf1qzg4zq_540.png" alt=""/></p>
+
+<p>不過, 我為什麼說&quot;理論上&quot;, 原因是我又碰到問題了!在build到LlamaKit(又是它)時我發生以下的問題!</p>
+
+<blockquote>
+  <p><a href="https://github.com/Carthage/Carthage/issues/299">“project has no shared schemes” error</a></p>
+</blockquote>
+
+<p>所以ReactiveCocoa並沒被build出來(X的)</p>
+
+<p>看來幾個對這issue的討論, 似乎是執行xcodebuild -list過久timeout, 導致抓不到build target, 而根據<a href="https://github.com/Carthage/Carthage/commits/master">commit的log</a>, 0.6.5似乎解決了這問題, 我原本是用brew install carthage裝的, 所以版本是0.6.4, 所以有抓了package來裝0.6.5</p>
+
+<p>裝了0.6.5就解決了嗎?我這笨蛋真的想的太簡單啦!一樣有問題啦!&hellip;沒解嗎? 開了<a href="https://github.com/Carthage/Carthage/commit/be53d5dee486bc4f210d3a7caba6624f3af8825f">那個commit來看</a>, 原來它所謂的解不過是延長timeout並且把錯誤訊息改成讓人家知道那是因為timeout而不是沒有shared scheme</p>
+
+<p>那怎辦, 該回歸手動了嗎?不!<strong>要追根究柢!</strong>,但看半天好像也沒啥招, 死馬當活馬醫? cd進去<em>Carthage/Checkouts/ReactiveCocoa/</em>目錄, 發現也有Cartfile, 那就在這邊也來一次carthage update吧&hellip;.結果有沒問題?有!狀況出現在底下這兩行(Cartfile.private):</p>
+
+<blockquote>
+  <p>github &ldquo;Quick/Quick&rdquo; &ldquo;master&rdquo;
+  github &ldquo;Quick/Nimble&rdquo; &ldquo;master&rdquo;</p>
+</blockquote>
+
+<p>這次它說沒&quot;master&quot;這個object, 但carthage不是有支援用branch name嗎?不管, 拿掉試試, 把&quot;master&quot;都拿掉後, 就成功在這邊build過ReactiveCocoa, 那回到上一層還會出現xcode -list發生timeout的問題嗎?回到上層目錄再試, 正常了, 一次通過! X&hellip;該不會是這問題吧?這是什麼情形&hellip;.那我把github &ldquo;ReactiveCocoa/ReactiveCocoa&rdquo; ~&gt; 3.0 改成github &ldquo;ReactiveCocoa/ReactiveCocoa&rdquo; &ldquo;swift-development&quot;呢?果不期然!!一樣的問題!!不是應該有支援用branch name嗎?</p>
+
+<p><em><strong>(寫太多很累了, 省略發現原因的過程&hellip;底下直接寫原因)</strong></em></p>
+
+<hr><p>原因是我電腦裡面有兩個git, 一個是git 1.7的版本, 一個是macos 10.10幫我裝的git, 那個則是2.3.2的, 因為路徑設的問題, 一直都抓到1.7的版本, carthage認branch name是靠git revparse, 大概1.7跟carthage不相容, 導致了這問題, 改成2.3.2之後&hellip;.一路順暢&hellip;.看來來去回報一下好了</p>
+
+<p>但問題不是到這邊為止, carthage還是一個很新的東西, 還有一些像是Facebook/pop並不支援carthage, 現在還沒辦法全用carthage管理, 還好CocoaPods跟Carthage是可以混用的, 所以接下來應該可以讓我順利開始寫東西了吧(希望如此)</p>
+
+<p><strong>後記補充</strong></p>
+
+<hr><p>經多次實驗, Shared scheme跟no object的確是兩個不同的問題, 前者0.6.5的確解決了這問題(我猜是我mac mini太慢所以timeout延到8s還不夠才又碰到, MBPR則沒這問題), 後者的確是git版本造成的</p>

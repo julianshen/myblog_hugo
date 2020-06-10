@@ -1,0 +1,37 @@
+---
+date: "2015-05-05T09:23:15Z"
+tags:
+- kvo
+- swift
+- ios
+title: '[iOS開發生手筆記] KVO on Swift'
+tumblr_url: http://blog.jln.co/post/118161828062/ios開發生手筆記-kvo-on-swift
+---
+<p>(通車的路上寫blog最討厭碰到網路出狀況呀!) KVO (Key Value Observing) 是用來監控一個變數是否有改變的技巧, 在做UI的data binding來說是蠻有用的, 舉個例子, 如果有個Label是一直顯示網路蒐集過來的讀數會一直變化, 一般的作法是收到這讀數再直接去操作設定這個label, 缺點是會把這類的資料邏輯跟UI邏輯綁死, 而且如果是有多個以上要跟這資料連動, 較不易擴充 (還沒完全醒, 例子舉得很爛), KVO提供一個比較好的方式利用監控數值變化來處理這件事</p>
+
+<p>網路上找到一篇文章, 或許這篇解釋的比我好: <a href="http://blog.riaproject.com/objective-c/2147/%E4%BA%86%E8%A7%A3-objective-c-%E4%B8%8A%E7%9A%84-kvokey-value-observing-%E6%A9%9F%E5%88%B6.html">了解 Objective-C 上的 KVO(Key-Value Observing) 機制</a></p>
+
+<p>不過這篇主要是針對Objective C的, 觀察者利用實作observerValueForKeyPath來得到狀態, 而被觀察者利用了addObserver加入觀察者</p>
+
+<p>當數值變動時, 必須要透過willChangeValueForKey 和 didChangeValueForKey 來通知觀察者, 這點算比較麻煩, Swift則不需要自己去呼叫, Swift在語言本身來說就已經設計了監看變數變化的特性, 最簡單的方式是透過willSet和didSet, 例如:</p>
+
+<pre>
+  var myVar:Int {
+     willSet {   
+       ....
+     }
+     didSet {
+       ....
+     }     
+  }
+</pre>
+
+<p>不過這樣其實還沒達到KVO的效果, 只算是一個hook來處理數值變化時要做的事, 在Swift中也是透過addObserver和observerValueForKeyPath, 唯一不同的是不需要willChangeValueForKey 和 didChangeValueForKey, 基本上只要把變數宣告成dynamic就好</p>
+
+<pre>
+dynamic var myVar: String = "ssss"
+</pre>
+
+<p>這邊很重要的是一定要宣告成dynamic, 不然會沒效果喔!</p>
+
+<p>(剛好到站, 寫完下車)</p>

@@ -1,0 +1,11 @@
+---
+date: "2011-05-03T12:35:19Z"
+tags:
+- Android
+- javascript
+- Mobile Dev
+- POC
+title: '[POC][筆記][Rhino] Developing Android with JS - onClickListener'
+tumblr_url: http://blog.jln.co/post/5153557114/poc筆記rhino-developing-android-with-js
+---
+<div class="posterous_autopost"><p><a href="http://julianshen.posterous.com/poc-using-javascript-to-develop-android-activ">上次做的</a>僅止於setText這個簡單的動作, 那像是處理click這類的怎做?</p>  <p>先拿click來做範例, 在Android中, 如果要替一個view加上處理click動作要利用到View.setOnClickListener, 但setOnClickListener的參數是onClickListener, 這是一個java interface, 在Rhino中如何實作一個Java interface?</p>  <p>首先, 不要被Rhino的文件給騙了, 那有問題(還花了我一個晚上看 :( ), Rhino的source codes裡有個example目錄, 裡面有隻SwingApplication.js, 答案就在這邊</p>  <p>因此, onClick就會像是這樣:</p>  <blockquote>  <p><span style="color: #800000;">var</span> button1 = findview(R.id(<span style="color: #3366ff;">&lsquo;button1&rsquo;</span>));</p>  <p>button1.setOnClickListener(<span style="color: #800000;">function</span>(view, methodName)<br/>{<br/>     if (methodName == <span style="color: #3366ff;">&ldquo;onClick&rdquo;</span>) { <br/>         log(&ldquo;MyScript&rdquo;, &ldquo;clicked&rdquo;); <br/> } });</p>    </blockquote>  <p>在這function內, 必須要自己判斷methodName來知道是哪個method被呼叫到, 應該是所有的java interface都可以用這樣去實作</p>  <p>OK, 這樣&hellip;很醜&hellip;繼續改進</p></div>

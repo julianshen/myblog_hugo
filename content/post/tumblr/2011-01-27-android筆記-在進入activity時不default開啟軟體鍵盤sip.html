@@ -1,0 +1,9 @@
+---
+date: "2011-01-27T20:29:45Z"
+tags:
+- Android
+- Mobile Dev
+title: '[Android][筆記] 在進入Activity時不default開啟軟體鍵盤(SIP)'
+tumblr_url: http://blog.jln.co/post/2956972516/android筆記-在進入activity時不default開啟軟體鍵盤sip
+---
+<div class="posterous_autopost"><p>Android上有個很煩人的就是(尤其是某公司的手機), 如果畫面上有可以輸入的框, 預設會focus在那上面, 某些手機(或說某些公司的手機), 預設變成只要那邊取得focus, 就會跳出軟體鍵盤, 這對很多User來說, 會有點煩(要看場合啦)&hellip;..</p>  <p>要在code裡面把SIP預先藏起來的話, 要用這段code:</p>  <blockquote class="posterous_short_quote">  <p>getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);</p>    </blockquote></div>

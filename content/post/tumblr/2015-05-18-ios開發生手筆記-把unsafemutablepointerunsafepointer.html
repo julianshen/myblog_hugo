@@ -1,0 +1,32 @@
+---
+date: "2015-05-18T02:16:37Z"
+tags:
+- swift
+- ios development
+title: '[iOS開發生手筆記] 把UnsafeMutablePointer/UnsafePointer 轉成Array (Swift)'
+tumblr_url: http://blog.jln.co/post/119208330942/ios開發生手筆記-把unsafemutablepointerunsafepointer
+---
+<p>在寫我的週末習作時, 為了抓取bitmap上所有的pixels時, 碰到這問題, 找了整個晚上才找到答案</p>
+
+<p>首先, 要抓取bitmap上所有的pixel必須要使用到CoreGraphics裡的CGBitmapContextGetData, 想當然爾, 這是老舊的API, C API, 那用Swift可以去取用嗎? 參照<a href="https://developer.apple.com/library/ios/documentation/Swift/Conceptual/BuildingCocoaApps/InteractingWithCAPIs.html">Interacting with C APIs</a> 這篇裡面有相關的Swift與C之間的對照</p>
+
+<p>回到取pixels這目的, 我希望取到的值是一個整數陣列, 精確來說是[UInt32]的陣列, 但CGBitmapContextGetData回傳的是什麼呢? 查文件可知是UnsafeMutablePointer&lt;Void&gt; ,依照上面的文件來說, 對照到C則是&quot;void *&ldquo;, 文件裡面有提到:</p>
+
+<pre>
+When a function is declared as taking an UnsafeMutablePointer&lt;Void&gt; argument, it can accept the same operands as UnsafeMutablePointer&lt;Type&gt; for any type Type.
+</pre>
+
+<p>意思就是, 它也可以是整數陣列指標, 但, 怎麼轉回去呢? 這就是讓我整個晚上超崩潰的, 幹, 這文件沒寫!</p>
+
+<p>搞半天, 才終於讓我找到答案:</p>
+
+<pre>
+let data = CGBitmapContextGetData(context)
+    
+let intData = UnsafeMutablePointer&lt;UInt32&gt;(data)
+let intArray = Array(UnsafeBufferPointer(start: intData, count: bitmapByteCount))
+</pre>
+
+<p>原來必須先把它轉型成UnsafeMutablePointer&lt;UInt32&gt;, 然後再用UnsafeBufferPointer轉存到實際的陣列中(因為UnsafeBufferPointer是SequenceType, 才可以轉成Array), 當然也要給它陣列大小</p>
+
+<p>但實際上這樣做對不對, 安不安全&hellip;還不知道, 找到答案寫下來先</p>

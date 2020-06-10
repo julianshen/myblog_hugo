@@ -1,0 +1,10 @@
+---
+date: "2010-12-24T18:32:04Z"
+tags:
+- Android
+- Facebook
+- Mobile Dev
+title: '[Android][筆記] Single Sign on with Facebook SDK'
+tumblr_url: http://blog.jln.co/post/2444202232/android筆記-single-sign-on-with-facebook-sdk
+---
+<div class="posterous_autopost"><p>透過Facebook Android SDK去sign in Facebook其實很單純, 只需要這樣幾行code:</p>  <blockquote>    <p class="p1"><span class="s1">if</span> (!<span class="s2">facebook</span>.isSessionValid()) {</p>  <p class="p1"><span class="s2"><span style="color: #000000;">    </span>facebook</span>.authorize(<span class="s1">this</span>, <span class="s1">new</span> String[] { <span class="s3">&ldquo;publish_stream&rdquo;</span> }, <span class="s1">new</span> AuthDialogListener());</p>  <p class="p1">}</p>    </blockquote>  <p>其中AuthDialogListener是繼承自Facebook.DialogListener, 因為Authentication dialog是由Facebook SDK處理的, 應用程式只要負責處理onComplete, onError等等callback</p>  <p>但單純這樣的code會在手機內有安裝Facebook for Android時發生問題</p>  <p>因為後來Facebook導入所謂Single sign on的機制, 讓Application跟Facebook for Android是可以用同一使用者的</p>  <p>Single sign on的原理很簡單, 只是透過Facebook for Android去做proxy login的動作而已, Application只消去Facebook註冊一個自己的package signature就可以了</p>  <p>但由於原本舊的Login視窗是包在SDK內一起被build進applciation package, 但在SSO機制內, Dialog是由Facebook for Android出的, 因此如果沒有加下面的code, AuthDialogListener的callback都不會被call到</p>  <blockquote>  <p>p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 11.0px Monaco} span.s1 {color: #9a1867} span.s2 {color: #0023c7} span.Apple-tab-span {white-space:pre}  </p><p class="p1"><span> </span><span class="s1">protected</span> <span class="s1">void</span> onActivityResult(<span class="s1">int</span> requestCode, <span class="s1">int</span> resultCode, Intent data) {</p>  <p class="p1"><span> </span><span> </span><span class="s1">super</span>.onActivityResult(requestCode, resultCode, data);</p>  <p class="p1"><span> </span><span> </span><span class="s2">facebook</span>.authorizeCallback(requestCode, resultCode, data);</p>  <p class="p1"><span> </span>}</p>    </blockquote>  <p>這是由於Facebook SDK是用startActivityForResult去call Facebook for Android, 因此application必須加上這行自己接它的callback再轉送給原本的listener</p></div>

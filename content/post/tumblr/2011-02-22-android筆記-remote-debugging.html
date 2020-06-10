@@ -1,0 +1,9 @@
+---
+date: "2011-02-22T01:37:45Z"
+tags:
+- Android
+- Mobile Dev
+title: '[Android][筆記] Remote debugging'
+tumblr_url: http://blog.jln.co/post/3423496462/android筆記-remote-debugging
+---
+<div class="posterous_autopost"><p>本來這技巧應該沒啥用上, 不過最近一台開發的機器, usb一直不通不通的, adb logcat自然就不能用了, 不過好在現在adb有支援adb over tcpip</p>  <p>啟用的方法是</p>  <blockquote class="posterous_short_quote">  <p>adb tcpip port</p>  </blockquote>  <p>這就會把手機上的adb轉成可以透過tcpip連接</p>  <p>不過, USB不通又怎下這指令, 當然是沒辦法&hellip;.</p>  <p>所幸Market上下載的到相關的程式:</p>  <ol><li><a href="https://market.android.com/details?id=siir.es.adbWireless&amp;feature=search_result">adbWireless</a></li>  <li><a href="https://market.android.com/details?id=bohlool.net.wifiadb">adb over wifi widget</a></li>  </ol><p>我比較喜歡adb over wifi widget, 只要按一下就可以enable/disable, IP/PORT還直接顯示在widget上, 還蠻方便的</p>  <p>啟動之後, 只要在PC端下</p>  <blockquote class="posterous_short_quote">  <p>adb connect IP:PORT</p>  </blockquote>  <p>這樣adb就會連結到這台手機上了, 之後下adb command像是adb logcat或是adb install都是透過tcpip連結到這台機器上</p></div>

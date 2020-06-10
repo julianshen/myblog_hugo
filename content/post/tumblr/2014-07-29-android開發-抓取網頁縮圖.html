@@ -1,0 +1,30 @@
+---
+date: "2014-07-29T00:36:15Z"
+tags:
+- android development
+title: '[Android開發] 抓取網頁縮圖'
+tumblr_url: http://blog.jln.co/post/93121423562/android開發-抓取網頁縮圖
+---
+<p>Phantom.js好用的地方就是可以以下面這一段簡單的程式來抓取網頁的縮圖:</p>
+<pre>var page = require('webpage').create();
+page.open('http://github.com/', function() {
+  page.render('github.png');
+  phantom.exit();
+});    
+</pre>
+<p>結果是像這樣:</p>
+<p><img src="http://67.media.tumblr.com/97773b87c9fb0f318848c4faf603fdae/tumblr_inline_n9fjyu6dIP1qzg4zq.png"/></p>
+<p>不過, 這邊要說的並不是Phantom.js, 而是在Android上怎像這樣抓網頁縮圖</p>
+<p>在KitKat (API level 19)之前, WebView有<a href="https://developer.android.com/reference/android/webkit/WebView.html#capturePicture()">capturePicture()</a>這個API可以達成類似的效果, 不過, 這API在API level 19已經被deprecated掉了, 並且建議改用onDraw()</p>
+<p>改用onDraw()其實也不太難, 只要在WebViewClient.onPageFinished()裡做:</p>
+<pre>    Bitmap mBitmap = Bitmap.createBitmap(view.getMeasuredWidth(), view.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
+    Canvas canvas = new Canvas(mBitmap);
+    view.draw(canvas);
+</pre>
+<p>注意, 必須是在page finish之後才可以去做, 因為這時候網頁才算載入完畢, 不過結果有點不是很完美, 並非是整頁的</p>
+<p><img src="http://66.media.tumblr.com/ecad33303c898431d72bbe73a4ae33ae/tumblr_inline_n9fkelSBCh1qzg4zq.png"/></p>
+
+<p>為了方便, 我寫成一個IntentService之後可以拿來重複利用:</p>
+<p><a href="https://github.com/julianshen/WebThumbGrabber">WebThumbGrabber</a></p>
+<p>寫成IntentService的好處是讓他可以在background thread去做, 前景的activity可以完全不用管它, 不過幾個webview的methods還是需要在main thread去跑, 為此, 在Service onCreate()引入了一個Handler, 為了避免IntentService在頁面還沒載入回來前就結束掉, 用了一個Semaphore來等待縮圖完成才結束整項工作</p>
+<p>縮圖產生後, 必須要把產生的結果回傳給Activity, 這邊用的是&quot;<a href="https://developer.android.com/reference/android/app/Activity.html#createPendingResult(int,%20android.content.Intent,%20int)">Activity.createPendingResult()</a>&ldquo;, 把產生的PendingIntent傳給IntentService來回傳結果, 這動作跟startActivityForResult類似, 回傳的結果也是由Activity.onActivityResult()來接收(可參考DemoActivity)</p>

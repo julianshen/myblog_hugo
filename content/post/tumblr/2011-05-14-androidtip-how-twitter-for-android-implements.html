@@ -1,0 +1,10 @@
+---
+date: "2011-05-14T15:27:41Z"
+tags:
+- Android
+- Mobile Dev
+title: '[Android][Tip] How Twitter for Android implements auto completion in post
+  screen?'
+tumblr_url: http://blog.jln.co/post/5474221371/androidtip-how-twitter-for-android-implements
+---
+<div class="posterous_autopost"><p>Twitter for Android popup a user list when you enter &ldquo;@&rdquo; in post screen. Like this:</p>  <div class="p_embed p_image_embed"> <a href="http://posterous.com/getfile/files.posterous.com/temp-2011-05-14/sBGyFmhynhgeFmfsfCqjzIqEuBCwzpzkbhcwhuHnroxdmiHtylrzHyCtpeJD/t1.png.scaled1000.png"><img alt="T1" height="455" src="http://posterous.com/getfile/files.posterous.com/temp-2011-05-14/sBGyFmhynhgeFmfsfCqjzIqEuBCwzpzkbhcwhuHnroxdmiHtylrzHyCtpeJD/t1.png.scaled500.png" width="500"/></a> </div>   <p>How it implement such feature? The solution can&rsquo;t be simpler - You could use <strong><span style="font-size: medium;"><a href="http://developer.android.com/reference/android/widget/MultiAutoCompleteTextView.html">MultiAutoCompeleteTextView</a></span></strong> to do this.</p>  <p>Here is the sample codes:</p>  <p>  <script src="https://gist.github.com/972014.js?file=gistfile1.java"></script></p>  <p>And the result:</p>  <div class="p_embed p_image_embed"> <img alt="T2" height="554" src="http://posterous.com/getfile/files.posterous.com/temp-2011-05-14/jokbfzsgrCCDIirGFyluGlsiqwbpDsasxnvvGxlbmCjfHhdInJzDvogofucm/t2.png.scaled500.png" width="475"/></div>   <p>To use this widget, you need to implement a Tokenizer to tell it where the sub text is. In this case, just find the string between &rsquo;@&rsquo; and space.</p></div>

@@ -1,0 +1,8 @@
+---
+date: "2015-05-12T03:02:52Z"
+tags:
+- ios development
+title: '[iOS開發生手筆記] 在UITextField內放入載入動畫(UIActivityIndicatorView)'
+tumblr_url: http://blog.jln.co/post/118713778997/ios開發生手筆記
+---
+<p>主要是看<a href="https://itunes.apple.com/us/app/medium/id828256236?mt=8">Medium iOS版</a>的搜尋畫面, 覺得他在UITextField裡顯示載入動畫還蠻不錯的, 不會有礙整個畫面的觀瞻, 所以就想做成像這樣:</p><figure class="tmblr-full" data-orig-height="643" data-orig-width="375"><img src="http://66.media.tumblr.com/0fabc4425e110a68867ace07d0c3bd7b/tumblr_inline_no78lkpgQu1qzg4zq_540.png" data-orig-height="643" data-orig-width="375"/></figure><p>其實這也不難, 靠的是UITextField的rightView(有rightView和leftView可用), 只要把rightView指定到一個UIActivityIndicatorView, 把rightViewMode設成.Always, 然後呼叫startAnimation就可以了:</p><p><a href="https://github.com/julianshen/RAC-GitHubUserSearch/blob/aa3754787f2eec9e779493dffc65a65aa918c50a/GithubUserSearch/ViewController.swift#L39-L41">https://github.com/julianshen/RAC-GitHubUserSearch/blob/aa3754787f2eec9e779493dffc65a65aa918c50a/GithubUserSearch/ViewController.swift#L39-L41</a><br/></p><p>另外在loading結束後把rightViewMode設成.Never</p><p><a href="https://github.com/julianshen/RAC-GitHubUserSearch/blob/aa3754787f2eec9e779493dffc65a65aa918c50a/GithubUserSearch/ViewController.swift#L52-L54">https://github.com/julianshen/RAC-GitHubUserSearch/blob/master/GithubUserSearch/ViewController.swift#L52-L54</a><br/></p><p>那怎判斷loading開始了呢? 那就要借重另一個東西, 在呼叫GitHubAPI前呼叫observe:</p><p><a href="https://github.com/julianshen/RAC-GitHubUserSearch/blob/aa3754787f2eec9e779493dffc65a65aa918c50a/GithubUserSearch/ViewController.swift#L35-L44">https://github.com/julianshen/RAC-GitHubUserSearch/blob/aa3754787f2eec9e779493dffc65a65aa918c50a/GithubUserSearch/ViewController.swift#L35-L44</a><br/></p>

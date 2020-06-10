@@ -1,0 +1,120 @@
+---
+date: "2015-05-10T16:03:23Z"
+tags: []
+title: '[iOS開發生手筆記] 第一支iOS app (with Swift & ReactiveCocoa)'
+tumblr_url: http://blog.jln.co/post/118592559107/ios開發生手筆記-第一支ios-app-with-swift
+---
+<p>過了幾天(尤其在這兩天)的摸索後, 終於把第一支App給兜出來了, 這只是個練習, 所以做的事情很單純 - 搜尋GitHub上的User</p>
+
+<p>Source code 在: <a href="https://github.com/julianshen/RAC-GitHubUserSearch">RAC-GitHubUserSearch</a></p>
+
+<p>範例畫面: 
+<img src="http://i.imgur.com/Gq0KvGP.png" alt="Imgur"/></p>
+
+<p>swift還不太熟, 所以讀人家的code和寫code還不是那麼的流暢, 不過最大的問題還是在硬是想要用Swift + RAC 3.0, RAC 3.0現在雖然已經進入beta了, 但很多東西還不太穩定, 還在改, 自然不用說文件了, swift相關的官方文件幾乎是0, 這時候Google, source codes, 還有github上的每一則issue就是最好的朋友了</p>
+
+<p>熟悉funtional language的人可能對reative的觀念會比較容易懂, 目前看過寫的比較不錯的文章是這篇:
+<a href="https://gist.github.com/staltz/868e7e9bc2a7b8c1f754c">The introduction to Reactive Programming you&rsquo;ve been missing</a></p>
+
+<p>反正不就是把一切當stream串來串去的不就是了嗎?(其實會暈), <a href="https://github.com/baconjs/bacon.js/wiki/Diagrams">bacon.js這幾張圖</a>也有點幫助理解一些工具</p>
+
+<p>在ReactiveCocoa方面, Colin Eberhardt寫了好幾篇文章還算蠻不錯的:
+<a href="http://blog.scottlogic.com/2015/04/24/first-look-reactive-cocoa-3.html">http://blog.scottlogic.com/2015/04/24/first-look-reactive-cocoa-3.html</a>
+<a href="http://www.raywenderlich.com/74106/mvvm-tutorial-with-reactivecocoa-part-1">http://www.raywenderlich.com/74106/mvvm-tutorial-with-reactivecocoa-part-1</a></p>
+
+<p>不過針對RAC3的文章尚不完整加上RAC3 Swift的部份也還一直在改, 其實很多東西看code可能會比較清楚, 為了研究這個, 看了幾十篇文章, ObjectivC的相關的未必適用於Swift, 有些API在Swift上是改了名字改了用法, 甚至有些其實還沒有, 整理上蠻頭痛的</p>
+
+<p>對於MVVM的部份, 我其實也還沒很認真搞懂, 還是有點似是而非</p>
+
+<p>針對我的code裡面幾個地方來說明一下好了</p>
+
+<h3>DynamicProperty</h3>
+
+<p>DyamicProperty的觀念的部份可以看這篇: <a href="http://qiita.com/335g/items/a53e06f543496dba462a">ReactiveCocoa (RAC3.0) by Swift</a></p>
+
+<p>啥?日文的?沒關係, 看到關鍵字<a href="http://blog.jln.co/post/118161828062/ios-kvo-on-swift">KVO</a>就大概猜是跟KVO類似的東西, 我的code裡面ViewController.viewDidLoad的第一段:</p>
+
+<p><code>
+    viewModel.prop_keyword &lt;~ keywordInput.rac_textSignal().toSignalProducer() |&gt; catch {<br/>
+    error in<br/>
+    return SignalProducer&lt;AnyObject?, NoError&gt;(value:"")<br/>
+      }<br/></code></p>
+
+<p>這一段就是把UITextField打的字自動設定到viewModel.searchKeyword內, 這邊故意把searchKeyword宣告成private, 是為了要實驗這樣signal也還可以透過DynamicProperty設定這邊的值</p>
+
+<p>這邊比較難懂的地方是&quot;&lt;~&ldquo;, &rdquo;|&gt;&ldquo;, 這兩個都不是Swift標準的運算符, 而是ReactiveCocoa特有的, &rdquo;&lt;~&ldquo;尤其特別, 這跟我們慣用的左向右的運算符不太一樣, 這要由右向左看, 就是把左邊的signal producer的結果串到右邊的DynamicProperty, 而&rdquo;|&gt;&ldquo;呢?對於reactive來說, 都是stream的操作, 所以Signal也是可以串接起來的, 透過&rdquo;|&gt;&ldquo;, 那這邊為何要多一個&rdquo;|&gt; catch&quot;呢? 因為DynamicProperty接的是SignalProducer&lt;U, NoError&gt;但textSignal的Error則非NoError, 需要靠catch來做error handling</p>
+
+<p>DynamicProperty跟一般的KVO不同的地方就是它可以是雙向的, 因此可以用:</p>
+
+<pre>
+viewModel.prop_keyword.producer
+        |&gt; filter {
+            return count($0 as! String) &gt;= 3
+        }
+</pre>
+
+<p>這邊就是把prop_keyword這個DynamicProperty當SignalProducer來用, 串到filter去</p>
+
+<p>另外這一整段:</p>
+
+<pre>
+let filteredKeywordSignalProducer = viewModel.prop_keyword.producer
+        |&gt; filter {
+            return count($0 as! String) &gt;= 3
+        }
+        
+        let throttledKeywordSignal = filteredKeywordSignalProducer |&gt; throttle(1, onScheduler: QueueScheduler())
+        
+        throttledKeywordSignal |&gt; map {
+            value in
+            return GitHubClient.searchUser(value as! String)
+        }
+        |&gt; flatten(FlattenStrategy.Concat)
+        |&gt; start {
+            value in
+            self.viewModel.users = value
+        }
+
+</pre>
+
+<p>這邊的目的是, 當UITextField打超過3個(含)字母以上時, 要透過GitHub API去搜尋使用者並改變viewModel users裡的值</p>
+
+<p>其時map + flattern這邊本來想用flatMap來寫的, 不過flatMap似乎有點問題, 參考:
+<a href="https://github.com/ReactiveCocoa/ReactiveCocoa/pull/1966#issuecomment-99536117">https://github.com/ReactiveCocoa/ReactiveCocoa/pull/1966#issuecomment-99536117</a>
+以及這個commit: <a href="https://github.com/ReactiveCocoa/ReactiveCocoa/pull/1988">https://github.com/ReactiveCocoa/ReactiveCocoa/pull/1988</a></p>
+
+<p>目前Signal和SignalProducer各有一個flatMap, compile會有ambiguous的情形, 看來這個commit會把SignalProducer那個拿掉, 但還是可以用map + flatten改寫</p>
+
+<p>另外throtte的用意是為了避免太頻繁的送出API, 限制request的間隔在一秒內</p>
+
+<p>接下來是signalForImage的部份:</p>
+
+<pre>
+func signalForImage(url: NSURL) -&gt; SignalProducer<uiimage noerror> {
+        return SignalProducer<uiimage noerror> {
+            observer, disposable in
+            let imgData = NSData(contentsOfURL: url)
+            sendNext(observer, UIImage(data: imgData!)!)
+            sendCompleted(observer)
+            return
+        }
+    }
+</uiimage></uiimage></pre>
+
+<p>這部份是把載入網路上的圖這功能包裝成一個signal producer, 目的是為了下面這段:</p>
+
+<pre>
+signalForImage(url!)
+            |&gt; startOn(QueueScheduler())
+            |&gt; observeOn(UIScheduler())
+            |&gt; start
+            {
+                value in
+                cell.imageView?.image = value
+                return
+            }
+</pre>
+
+<p>startOn(QueueScheduler())的目的就是要讓載入圖片這件事不要在主線程(main thead)發生, 而是把它丟到GCD queue, 最後UI thread接到通之後再把它顯示出來</p>
+
+<p>好了, 先到這邊, 整個程式看起來很簡單, 但很多觀念還花了不少時間呀 orz</p>

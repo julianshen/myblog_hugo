@@ -1,0 +1,9 @@
+---
+date: "2015-07-30T14:34:47Z"
+tags:
+- cloud development
+- azure
+title: 在Azure Web App上使用私有的npm registry
+tumblr_url: http://blog.jln.co/post/125411319197/在azure-web-app上使用私有的npm-registry
+---
+<p>Azure Web App是一個還算簡單好用的PAAS, 它是基於一個open source project - <a href="https://github.com/projectkudu/kudu">Kudu</a>, 因此除了C#外, 也支援了Java, PHP, Node.js, Python等環境, 部屬的方法也簡單到只需要用”git push”就可以了</p><p>使用node.js來開發程式的話, 免不了需要安裝許多不同的模組(module), 這對Web App來說也不是問題, 在”git push”之後, 它自動就會用”npm install”來幫你安裝package.json裡面指定的所有模組</p><p>但有時候, 用到的模組未必是放在公開的npm registry而是放在私有的registry, 那這時候就得做一點手腳了</p><p>首先在專案目錄中, 新增一個.npmrc的檔案(<a href="https://docs.npmjs.com/files/npmrc">https://docs.npmjs.com/files/npmrc</a>), 把private registry相關資訊(url, auth)放在這檔案, 並push上去</p><p>這時候你會看到push過程中, 雖然有找到private registry, 但會有一個錯誤產生:</p><blockquote><p><i>Error: can&rsquo;t access restricted package without auth, did you forget &lsquo;npm set always-auth true&rsquo;?</i></p></blockquote><p>原因是你必須要先跑過”npm set always-auth true”, 不然在連接私有的registry會因為沒有認證而出錯, 那要怎樣在事前跑這指令呢? 這時候就要借助deployment script了</p><blockquote><p><i>azure site deploymentscript &ndash;node</i></p></blockquote><p>在你的專案目錄下跑以上那指令, 在你目錄下就會產生兩個檔案: .deployment和deploy.sh, 在deploy.sh找到下面這段:</p><blockquote><p><i># 3. Install npm packages</i></p></blockquote><p>在這行下面加上:</p><blockquote><p><i>eval $NPM_CMD set always-auth true</i></p></blockquote><p>再把這些給push到Azure Web App上, 大功告成!</p>

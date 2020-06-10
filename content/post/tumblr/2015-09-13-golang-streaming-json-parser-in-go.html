@@ -1,0 +1,9 @@
+---
+date: "2015-09-13T16:55:55Z"
+tags:
+- golang
+- software development
+title: '[Golang] Streaming JSON Parser in Go'
+tumblr_url: http://blog.jln.co/post/128981726382/golang-streaming-json-parser-in-go
+---
+<p>目前Json已經可以說是Internet上相當流行的格式了, 雖然說他缺點還算蠻多的, 但很多主流的程式語言都有成熟的parser可供使用,  在Golang則可利用內建的encoding/json這個package來達成</p><p>用“encoding/json”來解析Json其實很簡單, 基本上就是建立一個Decoder然後把json內容”解”到你對應的資料結構去, 可以參考這範例: <a href="http://golang.org/pkg/encoding/json/#example_Decoder">http://golang.org/pkg/encoding/json/#example_Decoder</a></p><p>但在某些狀況下並不是很好的解法, 舉個例子來說, 我這兩天打算拿從<a href="http://parse.com">Parse</a>那邊匯出的使用者資料來做一些處理, <a href="http://parse.com">Parse</a>輸出給我的JSON檔大約長得像這樣: <br/></p><p>{<br/>       results: [<br/>             {<br/>                  “objectId”:”zzreueaWq4″,<br/>                  “username”:”julian”,<br/>             }<br/>       ]<br/>}</p><p>按照這定義寫出的程式碼就類似這樣:</p><p><script src="https://gist.github.com/julianshen/ba805faa6f2ff41fc139.js"></script></p><p>但這有一個很大的問題, <a href="http://parse.com">Parse</a>那邊輸出給我的Json檔就有400MB之多(二十多萬筆), 可想而知的, 這程式直接先因為out of memory炸掉了, Decode需要把所有內容載入到記憶體才做解析, 而且以這範例, 解析完的結果全部存到我們的資料結構內, 自然有這問題, 常常這種應用我們都不是很需要把所有內容在記憶體放一份, 而是來一個處理一個</p><p>這時候就需要用Streaming parser的作法來解決這問題了, Golang的Json package也有支援這一模式, 但這也是在最新的1.5之後才有支援這模式, 使用這方法, 程式可以改成如下:</p><p><script src="https://gist.github.com/julianshen/2416ee3dc15c7358340f.js"></script></p><p>在這邊由於我只需要results這陣列的內容而已, 因此我先用Token找到第一個”[”(以這範例來說, 第一個”[”代表的就是results的陣列了), 之後就是用迴圈一個個去解些個別的User物件, 由於這20多萬筆資料, 我也只是要印出來而已, 我也不用特地用一個大的資料結構來存, 自然記憶體的問題就比較沒那麼吃緊</p>

@@ -1,0 +1,9 @@
+---
+date: "2010-12-27T22:40:07Z"
+tags:
+- Android
+- Mobile Dev
+title: '[Android] Building Gingerbread for Nexus One'
+tumblr_url: http://blog.jln.co/post/2482784831/android-building-gingerbread-for-nexus-one
+---
+<div class="posterous_autopost"><p>抓到Gingerbread之後本來要build一份給Nexus one的, 後來Build break後就懶得管它, 昨天稍微研究一下解法, 果然跟我想的差不多</p>  <p>Builde break的點在於libcameraservice, 主要是某H公司的camera driver並沒open source, 要build必須先從Nexus One取出binary來build, 但偏偏Gingerbread的libcameraservice跟camera driver的interface有變, 像是HAL_getNumberOfCameras, HAL_getCameraInfo在舊版的driver並不存在</p>  <p>解決的方法有兩種:</p>  <ol><li>用dummy driver</li>  <li>加個wrapper給它</li>  </ol><p>目前實驗出來的結果很&hellip;殘念..還是沒能讓它的camera可以正常使用&hellip; orz</p>  <p>第一個方法比較簡單, 只要改makefile: frameworks/base/services/camera/libcameraservice/Android.mk</p>  <p>把USE_CAMERA_STUB:=true變成always的true (就是把一些判斷都mark掉就好)</p>  <p>這樣build出來的就會是用camera stub</p>  <p>第二個方法可以參考<a href="http://pixass.online.ac/android:nexusone">這邊</a></p>  <p>這方法只是加個wrapper把需要的幾個function加上去, 並包裝舊的call</p>  <p>一樣要改frameworks/base/services/camera/libcameraservice/Android.mk, 只是多個目錄放wrapper</p>  <p>Cyanogenmod也是用同一招解決的, 不同的是, 它並沒多生出一個lib來放這warpper, 它是直接改在<a href="https://github.com/CyanogenMod/android_frameworks_base/blob/gingerbread/services/camera/libcameraservice/CameraService.cpp">CameraService.cpp</a></p>  <p>其實是同一個方法, 由於它多生一個define : <span style="color: #999999; font-family: Bitstream Vera Sans Mono, Courier, monospace; font-size: 12px; font-weight: bold; line-height: 17px;">BOARD_USE_FROYO_LIBCAMERA</span>來enable/disable這段code(畢竟Cyanogenmod不是只有for N1), 所以要在 device/htc/passion-common/BoardConfigCommon.mk 裡面加上 BOARD_USE_FROYO_LIBCAMERA := true 來把它打開</p>  <p>基本上, 兩種方法N1的Camera都等於廢了, 所以用哪一種都一樣 </p>    <p> </p>  </div>

@@ -1,0 +1,12 @@
+---
+date: "2013-04-02T02:02:33Z"
+tags:
+- IFTTT
+- Blogger
+- android
+- android development
+title: '[Android dev]  JsonReader'
+tumblr_url: http://blog.jln.co/post/46862570324/android-dev-jsonreader
+---
+原本在Android下解析JSON內容,  大多用<a href="http://bit.ly/14AliYI" target="_blank">JSONObject</a>和<a href="http://bit.ly/16rSIaD" target="_blank">JSONArray</a>, 這兩個是很簡單的JSON parser, 只要將字串(String)傳入即可<br/><br/>不過, 這跟在用DOM解析XML是有類似的問題, 解析文件是一氣呵成, 必須要把所有內容先走過一遍, 也需要更多的記憶體來儲存, 這對於解析較大的文件是一個大問題, 必須要花費更多時間和空間, 而且如果所需要的資料就算只是整份文件中間的一小部分, 還是得先把整份文件走完, 在XML, 可以用SAX來解決這問題, 但Android要到API level 11(Honeycomb) 才新增了<a href="http://bit.ly/14AljMq" target="_blank">JsonReader</a>這個算是JSON界的SAX的解決方案<br/><br/> <a href="http://bit.ly/14AljMq" target="_blank">JsonReader</a>類似SAX, 也是一種streaming parser, 並不用一次讀出所有字串內容, 它要的只是個Reader, 但不太像SAX屬於事件驅動(event driven)的方式, 它應該比較像token consuming, 它定義了幾類基本的<a href="http://bit.ly/14AljMr" target="_blank">JsonToken</a>,  它也有BEGIN(END)_OBJECT, BEGIN(END)_ARRAY這種類似SAX中startElement, endElement, 但卻沒類似SAX的startDocument<br/><br/>解析一個JSON物件的程式碼如下:<br/><br/><blockquote class="tr_bq"><pre><b>    <span style="color: #990000;"> {username:"Bob", age: 14, sex: "m"}</span></b><span style="color: #990000;"> </span></pre></blockquote><blockquote class="tr_bq"><pre><b>     reader.beginObject();</b><br/>     while (reader.hasNext()) {<br/>       String name = <b>reader.nextName();</b><br/>       if (name.equals("username")) {<br/>         username = reader.nextString();<br/>       } else if (name.equals("age")) {<br/>         followersCount = reader.nextInt();<br/>       } <span style="color: #990000;">else {<br/>         reader.skipValue();<br/>       }</span><br/>     }<br/><b>reader.endObject();</b></pre></blockquote>解析一個物件, 要從beginObject開始(陣列則是beginArray), endObject結束, 接著透過一個while loop一個個走過這物件內所有的token, 說實在的, 不是很好debug,  你必須要先知道下一個要處理的token是啥類別, 以上面的例子為例, 物件內第一個token是&quot;username&quot;, 這是一個JsonToken.NAME, 因此要用nextName來處理, 搞錯了就會出錯, 還不容易知道錯哪,  而上面那例子裡的&quot;else&quot;也是必須的, 拿掉的話, 在endObject就會出錯, 因為這段程式並沒去處理&quot;sex&quot;, 因此處理完sex這個名字後, 並未消化掉&quot;m&quot;這個值(JsonToken.STRING), 而是直接endObject, 這會產生一個IllegalStateException<br/><br/>為了避免用了錯誤的方式處理下一個token, 可以先用<a href="http://bit.ly/16rSFLX" target="_blank">peek()</a>來看一下下一個要處理的種類<br/><br/>在可讀性上, 用JsonReader寫出的並不是很好, 但它卻適合來處理大的JSON文件, 或是像Twitter Streaming API這種幾乎無止盡的<br/><br/>這當然也不是只有在Android上有, Google也早把這也<a href="http://bit.ly/14AljMt" target="_blank">包含到GSON去了</a><br/><br/>
+via Blogger <a href="http://bit.ly/16rSFLZ">http://bit.ly/16rSFLZ</a>

@@ -1,0 +1,11 @@
+---
+date: "2011-12-28T00:18:56Z"
+tags:
+- javascript
+- node.js
+- thrift
+- Web Dev
+title: '[筆記] Connect java client to a node.js server with Thrift'
+tumblr_url: http://blog.jln.co/post/14865453874/筆記-connect-java-client-to-a-nodejs-server-with
+---
+<div class="posterous_autopost"><p><a href="http://thrift.apache.org/">Thrift</a>是由Facebook開發的一套RPC system, 廣泛的被很多軟體應用, 像是HBase, Hadoop, Cassandra&hellip; 也支援了<a href="http://wiki.apache.org/thrift/LibraryFeatures?action=show&amp;redirect=LanguageSupport">許多語言</a> , 可以跨語言做RPC</p>  <p>但&hellip;.Thrift的document真是么壽的少&hellip;少的實在有夠可憐&hellip;.本來想說實作一個java client連到node.js寫的server, 搞半天東挖挖西挖挖後才搞定&hellip;..</p>  <p>首先是安裝到我的mac就把我搞暈了(加上感冒本來就暈), 一開始我用macport裝, 但裝完後, 找不到libthrift.jar, 所以只好上網站抓source來build, 所幸可以只build java library的部份, 不用整個thrift都build, 這部份倒不難, 用ant就搞定了</p>  <p>裝完thrift後, 寫好程式, build java版本時就出了問題了, javac說TClient不是個interface, 追進code才發現, 我自己build的jar是最新版的 (0.8), 但port幫我裝的是0.6, 產生的codes完全不相容, 後來改用brew裝(就是不想從頭從Source build), 終於是0.8版的了(port上的也太舊了吧)</p>  <p>這邊實作一個簡單的加法器, Server side是跑node.js, Client是java, 有空在來試試別的組合, 建一個新檔&quot;computer.thrift&quot;, 內容如下:</p>  <p>  <script src="https://gist.github.com/1523633.js?file=gistfile1.txt"></script></p>    <p>這邊定義一個簡單的Service - &ldquo;Computer&rdquo;, 只含有一個方法&quot;add&quot;, 內容很簡單, 就是用來回傳a+b的值, &ldquo;<em><strong>namespace java com.thrift.gen</strong></em>&quot;的用途就是指定產生的java code的package, 如果沒指定就是沒package, i64指得就是64bit integer</p>  <p>接下來就是要用thrift產生對應的程式碼:</p>  <blockquote class="posterous_short_quote">  <p>thrift &ndash;gen js:node &ndash;gen java computer.thrift</p>  </blockquote>  <p>這行指令同時產生for node.js的版本(在gen-nodejs目錄), 跟java版本</p>  <p><strong>Server implementation</strong></p>  <p>先安裝thrift module (for node.js)</p>  <blockquote class="posterous_short_quote">  <p>npm install thrift</p>  </blockquote>  <p>實作server.js:</p>  <p><a href="https://gist.github.com/1523666.js?file=gistfile1">https://gist.github.com/1523666.js?file=gistfile1</a></p>      <p>在Server裡面實作add, 由於是asynchronous的, 所以結果由callback回傳</p>  <p>至於Client端的部份也蠻簡單的:</p>  <p>  <script src="https://gist.github.com/1523729.js?file=gistfile1.java"></script></p>    <p>在網路上找到的sample, 都使用TSocket, 但用TSocket在這範例, client/server都會掛掉, 追了server code發現, node.js server default應該是用Framed transport, 所以在Client端加上TFramedTransport就OK了</p></div>

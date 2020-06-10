@@ -1,0 +1,37 @@
+---
+date: "2014-08-20T00:24:16Z"
+tags:
+- android
+- Android Development
+- mobile dev
+title: '[Android] 土製Play store API'
+tumblr_url: http://blog.jln.co/post/95198972812/android-土製play-store-api
+---
+<p>認真說的話, 這也算不上啥非官方API, 算是一個為了抓取Play store上資訊的一個小小工具: <a href="https://github.com/julianshen/PlaystoreUtil">PlaystoreUtil</a></p>
+<p>現在很多網路的服務, 大多有提供開放的REST API來供人寫原生的程式使用, 當然也有非常多並沒有, 像是Play store, 目前就沒開放的API可供存取, 剛好想要有個東西可以查詢某個app在play store上是屬於啥分類的, 所以就乾脆自己自製一個囉&hellip;</p>
+<p>現在的網頁, 大多結構性很好, 所以就算沒有REST API, 其實也不難處理, 搭配上 <a href="http://jsoup.org/">jsoup</a> , 可以說輕而易舉</p>
+<p>jsoup是一個可以用css selector來解析html的Java函式庫, 有了這個, 解析html可以不用辛苦的爬dom tree, 只要幾行簡單的程式即可:</p>
+<blockquote>
+<pre>Document doc = Jsoup.connect("http://example.com/").get;
+
+Elements links = doc.select("a[href]"); // a with href
+Elements pngs = doc.select("img[src$=.png]");
+</pre>
+</blockquote>
+<p>再來看看play store</p>
+<p>先看看每個app的資訊畫面, 以Facebook為例, 它的url是 &ndash;</p>
+<blockquote>
+<p><a href="https://play.google.com/store/apps/details?id=com.facebook.katana&amp;hl=ja">https://play.google.com/store/apps/details?id=com.facebook.katana&amp;hl=ja</a></p>
+</blockquote>
+<p>很明顯的, id後面是package name, 另外如果加上&quot;&amp;hl=&ldquo;可以指定語言, 然後再看到頁面上:</p>
+<p><img src="http://67.media.tumblr.com/af1c3987664a190e02f67e8dbd3d0fab/tumblr_inline_nakagxbSNE1qzg4zq.png"/></p>
+<p>在Facebook (公司名稱)下方有個分類, 可以使用Chrome的開發人員工具(我比較習慣這個), 找到這個連結的css class名稱是&rdquo;<span>document-subtitle category</span>&ldquo;,而名稱則在它底下的一個span, 這span有個屬性itemprop, 值是genre</p>
+<p><img src="http://66.media.tumblr.com/5374e22ec19244ebbee79c4dbbcddf7b/tumblr_inline_nakajs6dHK1qzg4zq.png"/></p>
+<p>因此, 透過以下這段code就可以取到類別名稱囉</p>
+<blockquote>
+<pre>Document doc = Jsoup.connect("https://play.google.com/store/apps/details?id=" + packageName + "&amp;hl=" + locale.getISO3Language()).get();
+Elements elements = doc.select("span[itemprop=genre]");
+</pre>
+</blockquote>
+<p>當然, 這方法不只適用於play store, 其他網頁也可以嘗試用這個方法來取得資料</p>
+<p>詳細的範例在: <a href="https://github.com/julianshen/PlaystoreUtil">https://github.com/julianshen/PlaystoreUtil</a></p>

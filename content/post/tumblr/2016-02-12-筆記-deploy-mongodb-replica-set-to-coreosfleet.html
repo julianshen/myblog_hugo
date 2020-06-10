@@ -1,0 +1,149 @@
+---
+date: "2016-02-12T00:34:07Z"
+tags: []
+title: '[筆記] Deploy Mongodb replica set to coreos/fleet cluster on Azure'
+tumblr_url: http://blog.jln.co/post/139117302737/筆記-deploy-mongodb-replica-set-to-coreosfleet
+---
+<p>把我過年假期試的先來紀錄一下，這篇基本上有兩個部分:</p>
+
+<p>第一部份是在Azure上部署一個coreos cluster，這部份可以參考以下幾篇：</p>
+
+<ul><li><a href="https://m.youtube.com/watch?v=wxUxtflalE4">Scaling Docker #1 - High Availability Docker DevOps with CoreOS, Etcd, Fleet, Flannel &amp; Nginx</a></li>
+<li><a href="https://github.com/willrstern/production-docker-ha-architecture">willrstern/production-docker-ha-architecture</a> - 這是上一段影片用的source codes, 那段影片有好幾段, 講的蠻清楚的, 但是佈署在Digital Ocean上, 這邊我借用他的cloud-config</li>
+<li><a href="https://azure.microsoft.com/zh-tw/documentation/articles/virtual-machines-linux-coreos-how-to/">如何在 Azure 上使用 CoreOS</a></li>
+<li><a href="https://azure.microsoft.com/zh-tw/documentation/articles/virtual-machines-linux-coreos-fleet-get-started/">開始在 Azure 上的 CoreOS VM 叢集使用 Fleet</a></li>
+</ul><p>這邊我使用的不是Azure的classic vm而是用了resource manager，這部份 可以參考這篇：
+<a href="https://azure.microsoft.com/en-us/documentation/articles/resource-group-template-deploy/">Deploy an application with Azure Resource Manager template</a></p>
+
+<p>要使用arm的話，首先要把模式切到arm:</p>
+
+<blockquote>
+  <p><em>azure config mode arm</em></p>
+</blockquote>
+
+<p>接下來得建立一個resource group:</p>
+
+<blockquote>
+  <p><em>azure group create -n &ldquo;group_name&rdquo; -l &ldquo;West US&rdquo;</em></p>
+</blockquote>
+
+<p>-n 後面是這個群組的名字, -l 後面則是它所在區域</p>
+
+<p>接下來可以利用resource group templates來建立相關的資源, resource group template 除了可以自己寫以外(參考這邊 <a href="https://azure.microsoft.com/en-us/documentation/articles/resource-group-authoring-templates/">Authoring Azure Resource Manager templates</a>), 也可以上<a href="https://azure.microsoft.com/zh-tw/documentation/templates/">Azure 快速入門範本去找現成的</a>, 至於coreos + fleet, 就有一個現成的:<a href="https://azure.microsoft.com/zh-tw/documentation/templates/coreos-with-fleet-multivm/">Deploy a CoreOS cluster hosting Fleet</a>, 它的<a href="https://github.com/Azure/azure-quickstart-templates/tree/master/coreos-with-fleet-multivm">source code在github上也可以找到</a></p>
+
+<p>基本上應該是改一下azuredeploy.parameters.json再執行下面指令就可以:</p>
+
+<blockquote>
+  <p><em>azure group deployment create GroupName DeploymentName &ndash;template-file azuredeploy.json &ndash;parameters-file azuredeploy.parameters.json</em></p>
+</blockquote>
+
+<p>而裡面的discovery url部分, 則是要去: <a href="https://discovery.etcd.io/new?size=3">https://discovery.etcd.io/new?size=3</a> 產生一個貼上去</p>
+
+<p>但我前幾天在試的時候, 似乎它azuredeploy.json的換行有點問題(寫這篇文章時再看它已經是修正了), 以至於我執行起來有點問題, 再加上, 新的coreos stable似乎也改用etcd2取代原本的etcd, 因此我想要用另一個版本的cloud-config(即借用Scaling Docker那段影片裡用的那個cloud-config, 那個即是使用etcd2), 此外他的vm name也全是以coreos開頭的(我想要自己命名)</p>
+
+<p>因此, 我修改了一個自己的版本, 也放在github上: <a href="https://github.com/julianshen/azure-core-fleet">julianshen/azure-core-fleet</a></p>
+
+<p>這版本把cloud-config獨立成一個template而非寫死在azuredeploy.json, 並借用上面所述的版本, 並且寫了一隻<em>paramgen.go</em>來產生azuredeploy.parameters.json, discovery url不用自己去產生, 這支程式會自動幫你取得, 用法:</p>
+
+<ul><li><em>go get github.com/parnurzeal/gorequest</em></li>
+<li><em>go run paramgen.go &ndash;numberOfNodes 3 &ndash;location &ldquo;East US&rdquo; &ndash;newStorageAccountName &ldquo;mystorageaccount&rdquo; &ndash;vmSize &ldquo;Standard_A1&rdquo; &ndash;adminUserName &ldquo;admin&rdquo; &ndash;vmNamePrefix &ldquo;myvm&rdquo; &ndash;sshKeyFile ~/.ssh/azure_rsa.pub</em></li>
+</ul><p>參數如下:</p>
+
+<ul><li>numberOfNodes 要開的vm數量</li>
+<li>location vm位置(還是得跟你的resource group所在位置一樣)</li>
+<li>newStorageAccountName storage account name</li>
+<li>vmSize VM的大小</li>
+<li>adminUserName 管理者的名稱</li>
+<li>vmNamePrefix vm名字的開頭</li>
+<li>sshKeyFile ssk key的檔案位置(如果沒有,預設是~/.ssh/id_rsa.pub)</li>
+</ul><p>接著跑前面提到那段:</p>
+
+<blockquote>
+  <p><em>azure group deployment create GroupName DeploymentName &ndash;template-file azuredeploy.json &ndash;parameters-file azuredeploy.parameters.json</em></p>
+</blockquote>
+
+<p>執行結束後就會得到三頭牛, ㄟ,是三台VM(取決於numberOfNodes數目)及相關資源, 而且依據這個範本, 這三台VM跑得都會是coreos, 擁有我們指定的cloud-config, 這cloud-config會在coreos上啟用etcd2, fleet, 和flanneld (如Scaling Docker那段裡面的一樣)</p>
+
+<p>用ARM的模式的好處是,這三台VM會是在同一個虛擬網路上, 有各自的私有的IP, 當然也有各自的公開IP</p>
+
+<p>裝好後, 有碰到一個問題, 就是不知道為何, 重啟vm時, 會碰到etcd也跑起來了取代了etcd2, 而etcdctl 2.0.9又跟etcd有相容性問題, 導致fleet出問題, 因此在原本的cloud-config加上了:</p>
+
+<blockquote>
+  <ul><li>name: etcd.service
+    mask: true</li>
+  </ul></blockquote>
+
+<p>這樣一來etcd就不會去執行了</p>
+
+<p>再來就要測試剛剛的佈署是不是成功沒問題了</p>
+
+<p>首先我們需要fleetctl, 如果不希望登入vm就可以使用, 還是可以在本地端安裝, 在mac下可用</p>
+
+<blockquote>
+  <p><em>brew install fleetctl</em></p>
+</blockquote>
+
+<p>然後要設定兩個環境變數:</p>
+
+<ul><li><em>export FLEETCTL_TUNNEL=xxx.xxx.xxx.xxx</em></li>
+<li><em>export FLEETCTL_SSH_USERNAME=admin</em> (你設定的admin user名字)</li>
+</ul><p>接下來用:</p>
+
+<blockquote>
+  <p><em>fleetctl list-machines</em> &ndash;full</p>
+</blockquote>
+
+<p>會得到像這樣的結果:</p>
+
+<pre>
+MACHINE     IP      METADATA
+291c678da14841a7bec4c9aa0dfe168c    10.0.0.6    -
+8e63696268c54a62a3f21043669997c6    10.0.0.4    -
+fbc2675e0aa940e1b11eb6640b62906f    10.0.0.5    -
+</pre>
+
+<p>這表示這三台vm已經都跑起來了, 如果我們要ssh連上第一台可以用這種方式:</p>
+
+<blockquote>
+  <p><em>fleetctl ssh 291c678da14841a7bec4c9aa0dfe168c</em></p>
+</blockquote>
+
+<p>完全不用知道這台機器的public IP</p>
+
+<p>有了這三台VM, 接下來要做的事就是要deploy Mongodb的replica set了</p>
+
+<p>這邊我找到兩個參考:</p>
+
+<ul><li><a href="https://github.com/19hz/coreos-mongodb-cluster">19hz/coreos-mongodb-cluster</a></li>
+<li><a href="https://github.com/auth0/coreos-mongodb">auth0/coreos-mongodb</a></li>
+</ul><p>第一個其實是參考第二個寫出來的, 這兩個的差異在於第一個使用了data volume container</p>
+
+<p>Data volume container的優缺點及使用方法可以參考這篇: <a href="https://docs.docker.com/engine/userguide/containers/dockervolumes/">Manage data in containers</a></p>
+
+<p>本來我想直接採用第一個的, 不過弄了半天, 每次都是在加好admin user後restart mongo時就失敗了, 加上他的方法其實沒辦法保證db container剛好跟data volume container一定在同一台機器(可以參考<a href="https://github.com/19hz/coreos-mongodb-cluster/issues/2">這一個issue</a>), 後來就有點懶得看, 所以改採用第二個方法</p>
+
+<p>第二個方法還蠻簡單的:</p>
+
+<ul><li>先ssh到任一台(可以用fleetctl ssh),用etcdctl設定這個變數: <em>etcdctl set /mongo/replica/name myreplica</em></li>
+<li>執行 <em>fleetctl start mongo@{1..3}.service</em> 以及 <em>fleetctl start  mongo-replica-config.service</em></li>
+</ul><p>在第一個node跑起來後, 它會建立admin user自動產生它的密碼, 建立replica key, 然後再重啟mongodb, 相關參數像是admin user的密碼就會存在etcd, 會需要花一點時間</p>
+
+<p>用 <code>fleetctl list-units</code> 就可以看各個的執行結果了, 像這樣</p>
+
+<pre>
+UNIT                MACHINE         ACTIVE      SUB
+mongo-replica-config.service    8e636962.../10.0.0.4    inactive    dead
+mongo@1.service         8e636962.../10.0.0.4    active      running
+mongo@2.service         291c678d.../10.0.0.6    active      running
+mongo@3.service         fbc2675e.../10.0.0.5    active      running
+</pre>
+
+<p>mongo-replica-config由於只會跑一次, 所以你會看到他最後的狀態是dead</p>
+
+<p>這裡建立出來的admin使用者為 <em>siteRootAdmin</em> , 密碼則可以連上任一台, 用etcdctl取得:</p>
+
+<p><code>etcdctl get /mongo/replica/siteRootAdmin/pwd</code></p>
+
+<p>有了這個後就可以遠端用mongodb cli或是相關的工具連上這台mongodb了</p>
+
+<p>心得: fleet在這邊的作用感覺並不是很大, 同樣的東西應該也可以用chef或ansible來佈署, 這邊沒太多異質性的服務需要部屬(也只有一個服務), 而且我常會有連不上的狀況, 不過它算是蠻簡單的, 下次應該來試試kubernetes或是docker swarm</p>

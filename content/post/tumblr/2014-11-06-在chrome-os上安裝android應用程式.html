@@ -1,0 +1,22 @@
+---
+date: "2014-11-06T13:00:19Z"
+tags: []
+title: 在Chrome OS上安裝Android應用程式
+tumblr_url: http://blog.jln.co/post/101904635087/在chrome-os上安裝android應用程式
+---
+<p><img alt="image" src="http://65.media.tumblr.com/4d97930bdfa7368c5acdd83eb4e295ff/tumblr_inline_nelop8VeZx1qzg4zq.png"/></p>
+<p>在今年Google IO時, Google宣布了m 未來Chrome OS上可以跑Android的應用程式, 可能有人對Chrome OS不以為意, 覺得既然有了Android何必又有一個Chrome OS, 對於沒用過Chrome OS的人可能會有這樣的感覺, 不過我必須說, 兩者設計的導向是不同的, Chrome OS速度快, 輕便, 這也是Android所比不上的, Google這一舉動, 讓Chrome OS又可以補足功能性不足的部分, 雖然不會全部的Android 應用程式都可以適用, 不過這已經足夠開啟另一個可能性了</p>
+<p>目前開放放在Chrome App store的還不多, 只有像是Vine, Evernote這些少數Google已經測試過的, 如可以在這邊找到Evernote: https://chrome.google.com/webstore/detail/evernote/dhfolfjkgpeaojbiicgheljefkfbbfkc</p>
+<p>但這些以外的呢?除了等Google大神以外, 還有其他管道嗎?所幸還有其他大神放出相關的工具讓你包裝, 還是Open source:</p>
+<p><a href="https://github.com/vladikoff/chromeos-apk">https://github.com/vladikoff/chromeos-apk</a></p>
+<p>使用這工具你首先必須要有安裝node.js, 之後用npm安裝chromeos-apk這個module即可: &ldquo;npm i chromeos-apk -g&rdquo;</p>
+<p>使用方法也很簡單, 只要:</p>
+<blockquote>
+<p>chromeos-apk xxxx.apk</p>
+</blockquote>
+<p>這樣即可, 就會產生一個Chrome extension的目錄, 然後進到Chome, 用&quot;<span>chrome://extensions&quot;進入安裝extension的畫面, 載入unpacked extension即可</span></p>
+<p><span>不過, 我在安裝時碰到一個問題, 出現了一個訊息: </span></p>
+<blockquote>
+<h1 class="gh-header-title"><span class="js-issue-title">There is no &ldquo;message&rdquo; element for key extName</span></h1>
+</blockquote>
+<p><span>這問題是由於產生的檔案中在_locale/en底下那個檔, extName的部分只有descriiption沒有message這屬性, 補上去就好, 內容可以是你的app name</span></p>

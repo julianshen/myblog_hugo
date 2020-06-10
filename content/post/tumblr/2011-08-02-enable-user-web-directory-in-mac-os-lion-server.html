@@ -1,0 +1,9 @@
+---
+date: "2011-08-02T00:52:20Z"
+tags:
+- Apple
+- Mac
+title: Enable user web directory in Mac OS Lion Server
+tumblr_url: http://blog.jln.co/post/8344212556/enable-user-web-directory-in-mac-os-lion-server
+---
+<div class="posterous_autopost"><p>最近去美國出差回來買了一台Mac mini server, 買來當然要物盡其用囉, 架個server, web也自然免不了的</p>  <p>剛試著要使用user dir (也就是 <a href="http://my_domain/~julianshen)">http://my_domain/~julianshen)</a> 發現行不通, 看起來它是使用Apache 2.2.19, 所以看了一下httpd.conf, 原來是沒enable, 因此試著打開它, 不過發現它似乎沒有做好的GUI setting可以讓你很簡單打開, 還是得修改些東西:</p>  <ol><li>它的&quot;Include /private/etc/apache2/extra/httpd-userdir.conf&quot;其實是躲在&quot;&lt;IfDefine WEBSHARING_ON&gt;&ldquo;這段內, default似乎沒定義這個值</li>  <li>&rdquo;/private/etc/apache2/extra/httpd-userdir.conf&quot;定義的userdir是&quot;Sites&quot;</li>  <li>Http daemon的啟動config在: /System/Library/LaunchDaemons/org.apache.httpd.plist</li>  </ol><p>因此只要</p>  <ol><li>在 &ldquo;/System/Library/LaunchDaemons/org.apache.httpd.plist&rdquo;(&lt;array&gt;&lt;/array&gt;內)加入<br/>&lt;string&gt;-D&lt;/string&gt;<br/>&lt;string&gt;WEBSERVICE_ON&lt;/string&gt;</li>  <li>把你的html/php檔案放到你的家目錄(比如說/Users/julianshen)的Sites目錄下, chmod 755</li>  </ol><p>OK, 這樣就大功告成, 可以用 <a href="http://my_domain/~julianshen">http://my_domain/~julianshen</a> 連上了&hellip;</p></div>

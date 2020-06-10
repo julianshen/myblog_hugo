@@ -1,0 +1,12 @@
+---
+date: "2013-06-16T00:01:29Z"
+tags:
+- IFTTT
+- Blogger
+- android
+- android development
+title: '[筆記] Android Studio, Gradle & Native libraries'
+tumblr_url: http://blog.jln.co/post/53030367125/筆記-android-studio-gradle-native-libraries
+---
+<p>最近試用Android studio開發, 可能有些習慣被以往Eclipse慣壞了, 剛剛發現放在libs/底下的東西不像以前會被自動建置到apk內, 有點小訝異, 對jar file來說, 可能還好不算太難, 在build.gradle的dependencies內補上一筆就夠了, 但對native library (jni)那些.so檔, 就沒辦法<br/><br/>用這樣解決了  Google了一下, 並且在Stack overflow上找到些解法來試, 可能因為Android studio跟Gradle Android plugin還一直在變化中, 在現在這版一直沒成功, 後來小改一下成底下這樣就成功了:   <br/><script src="http://bit.ly/11PxIJZ"></script><br/><br/>原本找到的解法是pkgTask.jniDir <b><span style="color: red;">new File</span></b>(&lsquo;build/native-libs&rsquo;) , 這樣會得到<br/></p><blockquote class="tr_bq"><blockquote class="tr_bq"><i>&gt; Directory 'build/native-libs&rsquo; specified for property 'jniDir&rsquo; does not exist.</i></blockquote></blockquote>把&quot;new File&quot;改成&quot;file&quot;就沒問題了,不過現在一切應該都還在開發中, 未來可能會有原生的native lib 支援也不一定, 未來可能這方法也不管用了吧<br/><blockquote class="tr_bq"><blockquote class="tr_bq"></blockquote></blockquote><br/><br/>
+via Blogger <a href="http://bit.ly/13Ouh50">http://bit.ly/13Ouh50</a>

@@ -1,0 +1,12 @@
+---
+date: "2010-12-23T21:28:04Z"
+tags:
+- HTML5
+- JQMobile
+- JQuery
+- Mobile Dev
+- Web Dev
+title: '[筆記] Touch Draw with  in HTML5'
+tumblr_url: http://blog.jln.co/post/2430742414/筆記-touch-draw-with-in-html5
+---
+<div class="posterous_autopost"><p>&ndash; 前言 &ndash;</p>  <p>Safari2Phone做兩天就膩了(天呀, 我無可救藥), 昨天想到玩點別的</p>  <p>第一階段目標, 用&quot;&lt;canvas&gt;&ldquo; tag + JQMobile (其實非必要) 做了一個Tocuh Draw, 就是手指在Canvas上畫圖, 像這樣(這是測試結果):</p>  <p><img src="http://posterous.com/getfile/files.posterous.com/temp-2010-12-23/EkutiHDEdcrhxmpixDenFvmFeruwpsHsFEufJycJGnrjkJCpwlAdAafHGdnD/demodraw.png.scaled500.png" width="480" height="800"/></p>  <p>&mdash;-</p>  <p>測試平台: Nexus One (Android) + WebView</p>  <p>碰到的問題:</p>  <p>Canvas可以很正常的在Android上跑沒問題, 但主要是event的問題, 本來用addEventListener(&lsquo;mousemove&rsquo;, draw)的方式, 沒想到在mobile環境全部怪怪的</p>  <p>手機上的event應該是touchstart, touchend, touchmove, 其中touchmove跟mousemove有點不同, mousemove不用mousedown就會被觸發, 但touchmove卻是在有touch的狀況下才會發生</p>  <p>touch event的點也不一定只有一點, 所以有event.touches, 而這是一個array, 裡面放每一點座標, 像是clientX, clientY之類的</p>  <p>Canvas的部份, 用moveTo-&gt;lineTo來畫這些經過點就可以達成了(筆記: 下一步做一個queue來儲存)</p></div>

@@ -1,0 +1,25 @@
+---
+date: "2015-04-18T12:42:15Z"
+tags: []
+title: '[AngularJS] Style, ng-style和天殺的IE'
+tumblr_url: http://blog.jln.co/post/116701340607/angularjs-style-ng-style和天殺的ie
+---
+<p>收到了一個IE 10會看不到圖片的bug, 昨天看了半天, 本以為在IE10沒正確載入遠端的資料(後來覺得我怎會蠢到這麼想), debug了半天(IE 10也沒很好的tool), 結果後來發現完全不是這麼一回事, 原本的code是這樣的:</p>
+<pre><code>&lt;div style="background-image: url({{mydata.getImageUrl()}})"&gt;&lt;/div&gt;
+</code></pre>
+
+<p>一開始也沒想到這邊, 看起來都沒問題, 但後來下面這樣的並沒問題:</p>
+<pre><code>&lt;img src="{{mydata.getImageUrl()}}"/&gt;
+</code></pre>
+
+<p>才發現原來AngularJS在IE10底下, 在style裡用{{變數}}會有問題, 解決的方法是要改用ng-style, 例如</p>
+<pre><code>&lt;div ng-style="mydata.backgroundStyle()"&gt;&lt;/div&gt;
+</code></pre>
+
+<p>而這裡的backgroundStyle是這樣的(不是string喔)</p>
+<pre><code>backgroundStyle = function() {
+    return {
+        backgroundImage: this.getImageUrl()
+    }
+}
+</code></pre>

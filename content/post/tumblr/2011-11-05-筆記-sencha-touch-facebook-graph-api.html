@@ -1,0 +1,8 @@
+---
+date: "2011-11-05T18:02:55Z"
+tags:
+- Web Dev
+title: '[筆記] Sencha Touch + Facebook Graph API'
+tumblr_url: http://blog.jln.co/post/12363691334/筆記-sencha-touch-facebook-graph-api
+---
+<div class="posterous_autopost"><p><a href="http://www.sencha.com/products/touch/">Sencha Touch</a> 2.0在OO的包裝上做的還算不錯, 把MVC的角色切分的還蠻清楚的, 以List為例, 大概就像這樣:</p>  <div class="p_embed p_image_embed"> <img alt="_2011-11-05_5" height="413" src="http://getfile7.posterous.com/getfile/files.posterous.com/temp-2011-11-05/yfinjuApdfmgndesfEfpIHkgDCvoxAfIkbjzqvCCrgjzAqdweeHzDvDDDcqg/_2011-11-05_5.55.16.png.scaled500.png" width="487"/></div> 但它的document實在很糟糕, 光看他的document大概僅知道, Proxy可分為兩類Client(Memory, Local Storage &hellip; )與Server (AJAX, JSONP &hellip;)  <p>但如果是要用Facebook Java script SDK去存取Facebook Graph API這類, 似乎就不知道怎歸類了, 如果直接用JSONP去存取Graph API, 則碰到Authentication error.. orz</p>  <p>那&hellip;就只好寫一個Proxy了, 像這樣:</p>  <p><a href="https://gist.github.com/1341345.js?file=gistfile1">https://gist.github.com/1341345.js?file=gistfile1</a></p>    <p>以下是一個使用這範例存取使用者自己的Facebook Group的範例:</p>  <p><a href="https://gist.github.com/1341348.js?file=gistfile1">https://gist.github.com/1341348.js?file=gistfile1</a></p>  </div>

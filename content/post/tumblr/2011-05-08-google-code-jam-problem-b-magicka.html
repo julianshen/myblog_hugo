@@ -1,0 +1,7 @@
+---
+date: "2011-05-08T14:54:14Z"
+tags: []
+title: 'Google code jam: Problem B. Magicka '
+tumblr_url: http://blog.jln.co/post/5297881937/google-code-jam-problem-b-magicka
+---
+<div class="posterous_autopost"><p><a href="http://code.google.com/codejam/contest/dashboard?c=975485#s=p1">題目</a></p>  <p>一直在想說為啥我submit的答案有問題想到沒睡好, 剛剛才發現, 我誤會了一個關鍵句:</p>  <blockquote>  <p>it is opposed to something in your element list, then your <span style="font-size: medium;"><strong>whole element list</strong></span> will be cleared.</p>  </blockquote>  <p>結果我誤解成只有被兩個字元夾住的區域才會clear, test set也沒驗出我的問題&hellip;. = =&ldquo;</p>  <p>這題關鍵除了這個外, 還有</p>  <blockquote class="posterous_medium_quote">  <p>If the two elements from a pair appear at <strong>the end of the element list</strong>, then both elements of the pair will be immediately removed, and they will be replaced by the element they form.</p>  </blockquote>  <p>所以, &rdquo;<span style="border-collapse: collapse; font-family: bogus font here, monospace;">1 QFT 1 QF 7 FAQFDFQ&quot;的答案會是&quot;[F, D, T]&ldquo;而不是&rdquo;[]&ldquo;</span></p>  <p><span style="font-family: bogus font here, monospace;"><span style="border-collapse: collapse;">浪費了一題&hellip; :(</span></span></p>  </div>

@@ -1,0 +1,9 @@
+---
+date: "2015-05-12T02:52:27Z"
+tags:
+- ios development
+- reactivecocoa
+title: '[iOS開發生手筆記] Unsubscribe Signal'
+tumblr_url: http://blog.jln.co/post/118713061517/ios開發生手筆記-unsubscribe-signal
+---
+<p>今天的東西要分兩篇寫</p><p>之前下載圖的地方: </p><p><a href="https://github.com/julianshen/RAC-GitHubUserSearch/blob/9183f978ee782fbf8e118c79a9557f294e8aa87b/GithubUserSearch/ViewController.swift#L65-L84">https://github.com/julianshen/RAC-GitHubUserSearch/blob/9183f978ee782fbf8e118c79a9557f294e8aa87b/GithubUserSearch/ViewController.swift#L65-L84</a> </p><p>有個缺點, 就是當UITableView已經被更新或是滑到下一個頁面時, 圖片下載並沒有被中斷, 但cell又是被回收使用的, 導致前一張下載完後還是會先顯示到UIImageView上去, 這樣會造成圖片跳來跳去的</p><p>最直覺的想法是當圖還沒下載完之前這個cell已經要被重複利用到別地方前就終止下載, 但在RAC裡面, Signal是沒辦法被中途停止的, 但可以被unsubcribe, 因此改寫成:</p><p><a href="https://github.com/julianshen/RAC-GitHubUserSearch/blob/aa3754787f2eec9e779493dffc65a65aa918c50a/GithubUserSearch/ViewController.swift#L81-L96">https://github.com/julianshen/RAC-GitHubUserSearch/blob/aa3754787f2eec9e779493dffc65a65aa918c50a/GithubUserSearch/ViewController.swift#L81-L96</a><br/></p><p>這邊用到一個東西就是Disposable, 利用這東西的dispose()方法, 就可以unsubscribe 還沒做完的Signal了</p>

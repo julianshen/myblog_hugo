@@ -1,0 +1,10 @@
+---
+date: "2010-12-06T02:01:21Z"
+tags:
+- Design Pattern
+- Mobile Dev
+- Web Dev
+title: A pattern learned from memcached
+tumblr_url: http://blog.jln.co/post/2109072110/a-pattern-learned-from-memcached
+---
+<div class="posterous_autopost"><p>晚上快速翻了一變 <a href="http://www.memcached.org/">memcached</a> , 想了一些想法, 趁還沒忘之前先寫下來再去睡好了</p>  <p>memcahced的設計概念說實在的簡單到不行, 說簡單不是說他不好或是沒什麼, 反而這麼一個簡單的設計, 幫助真的會不小</p>  <p>memcached簡單說了就是一個分散式key-value based data cache, 資料是分散放在很多台電腦的RAM裡面, 因為是key-value based, 所以說起來就是一個大的hash table, 並不需要複雜的query, 只需要O(1)就可以取得資料, 而且資料就在RAM中, 可以是相當的快</p>  <p>我們都知道一個事實: &ldquo;IO costs&rdquo;, 如果每次都需要從database query資料, 那所花的時間, 包含SQL處理的時間, 以及IO的時間會是相當長的, 這點不管是Web application或是在mobile上(尤其現在SQLite被大量使用)都通用</p>  <p>因此使用RAM來cache query result as long as possible會是tuning這類的performance的其中一步, 這觀念應該是很多人都想的到</p>  <p>不過這樣得pattern可能得考慮的:</p>  <ol><li>怎樣把一個常用且複雜的query對應到一個key-value pair</li>  <li>cache的存續時間</li>  <li>How to efficiently invalidate or update cache after data set changed</li>  </ol><p>或許在Android的ContentProvider中可以引入memory caching的機制來減少IO的量</p></div>

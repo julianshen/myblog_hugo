@@ -1,0 +1,30 @@
+---
+date: "2016-02-18T09:23:42Z"
+tags: []
+title: '[筆記] 被冤枉的MongoDB'
+tumblr_url: http://blog.jln.co/post/139514561637/筆記-被冤枉的mongodb
+---
+<p>續<a href="http://blog.jln.co/post/139117302737/%E7%AD%86%E8%A8%98-deploy-mongodb-replica-set-to-coreosfleet">前篇</a> 裝好了MongoDB的Cluster後(1 Primary, 2 Secondaries)就開始進行大量的資料移轉</p>
+
+<p>結果資料寫到一半, 突然發現Primary換人了, 雖然因為有Secondaries, 會有人上來替代, 因為Mongo只有Primary才可以被寫入, 這使得client必須重新建立對新的primary的connection, 一度以為機器被reboot了, 但查logs並沒這現象, 後來又以為, MongoDB也太不濟了吧, 這種量級的寫入居然可以擊倒它, 結果後來查了log發現, 他的確被restart了, 只是兇手不是他, 是別人叫他去死的</p>
+
+<p>一切是Fleet惹的禍, 根據這篇<a href="https://github.com/coreos/fleet/issues/1289">Fleet engine stops units when etcd leadership change or has connectivity issues #1289</a>, Fleet只要聯絡不到etcd, 就會認為不能獨活了, 就會把其他人也給殺了(可惡的殺人兇手),追根據底就是timeout設的太短了, 以至於當系統稍微(只是稍微而已)一忙, 就很容易超過timeout, 然後他就認為, 他的情人死了!(也太玻璃心了)</p>
+
+<p>解決方案就是延長timeout, 修改cloud-config加上如下的東西(把etcd的heartbeat跟election timeout延長, 把fleet相關的也給延長):</p>
+
+<pre>
+
+#cloud-config
+
+coreos:
+  etcd2:
+    heartbeat-interval: 600
+    election-timeout: 6000
+  fleet:
+    engine-reconcile-interval: 10
+    etcd-request-timeout: 5
+    agent-ttl: 120s
+
+</pre>
+
+<p>至於Azure上裝的coreos, cloud-config位置是在: <code>/var/lib/waagent/CustomData</code>, 改完restart機器就好</p>

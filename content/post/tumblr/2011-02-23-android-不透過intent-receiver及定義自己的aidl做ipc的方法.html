@@ -1,0 +1,9 @@
+---
+date: "2011-02-23T00:12:02Z"
+tags:
+- Android
+- Mobile Dev
+title: '[Android] 不透過Intent receiver及定義自己的AIDL做IPC的方法'
+tumblr_url: http://blog.jln.co/post/3443338294/android-不透過intent-receiver及定義自己的aidl做ipc的方法
+---
+<div class="posterous_autopost"><p>在Android裡, 做IPC(Inter process call)的方法有很多種, 可以寫一個Intent receiver接收來自於另一個process的Intent, 也可以自己用AIDL定義interface來做</p>  <p>不過用Receiver的方式, intent會先跑到system server在送到目的地去, 而且Receiver的角色有點像是一對多, 不是很經濟, 至於AIDL, 實在太麻煩了, 對於簡單的應用, 或是懶人來說&hellip;.只有兩個字&hellip;.&ldquo;麻煩&rdquo;</p>  <p>所幸, 還有一個東西: <a href="http://developer.android.com/reference/android/os/Messenger.html">Messenger</a></p>  <p>這東西可以讓你對目標的Handler發送message&hellip;對, 沒錯, 就是對另一個process的Handler發送message, 感覺好像很神奇, 一般不都是對同一個process的Handler發送message, 這個卻可以對remote, 但說穿了很簡單, 它只是先用AIDL定好了送message的interface而已</p>  <p>使用的方法很簡單, 以下是Service端:</p>  <p>  <script src="https://gist.github.com/838564.js?file=gistfile1.java"></script></p>    <p>只要在onBind的時候把Messenger的Binder回傳回去就好</p>  <p>Client端也很簡單, 把service給bind上, 然後用binder來創建Messenger, 這樣對Messenger送的message自然就會透過binder丟到遠端的process去了</p>  <p>  <script src="https://gist.github.com/838573.js?file=gistfile1.java"></script></p>    <p>那, 可以雙向溝通嗎? 其實是可以的&hellip;.<a href="http://developer.android.com/reference/android/os/Message.html">Message</a>這class有個member: replyTo, 它就是一個Messenger, 把Messenger也附帶一起傳過去, 自然就可以做雙向溝通了</p></div>

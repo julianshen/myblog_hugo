@@ -1,0 +1,12 @@
+---
+date: "2013-06-20T20:16:26Z"
+tags:
+- IFTTT
+- Blogger
+- android
+- android development
+title: '[Android] 一閃一閃亮晶晶的BlinkLayout'
+tumblr_url: http://blog.jln.co/post/53433964899/android-一閃一閃亮晶晶的blinklayout
+---
+<p>在<a href="https://developers.google.com/events/io/sessions/324958375" target="_blank">Androids Do Daydream</a>裡有提到Romain Guy要他提(大概假的吧)在layout裡面放&quot;&lt;blink&gt;&ldquo;可以做到view閃爍的效果而不用寫到一行code<br/><br/>查了一下AOSP的原始碼也的確有這東西, 它是一個躲在<a href="https://github.com/android/platform_frameworks_base/blob/5cb0f2184656642160e9ac032d0646f766058a5b/core/java/android/view/LayoutInflater.java" target="_blank">LayoutInflater</a>的一個叫BlinkLayout的東西, 這樣一來就可以配合<a href="http://developer.android.com/reference/android/widget/TextClock.html" target="_blank">TextClock</a> (API Level 17)來做一個閃爍的時鐘了<br/><br/><script src="https://gist.github.com/julianshen/5822197.js"></script><br/>不過, 這樣, 是整個TextClock在閃, 而不是像一般數字鐘一樣是只有&rdquo;:&ldquo;閃, 如果要做到只有&rdquo;:&ldquo;在閃, 那只好把&quot;時&quot;跟&quot;分&quot;給拆開, 像這樣: <br/><br/><script src="https://gist.github.com/julianshen/5822234.js"></script><br/><br/>
+via Blogger <a href="http://julianshen.blogspot.com/2013/06/android-blinklayout.html">http://julianshen.blogspot.com/2013/06/android-blinklayout.html</a></p>

@@ -1,0 +1,21 @@
+---
+date: "2014-08-21T00:41:30Z"
+tags: []
+title: '[Android] Clean Master "遊戲"捷徑的圖標是怎做的?'
+tumblr_url: http://blog.jln.co/post/95291037137/android-clean-master-遊戲捷徑的圖標是怎做的
+---
+<p>著名的工具軟體Clean Master有一項遊戲加速的功能, 它會放一個捷徑在桌面上, 而它的長得就像是跟資料夾一樣:</p>
+<p><img src="http://67.media.tumblr.com/d64b0513ccd6b5852223c4810734b203/tumblr_inline_nam5j8q0pN1qzg4zq.png"/></p>
+<p>之前沒仔細去看它, 一直以為它是個小工具(AppWidget), 但其實它只是個捷徑而已, 點選它會跳出一個透明背景的對話窗, 所以很容易誤以為是桌面上的資料夾(如圖右)</p>
+<p>這用了個小技巧, 雖然有點唬人, 但其實不難, 以下就如法炮製一個類似的吧!</p>
+<p><img src="http://67.media.tumblr.com/f6d83eff297d480f76e64b27da22a609/tumblr_inline_nam5t2k00w1qzg4zq.png"/></p>
+<p>在這實驗, 就把Youtube, Google plus, Google map三個app的圖示放一起, 邊框, 麻煩就先省略</p>
+<p>
+<script src="https://gist.github.com/julianshen/0c85f482caac64ed26b7.js" type="text/javascript"></script></p>
+<p>利用&quot;com.android.launcher.action.INSTALL_SHORTCUT&quot;這個Intent可以在桌面上創建捷徑, 應該幾乎所有的桌面軟體都有支援, 關鍵點在於這Intent裡會帶的Intent.EXTRA_SHORTCUT_ICON, 這可以帶一個Bitmap來當作這個捷徑的圖示, 沒意外的, 就是從這邊動手</p>
+<p>因為我們需要把四個圖示畫到一個上面, 所以每個圖示變成原本的1/4, 因此, 在用BitmapFactory.decodeResource載入圖示時, 可以把sample size設成2(也就是1/4大小), 這樣可以減少一些記憶體的使用, 取得了圖示後就可以把它們畫到另一個新的Bitmap了</p>
+<p>要注意的是, 要用INSTALL_SHORTCUT的話, 要在AndroidManifest.xml裡加上:</p>
+<blockquote>
+<p>&lt;uses-permission android:name=&ldquo;com.android.launcher.permission.INSTALL_SHORTCUT&rdquo; /&gt;</p>
+</blockquote>
+<p>這方法的缺點是, 一旦捷徑被創建好後, 就沒機會改它的圖示了</p>

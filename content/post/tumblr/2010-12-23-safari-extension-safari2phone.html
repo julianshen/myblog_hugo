@@ -1,0 +1,10 @@
+---
+date: "2010-12-23T01:10:09Z"
+tags:
+- Apple
+- Safari
+- Web Dev
+title: '[Safari Extension] Safari2Phone'
+tumblr_url: http://blog.jln.co/post/2417504491/safari-extension-safari2phone
+---
+<div class="posterous_autopost"><p>其實這是我自己無聊寫的啦, 這是我第一隻Safari Extension, 不過我不打算publish到Safari extension網站, 放這邊就好, <a href="http://dl.dropbox.com/u/2789919/safari2phone.safariextz">請點此下載</a></p>  <p>這是從Chrome2Phone porting來的, 如果不知道Chrome2Phone是啥東西, 可以先看一下這段影片:</p>  <p><iframe src="http://www.youtube.com/embed/pQb243niMlg" frameborder="0" height="345" width="560"></iframe></p>  <p>要玩這個東西, 首先你必須要有隻Android手機&hellip;.</p>  <p>然後Android手機上必須裝<a>Chrome2Phone</a>:</p>  <p><img src="http://posterous.com/getfile/files.posterous.com/temp-2010-12-22/qqIlkezHEarwqmyslivbEizCxoEjmmioxheqxynljIyjDkszGkevbgxqsEdA/1120233-1289334697434.png.scaled500.png" width="164" height="164"/> 裝完後, 你會發現有個烏七媽黑的button <img src="http://posterous.com/getfile/files.posterous.com/temp-2010-12-22/tkdcvsftlvEfpsvClImBxmbEtygwhIwgkGrEdnHaiFFdtdwnAurJFgiCIgrk/_2010-12-23_1.00.59.png.scaled500.png" width="43" height="31"/> 在你的tool bar上(抱歉, 沒做美工&hellip; orz)</p>  <p>當你想把正在看的網頁送到手機上, 就按下這個button, 如果沒有登入, 會有一條新的bar上面有顯示訊息叫你登入, 點選連結即可登入</p>    <p>Chrome extension跟Safari extension本質上蠻像的, 所以要po蠻容易的, 基本上花了我一晚上的時間, 從開始看Safari extension的文件開始, 到這個可以正常工作, 今晚回來後又稍微小修點bug再release</p>  <p>Chrome2Phone本身原理也蠻簡單的, 加上也open source, server端跟Chrome extension端都有source可看, extension端其實只是透過XMLHttpRequest把資料傳送過去, 這部份甚至可以原封不動reuse</p>  <p>讓我花比較多時間才發現的是, redirect url居然hard code在server端, 導致我的extension最後登入完只能被導到醜醜的圖, 本來想透過injected script讓他碰到那張圖的url就導到我的page, 但似乎好像沒辦法在tab內開啟extension package裡的一個HTML</p>  <p>總之, 先這樣, 有空再修好了, 繼續找看看有沒其他好玩的來玩..</p></div>

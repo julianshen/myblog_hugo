@@ -1,0 +1,10 @@
+---
+date: "2013-08-15T10:01:19Z"
+tags:
+- IFTTT
+- Blogger
+title: 看著海寫程式會不會太宅點? - PinterestRSSAggregator
+tumblr_url: http://blog.jln.co/post/58293132009/看著海寫程式會不會太宅點-pinterestrssaggregator
+---
+<div class="separator" style="clear: both; text-align: center;"><a href="http://bit.ly/16QMjak" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="225" src="http://bit.ly/1bxhUyX" width="400"/></a></div><div class="separator" style="clear: both; text-align: center;"><br/></div>陽光&hellip;.跟沙灘呀&hellip;&hellip;真是好風景呀&hellip;.躺著寫程式真不錯 (其實在顧包包)<br/><br/>昨天上飛機前, 把這兩天晚上寫的東西, <a href="http://bit.ly/16QMjam" target="_blank">PinterestRSSAggregator</a>, 在上飛機之前放上了github&hellip;.趁現在來補一些內容<br/><br/>會寫這東西的緣起在於這篇: <a href="http://bit.ly/1bxhUyZ">http://bit.ly/1bxhUyZ</a><br/><br/>Pinterest目前沒API, 這RSS也只能取得一個人最近的資訊, 但常常我們要看的不會是自己去pin的, 而是自己所follow的人pin的最新資訊, 所以這樣的RSS用處就嫌少了點, 所以想說如果可以把自己所follow的全部集結成一個rss應該會很不錯, 因此就寫了這些東西<br/><br/>一開始碰到的問題點是, 沒API, 怎抓following的資訊? 從 <a href="http://bit.ly/1bxhUz2,">http://bit.ly/1bxhUz2,</a> 似乎每個被follow的人的link都有userWrapper這class, 這或許是個出發點, 所以第一個版本做了一個直接去抓網頁回來解析抓出含有這class的連結&hellip;.但是&hellip;失敗了&hellip;因為抓回來的靜態網頁, 最多只有十二個人的連結, 超過就抓不到, 網頁上要滑鼠捲到最下面才會再load出其他的<br/><br/>後來想到的方法就是利用CasperJS, 模擬捲頁捲到最後的行為, 再把所有followings都抓回來&hellip;.喔耶&hellip;.這招居然行的通&hellip;.把所有rss 的url再用Google Feed API去抓內容(我懶得parse RSS了), 再用feed這module生成新的RSS&hellip;.大功告成&hellip;.接下來只要讓他固定一段時間跑一次, 就有一個土炮的Pinterest API用了&hellip; (還真heavy的API :( )<br/><br/>
+via Blogger <a href="http://bit.ly/16QMjqT">http://bit.ly/16QMjqT</a>

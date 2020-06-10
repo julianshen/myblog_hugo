@@ -1,0 +1,11 @@
+---
+date: "2012-10-24T01:25:12Z"
+tags:
+- IFTTT
+- Blogger
+- golang
+title: '[Go] Do not communicate by sharing memory; instead, share memory by communicating.'
+tumblr_url: http://blog.jln.co/post/34171862206/go-do-not-communicate-by-sharing-memory
+---
+<blockquote class="tr_bq">Do not communicate by sharing memory; instead, share memory by communicating.  </blockquote>這是在Go的concurrent programming裡一個很重要的精神, concurrent programming也是Go裡面一個相當重要的部份, 它已是語言本身的一部分<br/><br/>&ldquo;channel&rdquo; 也就是這精神下的產物, channel可以說是多個thread之間溝通的工具, 有點像是&quot;pipe&quot;但又有點肩負多執行緒間synchronization的責任, 下面實作了一個concurrent merge sort (我想這例子蠻適合的)<br/><br/><script src="http://bit.ly/T8STOo"></script><br/><br/>&ldquo;go&quot;這個修飾字用來啟用一個goroutines, goroutine可以視為一個輕量的執行緒(lightware thread), 在這用了一個內容是整數陣列的channel: chan []int, channel必須要先用&quot;make&quot;初始化<br/><br/>由於使用了&rdquo;<span class="k">go</span> <span class="n">MergeSort</span><span class="p">(</span><span class="n">data</span><span class="p">[:</span><span class="n">middle</span><span class="p">],</span> <span class="n">leftChan</span><span class="p">)&ldquo;, 因此, 左右兩邊的merge sort是同時進行的, 直到兩邊都結束後才會執行&quot;merge&quot;的動作, 但用了&quot;go&quot;啟用了執行緒, 連續這兩行是不會卡住(block)等結果的, 那怎確定兩個執行緒都真的結束後才執行merge的動作? 這其中就是透過channel來做同步化的動作, &rdquo;</span><span class="n">ldata</span> <span class="p">:=</span> <span class="p">&lt;-</span><span class="n">leftChan&quot;, 這一段是將leftChan這個channel的結果指定到ldata, 如果leftChan一直沒輸入(input)進來, 這一行就會等在這, 直到左邊的MergeSort執行到Merge結束後(r&lt;-)</span><br/><span class="n"><br/></span><span class="n">主程式也是叫起一個執行緒做MergeSort的動作, 等到結果產生才將結果印出, 整個不是很難懂, 但這思維還有點難調整(對我來說)</span><br/><br/><br/><br/>
+via Blogger <a href="http://bit.ly/VA5n9P">http://bit.ly/VA5n9P</a>

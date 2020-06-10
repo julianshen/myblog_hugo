@@ -1,0 +1,8 @@
+---
+date: "2010-12-08T01:49:56Z"
+tags:
+- Web Dev
+title: '[筆記] 產生 Web page thumbnail '
+tumblr_url: http://blog.jln.co/post/2133992471/筆記-產生-web-page-thumbnail
+---
+<div class="posterous_autopost"><p>剛突然想弄一個可以產生Web page thumbnail的service</p>  <p>第一個想到的是能不能用Webkit做一個, 不過, 自己寫, 有點太麻煩了, 想說應該有人做過, 後來就找到這個: <a href="http://cutycapt.sourceforge.net/">CutyCapt</a> </p>  <p>這軟體是用qt寫的, 也不會很複雜, 只有六百多行 (有點想用PyQt仿一個 :P), 也很容易就可以build起來了(只要qmake; make), 但記得要裝libqt4-dev就是了</p>  <p>使用方式很簡單:</p>  <blockquote class="posterous_short_quote">  <p>CutyCapt -url=http://julianshen.posterous.com -out=julian.png</p>  </blockquote>  <p>但產生的檔案, 是一整個頁很大一張, 像這樣(點開可以看大圖) :</p>  <p><img src="http://posterous.com/getfile/files.posterous.com/temp-2010-12-07/uHFbncEmkgebJhCmCnIHFwlGFIbvxirdpscgBDFvrjyCkdkdJAnInpqiursm/aaa.png.scaled500.png" width="500" height="6161"/> 這樣就不能算是thumbnail了吧?</p>  <p>所以只好拿ImageMagick來剪成200x200的Thumbnail</p>  <p>我用的command是這樣:</p>  <blockquote class="posterous_short_quote">  <p>convert -resize 200 -shave 0x200 julian.png julian_small.png</p>  </blockquote>  <p>出來的結果:</p>  <p><img src="http://posterous.com/getfile/files.posterous.com/temp-2010-12-07/cCuCmjqlfAAAmIIkEqyucerbIyfCjccCwCosgutArgzDyhbogiCiytvjHHdl/a1111-0.png.scaled500.png" width="200" height="2465"/></p>  <p>再找時間包裝成一個web app吧~~</p></div>

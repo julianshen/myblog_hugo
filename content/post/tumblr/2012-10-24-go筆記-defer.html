@@ -1,0 +1,11 @@
+---
+date: "2012-10-24T13:19:52Z"
+tags:
+- IFTTT
+- Blogger
+- golang
+title: '[Go筆記] defer'
+tumblr_url: http://blog.jln.co/post/34216505019/go筆記-defer
+---
+<p>Go沒有exception handling這樣的設計, 所以沒有像java裡的try{} catch{} finally{&hellip;}這種東西, 在java裡, 我們會用<br/><br/></p><blockquote class="tr_bq"><i>try { </i></blockquote><blockquote class="tr_bq"><i>     &hellip;..</i></blockquote><blockquote class="tr_bq"><i>} finally {  </i></blockquote><blockquote class="tr_bq"><i>   <span style="color: #cc0000;"> in.close();</span></i></blockquote><blockquote class="tr_bq"><i>}</i></blockquote><blockquote class="tr_bq"></blockquote>在finally區塊內去做一些善後的工作, 以確保這些善後工作可以在程式執行後不管有沒錯誤發生都可以被執行到, 在Go中, 用的則是defer:<br/><script src="http://bit.ly/P19oA0"></script><br/><br/>defer後面接的可以是一個closure, 這些closure會在函式執行結束後(return 之後)緊接著被執行, 所以這段程式執行的結果會是這樣:<br/><br/><blockquote class="tr_bq"><blockquote class="tr_bq"><i style="background-color: yellow;">6</i></blockquote><blockquote class="tr_bq"><i style="background-color: yellow;">b</i></blockquote><blockquote class="tr_bq"><i style="background-color: yellow;">e</i></blockquote><blockquote class="tr_bq"><i style="background-color: yellow;">c</i></blockquote><blockquote class="tr_bq"><i style="background-color: yellow;">nn</i></blockquote><blockquote class="tr_bq"><i style="background-color: yellow;">a</i></blockquote><blockquote class="tr_bq"><i style="background-color: yellow;">&mdash;&mdash;&ndash;</i></blockquote><blockquote class="tr_bq"><i style="background-color: yellow;">1</i></blockquote><blockquote class="tr_bq"><i style="background-color: yellow;">b</i></blockquote><blockquote class="tr_bq"><i style="background-color: yellow;">e</i></blockquote><blockquote class="tr_bq"><i style="background-color: yellow;">a</i></blockquote></blockquote><br/><br/>
+via Blogger <a href="http://bit.ly/RUP5S0">http://bit.ly/RUP5S0</a>

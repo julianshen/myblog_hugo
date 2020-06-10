@@ -1,0 +1,10 @@
+---
+date: "2012-04-16T22:55:49Z"
+tags:
+- heroku
+- nodejs
+- webdev
+title: '[筆記] Deploy Mojito app to Heroku'
+tumblr_url: http://blog.jln.co/post/21211564412/筆記-deploy-mojito-app-to-heroku
+---
+<div class="posterous_autopost"><p> First, you need to follow this doc (<a href="http://developer.yahoo.com/cocktails/mojito/docs/quickstart/" title="" target="_blank">http://developer.yahoo.com/cocktails/mojito/docs/quickstart/</a><a href="http://developer.yahoo.com/cocktails/mojito/docs/quickstart/" title="http://developer.yahoo.com/cocktails/mojito/docs/quickstart/" target="_blank"></a><a href="http://developer.yahoo.com/cocktails/mojito/docs/quickstart/" title="http://developer.yahoo.com/cocktails/mojito/docs/quickstart/" target="_blank"></a><a href="http://developer.yahoo.com/cocktails/mojito/docs/quickstart/" title="" target="_self"></a>) to install Mojito as a global node module. Why install it globally? Because you need the Mojito command line to create your first app.</p><p>Create application with command line:</p><blockquote class="posterous_short_quote"><p>mojito create app mymojito</p></blockquote><p>Change working directory to &ldquo;mymojito&rdquo;.</p><p>Create a &ldquo;Procfile&rdquo; whose content is:</p><blockquote class="posterous_short_quote"><p>web: mojito start $PORT</p></blockquote><p>Use the following command to create an application on heroku and deploy codes to it.</p><blockquote><ul><li>git init</li><li>git add .</li><li>git commit -am init</li><li>heroku create mymojitotest &ndash;stack cedar</li><li>git push heroku master</li></ul></blockquote><p>After successfully commit codes to heroku, you could check running process with &ldquo;heroku ps&rdquo;. However, you cannot find any running process. That is because there is one important step missed:</p><blockquote class="posterous_short_quote"><p>heroku ps:scale web=1</p></blockquote><p> This command adds one dyno for web process. After that, you will find one web process when you check with &ldquo;heroku ps&rdquo;. And the server is now started up. You can check your app with browser.</p></div>

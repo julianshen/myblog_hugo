@@ -1,0 +1,20 @@
+---
+date: "2013-12-06T22:16:00Z"
+tags:
+- sparkcore
+- arduino
+title: Spark core
+tumblr_url: http://blog.jln.co/post/69169761986/spark-core
+---
+<p><img alt="image" src="http://67.media.tumblr.com/ed9397694d6b40c66011ac6a3ec2f6ad/tumblr_inline_mxe07xLhp11qzg4zq.jpg"/></p>
+
+<p>前天回家發現一包順豐快遞的包裹, 心想, 我又沒去淘寶或對岸訂啥東西, 怎會有那邊來的包裹, 拿起來仔細一看, 這不是我之前在Kickstarter上Back那個叫Spark core的project嗎? (<a href="http://www.kickstarter.com/projects/sparkdevices/spark-core-wi-fi-for-everything-arduino-compatible?ref=home_social">http://www.kickstarter.com/projects/sparkdevices/spark-core-wi-fi-for-everything-arduino-compatible?ref=home_social</a>)</p>
+<p>雖然依稀記得前幾天收到它開始出貨的消息, 可是後來完全忘了這一回事了, 這也是目前我第一個也是唯一在Kickstarter上back的東西</p>
+<p>這是一個很有趣的產品, 也完全開放, open source, <a href="https://github.com/spark">https://github.com/spark</a> , 一開始看到盒子就讓我有點些許驚艷的感覺, 一打開, 原來這這麼小一片(還附片麵包版, 真是貼心), 用的則是TI CC3000MOD</p>
+<p><img alt="image" src="http://65.media.tumblr.com/73e02f7843e0972118176793e5057f34/tumblr_inline_mxe0lrKmfC1qzg4zq.jpg"/></p>
+<p>這顆Chip有個比較有趣的功能就是 Smart Config (<a href="http://processors.wiki.ti.com/index.php/CC3000_Smart_Config">http://processors.wiki.ti.com/index.php/CC3000_Smart_Config</a>), 有點不是很了它背後的機制, 不過這機制讓Spark core很容易的就可以設定好Wifi, Spark core本身沒任何的介面, 所以在設定Wifi hotspot跟Wifi密碼是一個大問題, Smart Config解決了這個問題, 所以你可以在手機上很輕易的輸入你要用的hotspot跟密碼, 接著Spark core就很神奇的連上hotspot, 然後連上Spark cloud, 這之間, Spark core根本也不需要跟你的手機透過藍芽或任何方式先連線, 不過手機這時候是必須使用Wifi而不是連上3G, 對於這種小型裝置來說, 這的確是一個很方便的方式</p>
+<p>Spark core還有一個蠻聰明的部分, 那就是Spark cloud, 當他連上wifi時, 他就會嘗試連上Spark cloud, 在第一次設定時, 會先嘗試做註冊的動作, 把Spark core跟你的Spark帳號連結在一起, 不過我一開始不是很順利, 看起來Spark core已經順利連上Spark cloud, 但卻一直沒跟我帳號連結在一起, 這動作搞了我兩天, 多虧熱心的CEO Zach耐心的幫我查問題, 最後透過手動的方式把這搞定了</p>
+<p>Spark cloud讓你可以利用他的Web IDE去寫firmware, 然後download到Spark core執行, 甚至, 你也可以不用寫任何程式, 直接透過他的Tinker API (REST), 去對你Spark core上的腳位做如digitalWrite之類的動作, 所以是可以把複雜的邏輯放在遠端</p>
+<p>整體來說, 這是蠻有趣的產品, 蠻期待看他的未來的</p>
+
+<p></p>

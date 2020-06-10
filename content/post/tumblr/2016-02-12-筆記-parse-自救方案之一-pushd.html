@@ -1,0 +1,21 @@
+---
+date: "2016-02-12T23:41:25Z"
+tags: []
+title: '[筆記] Parse 自救方案之一 - Pushd'
+tumblr_url: http://blog.jln.co/post/139174339467/筆記-parse-自救方案之一-pushd
+---
+<p>Parse自從宣布要收掉後, 雖然也放出open source的仿製品<a href="https://github.com/ParsePlatform/parse-server">Parse Server</a>, 這東西不是實際上Parse真正跑得那個app server, 而是一個nodejs/express的相容版, 這個版本的故事可以看這邊 <a href="https://medium.com/@newfosco/parse-2-0-600839abebdf#.vcv4l2lg2">Parse 2.0</a></p>
+
+<p>想當然爾, 這版本並不是完整支援Parse原本的功能, 尤其是Push, 這功能是完全沒有, 雖然說source codes放出來後, 大家熱烈的玩起來了, 最近幾天一個簡單的PUSH功能的pull request也被收錄進去了: <a href="https://github.com/ParsePlatform/parse-server/pull/311">Add support for push</a>, 不過這畢竟比較陽春</p>
+
+<p>一些收費不收費的替代方案也不算少, 不過如果想自救, 自己建置自己管的話, 也是不用完全重來, <a href="https://github.com/rs/pushd">rs/pushd</a> 這是目前看到還算蠻完整的, 採用了nodejs/coffee script + Redis, 在佈署方面也不算太難(不過也就兩個東西而已), 不過實際上的效能可能還是得測試一下(有沒好方法可以測大量的push呀?總不可能去生一堆機器)</p>
+
+<p>為了方便測試, 包裝成docker-compose.yml和一個方便使用的shell script: <a href="https://github.com/julianshen/pushd-docker-compose-sample">julianshen/pushd-docker-compose-sample</a></p>
+
+<p>使用方法:</p>
+
+<ul><li>修改<code>pushd.sh</code>裡跟你的app相關的push設定如GCM_KEY</li>
+<li>執行<code>pushd.sh up</code>啟動redis和pushd兩個containers</li>
+<li>執行<code>pushd.sh ps</code>確認是不是兩個都已經正確啟動</li>
+<li>PUSHD的port是對應到host的8081, 所以直接對8081操作即可</li>
+</ul><p>接下來可能要想一些方法來測試, 和把Parse的資料給串一起</p>

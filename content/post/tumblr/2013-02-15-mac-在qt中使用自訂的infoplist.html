@@ -1,0 +1,10 @@
+---
+date: "2013-02-15T22:31:25Z"
+tags:
+- IFTTT
+- Blogger
+title: '[Mac] 在Qt中使用自訂的Info.plist'
+tumblr_url: http://blog.jln.co/post/43148100979/mac-在qt中使用自訂的infoplist
+---
+<p>iOS和Mac OS的應用程式裡都有個<a href="http://bit.ly/VYVPQL">info.plist</a>放置著應用程式相關的設置, 用Qt開發Mac應用程式時, 這個檔是在編譯時自動產生, 因此幾乎是固定內容<br/><br/>但還是有需要在info.plist內加入額外的內容, 比如說Retina display的支援(NSHighResolutionCapable), 預設並沒有, 因此還是有需要做自訂的info.plist<br/><br/>作法並不難, 在專案檔(通常是 xxxx.pro)內加入下面的內容:<br/></p><blockquote class="tr_bq"><blockquote class="tr_bq"><i><b>mac {</b></i></blockquote><blockquote class="tr_bq"><i><b>QMAKE_INFO_PLIST = XXXX.plist</b></i></blockquote><blockquote class="tr_bq"><i><b>}</b></i></blockquote></blockquote><br/>mac {}內指得是, 這些內容只有針對mac os才有效, 而XXXX.plist則是你的Info.plist的範本檔名, 這個檔跟專案檔放在同一個目錄<br/><br/>XXXX.plist的內容則像這樣:<br/><script src="http://bit.ly/UmZADl"></script><br/>跟一般的Info.plist其實是一樣的, 我在這範例裡面加上了&quot;NSHighResolutionCapable&quot;, 其餘都跟原先自動產生的內容是差不多的, 除了幾個關鍵內容用變數取代, 這邊變數都是以&quot;@&ldquo;包起來的, 比如說&rdquo;@ICON@&ldquo;就是應用程式的圖示<br/><br/>重新做一次qmake後, 下次編譯的Info.plist便會以這個檔案為範本產生了<br/><br/><br/><br/>
+via Blogger <a href="http://bit.ly/VYVRbw">http://bit.ly/VYVRbw</a>

@@ -1,0 +1,9 @@
+---
+date: "2011-05-05T09:50:34Z"
+tags:
+- Facebook
+- Social network
+title: '[筆記]一些FQLs'
+tumblr_url: http://blog.jln.co/post/5206709933/筆記一些fqls
+---
+<div class="posterous_autopost"><p>本來是放在我EverNotes內的, 貼一些出來好了, 無聊時玩玩的東西, 沒優化過:</p>  <ul><li>共同喜歡的Page : select name from page where page_id in (select page_id from page_fan where uid=<strong>friend_uid</strong> and page_id in (select page_id from page_fan where uid=<strong>me()</strong>))</li>  <li>共同朋友: select name from user where uid in (select uid2 from friend where uid1=me()) and uid in (select uid2 from friend where uid1=<strong>friend_uid</strong>)</li>  <li>同時都出現的照片: select src from photo where pid in (select pid from photo_tag where subject=<strong>friend_uid</strong>) and pid in (select pid from photo_tag where subject=me())</li>  <li>屬於某Group的照片: select src from photo where pid in (select pid from photo_tag where subject=<strong>group_id</strong>)</li>  <li>共同參加的活動: select name from event where eid in (select eid from event_member where uid=me() and rsvp_status=&lsquo;attending&rsquo;) and eid in (select eid from event_member where uid=<strong>friend_id</strong> and rsvp_status='attending&rsquo;)</li>  <li>都去過的地方(僅限於自己checkin不包含被tag): select name from place where page_id in (select page_id from checkin where author_uid=me()) and page_id in (select page_id from checkin where author_uid=<strong>friend_uid</strong>)</li>  <li>喜歡過的某人的post:  select message from stream where post_id in (select post_id from like where post_id in (SELECT post_id FROM stream WHERE source_id=<strong>friend_uid</strong>) and user_id=me())</li>  <li>Comments on someone&rsquo;s post: select text from comment where post_id in (SELECT post_id FROM stream WHERE source_id=<strong>friend_uid</strong>) and fromid=me()</li>  </ul><p>其中&quot;me()&ldquo;是自己, 有些FQL裡的&quot;me()&quot;可以代換成另一個人的uid</p>  <ul></ul></div>

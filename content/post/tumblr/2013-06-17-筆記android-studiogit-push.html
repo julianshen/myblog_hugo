@@ -1,0 +1,12 @@
+---
+date: "2013-06-17T09:46:39Z"
+tags:
+- IFTTT
+- Blogger
+- android
+- android development
+title: '[筆記][Android Studio]Git push'
+tumblr_url: http://blog.jln.co/post/53159592445/筆記android-studiogit-push
+---
+<p>本想說有直接整合了Git, GitHub是件不錯的事, 沒想到要把新project push到remote git就栽了&hellip;.<br/><br/>Android Studio/Intellij 似乎沒介面設定remote (搜尋了半天沒發現這種答案, 啃了半天的使用手冊也沒發現), 現在如果要把既有的project給匯出到遠端的git (如bitbucket), 就得利用command line (以bitbucket 為例):<br/><br/></p><ol><li>在bitbucket上create一個新的project</li><li>在Android studio選&quot;VCS&quot;-&gt;&ldquo;Import into version control&rdquo;-&gt;&ldquo;Create Git repository&rdquo;, 這樣就可以建立一個local的repository</li><li>&ldquo;VCS&rdquo;-&gt;&ldquo;Git&rdquo;-&gt;&ldquo;Add to VCS&rdquo;</li><li>&ldquo;VCS&rdquo;-&gt;&ldquo;Git&rdquo;-&gt;&ldquo;Commit File&rdquo;</li><li>到command line下切換到project目錄下<i>&ldquo;git remote add origin ssh://git@bitbucket.org/xxx/xxx.git&rdquo;</i></li><li>回到Android studio, &ldquo;VCS&rdquo;-&gt;&ldquo;Git&rdquo;-&gt;&ldquo;Push&rdquo;</li></ol><div>要注意的是, 如果你已經有一個remote repository,&ldquo;VCS&rdquo;-&gt;&ldquo;Import into version control&rdquo;-&gt;&ldquo;Share project on GitHub&quot;會失敗</div><br/><br/><br/><br/>
+via Blogger <a href="http://bit.ly/13MAjob">http://bit.ly/13MAjob</a>

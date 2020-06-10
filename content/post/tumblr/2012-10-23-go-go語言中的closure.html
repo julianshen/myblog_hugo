@@ -1,0 +1,11 @@
+---
+date: "2012-10-23T20:26:45Z"
+tags:
+- IFTTT
+- Blogger
+- golang
+title: '[Go] Go語言中的Closure'
+tumblr_url: http://blog.jln.co/post/34161553230/go-go語言中的closure
+---
+<p>我不太懂closure, 不懂的程度大概是我在用它的時候也沒有意識到我在用, 也沒玩過Go, 不過昨晚心血來潮的開始想用它來寫一些東西, 研究了一下, 發現它&hellip;挺有趣的, 尤其是concurrent的部份, 以及讓我重新檢視了一下closure這部份<br/><br/>在Go裡, function是可以像在javascript中一樣, 被指定到一個變數來使用:<br/><script src="http://bit.ly/RicXAa"></script><br/>上面兩個範例, 一個是把函式指定給一個變數, 一個是來當做回傳值, 這也是Go的closure大致上的形態, 在Go Tour的<a href="http://bit.ly/POcY1X">第48頁的作業</a>, 便是要求利用closure來完成Fibonacci數列的計算, 我們所熟知的Fibonacci數列(0, 1, 1, 2, 3, 5, 8 &hellip; f(n) = f(n-1) + f(n-2))可以用iterative或recursive的方式來求解(<a href="http://bit.ly/RicZbe">範例</a>), 當然使用Go其實也可以採用這兩種方式: <br/><br/><b><i>Iterative solution: </i></b><br/><script src="http://bit.ly/POcYPr"></script><b><i>Recursive solution: </i></b><br/><script src="http://bit.ly/RicZbg"></script> 如果單以公式看, Recursive solution是比較容易被理解的, 不過也比較有stack overflow的風險, 當然, 照這練習題的要求, 以上兩者都不滿足, 那改用closure來實作又是怎樣? <br/><script src="http://bit.ly/POcYPt"></script> 整體上還算蠻簡潔的, 既然closure在javascript也很常被利用, 這邊放一個javascript的版本做一下比較: <br/><script src="http://bit.ly/RicZbi"></script><br/>測試了一下效能, 前三種實作方式, 感覺不出有太大的差異, 也就很難說誰優誰劣, 至於Go與javascript的比較, 如果是以&quot;go run &ldquo;的方式跟node.js來比, node.js高出甚多, 可能&quot;go run&quot;還是需要經過編譯階段, 但如果先以&quot;go build&quot;編譯成原生碼(native code), go的效能就高出甚多了, 不過以這比較也不算準啦&hellip;.  <br/><br/><br/><br/><br/>
+via Blogger <a href="http://bit.ly/POcYPv">http://bit.ly/POcYPv</a></p>

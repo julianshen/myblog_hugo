@@ -1,0 +1,10 @@
+---
+date: "2012-09-07T15:31:43Z"
+tags:
+- IFTTT
+- Blogger
+title: '[Android] 如何知道使用者是否已移除你的程式'
+tumblr_url: http://blog.jln.co/post/31047431250/android-如何知道使用者是否已移除你的程式
+---
+<p>這問題我原先是在Stack overflow看到的:<br/><br/><a href="http://bit.ly/PNSz84">http://bit.ly/PNSz84</a><br/><br/>我也提供了一個解法, 不過, 慚愧的是, 我當初突然想到這解法後, 自己並沒有去實驗它, 只是覺得理論上可行&hellip; :P<br/><br/>我的方法是, 利用<a href="http://bit.ly/PNSyku">GCM (Google Cloud Messaging)</a>, 裡面有一段:<br/><br/></p><blockquote class="tr_bq"><span style="background-color: #eeeeee; font-family: Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif; font-size: 14px; line-height: 18px;">When users uninstall an application, it is not automatically unregistered on GCM. It is only unregistered when the GCM server tries to send a message to the device and the device answers that the application is uninstalled. At that point, you server should mark the device as unregistered (the server will receive a NotRegistered error).</span></blockquote><br/>後來拿了GCM sample試了一下, 好像也可行, 只是不是那麼即時, 也就是沒辦法剛移除就知道了, 我的測試結果是, 一兩個小時候才出現 &ldquo;NotRegistered&rdquo;, 不過似乎也是個解法就是了&hellip;<br/><br/>
+via Blogger <a href="http://bit.ly/Qqr2Mn">http://bit.ly/Qqr2Mn</a>

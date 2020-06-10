@@ -1,0 +1,9 @@
+---
+date: "2011-06-11T10:32:55Z"
+tags:
+- Android
+- ideas
+title: '[idea][Android] File auto backup with Dropbox'
+tumblr_url: http://blog.jln.co/post/6405357011/ideaandroid-file-auto-backup-with-dropbox
+---
+<div class="posterous_autopost"><p>iCould其實感覺好像還不錯, 雖然說Google有Google的Backup manager, 但像是自動拍照就自動備份到自己的stream這東西, 就沒有了</p>  <p>以雲端儲存來說, DropBox算是相當不錯了, 所以其實也可以利用它呀, 想到兩種方式:</p>  <div class="p_embed p_image_embed"> <a href="http://posterous.com/getfile/files.posterous.com/temp-2011-06-10/DGvdEcymwvBvpDqqktmxGJyHIfdsydEsEejfGjxDzbCEEqrAHvxruxJcmpIG/Photo_11-6-11_9_58_55.jpeg.scaled1000.jpg"><img alt="Photo_11-6-11_9_58_55" height="375" src="http://posterous.com/getfile/files.posterous.com/temp-2011-06-10/DGvdEcymwvBvpDqqktmxGJyHIfdsydEsEejfGjxDzbCEEqrAHvxruxJcmpIG/Photo_11-6-11_9_58_55.jpeg.scaled500.jpg" width="500"/></a> </div> <span style="font-size: large;"><strong>Dropbox as a fake SD</strong></span>  <p>Android很多功能, 像是相機, 沒了SD card就好像廢物一樣, 實在很討厭</p>  <p>如果把Dropbox功能implement成一個Fake SD card, 在有網路時自動掛載, 沒網路時卸載, 在沒SD卡時也可以把他當SD來用, 應該會蠻實用的吧</p>  <p>這應該可以透過<a href="http://fuse.sourceforge.net/">FUSE</a>, 改vold等方法來達成, 找到一個dropbox on fuse的implementation: <a href="https://github.com/arekzb/dropfuse">Dropfuse</a> </p>  <p>不過這方法應該只是用於rooted rom或是自己build的rom</p>  <p><span style="font-size: large;"><strong>Auto backup to Dropbox</strong></span></p>  <p>這方法應該是比較容易實現的, 利用Android上<a href="http://developer.android.com/reference/android/os/FileObserver.html">FileObserver</a>來實做一個SD monitor (監視SD或是其他的external storage), 在有改變時就自動同步到dropbox去, 如Camera拍了張照片</p>  <p>FileObserver的使用方法很簡單, 如下:</p>  <p>  <script src="https://gist.github.com/1020178.js?file=gistfile1.java"></script></p>  <p>這API不需要一個特定的thread一直去polling, 但由於這個instance如果被GC掉時, 就不會有任何event送達, 所以應該是要在一個Service內來實做這樣一個功能</p></div>

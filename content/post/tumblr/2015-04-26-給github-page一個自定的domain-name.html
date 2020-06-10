@@ -1,0 +1,13 @@
+---
+date: "2015-04-26T15:18:22Z"
+tags: []
+title: 給Github page一個自定的domain name
+tumblr_url: http://blog.jln.co/post/117406155502/給github-page一個自定的domain-name
+---
+<p>正常來說Github page可以有一個自己的url像是http://julianshen.github.io (使用者名稱.github.io),但如果想用自己申請的domain name取代(例如以我的例子我想改成http://github.jln.co)該怎做呢?</p>
+
+<p>首先, 你要到你domain name的管理那邊(像我是host在godaddy,所以就直接用它的了), 新增一筆CNAME的record指向到你的github page 原本的domain(如把github.jln.co對應到julianshen.github.io), 不過光這樣還不夠, 你會發現連到http://github.jln.co還是會有錯誤</p>
+
+<p>在你page的repository裡新增一個檔案叫做CNAME(全大寫喔), 裡面的內容就是你新指定的domain name(github.jln.co, 注意, 並沒有&quot;http://&ldquo;)</p>
+
+<p>OK, 完成</p>

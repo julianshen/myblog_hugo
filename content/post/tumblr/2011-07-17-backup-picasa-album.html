@@ -1,0 +1,8 @@
+---
+date: "2011-07-17T01:52:30Z"
+tags:
+- Python
+title: Backup Picasa Album
+tumblr_url: http://blog.jln.co/post/7693481394/backup-picasa-album
+---
+<div class="posterous_autopost"><p>寫了一個script來備份picasa album, <a href="http://dl.dropbox.com/u/2789919/pgrab.py">source在這</a></p>  <p>基本上應該可以備份你有權限看到的, 只是目前還有點bug, 已知的bug是針對沒設定file name的photo會有問題</p>  <p>使用方式是, 在跟這個script同一目錄下建一個 conpig.py 內容是:</p>  <blockquote class="posterous_short_quote">  <p>email = &rsquo;<a href="mailto:yourname@gmail.com">yourname@gmail.com</a>&rsquo;</p>  <p>password = &lsquo;yourpassword&rsquo;</p>    </blockquote>  <p>用Browser找到你要備份的相簿, copy下URL (URL格式大多像是這樣: <a href="https://picasaweb.google.com/12223123123213/kKNvm">https://picasaweb.google.com/12223123123213/kKNvm</a> )</p>  <p>然後執行 python pgrab.py album_URL </p>  <p>這樣就可以了 (必須要有安裝python gdata module才可以執行)</p>  <p>Bug以後再改&hellip;.</p>  </div>

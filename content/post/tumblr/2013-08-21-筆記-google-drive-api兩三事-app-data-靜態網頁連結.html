@@ -1,0 +1,10 @@
+---
+date: "2013-08-21T22:16:26Z"
+tags:
+- IFTTT
+- Blogger
+title: '[筆記] Google Drive API兩三事: App data, 靜態網頁連結'
+tumblr_url: http://blog.jln.co/post/58915876761/筆記-google-drive-api兩三事-app-data-靜態網頁連結
+---
+<p>颱風天, 適合寫點東西, 所以就把上次的<a href="http://bit.ly/18JQHas" target="_blank">PinterestRSSAggregator</a>加上發佈到Google Drive功能, 第一次碰Google drive api, 不過還好Google已經有了一個node.js的module: <a href="http://bit.ly/1d1GImW">http://bit.ly/1d1GImW</a>,省去了重刻Google API的功(這module還頗有趣的, 利用了Google discovery API, 支援了相當多Google API, 但實際上各API的細節的實作卻不在這module之中), 不過一開始還是在Google drive上碰到了一些問題:<br/></p><ol><li>想說要存個設定檔, 但檔案如果可以被使用者看到, 就會有機會被他砍了</li><li>因為是要發佈rss檔, 所以最好可以有一靜態連結</li><li>Google drive是允許在同一目錄有同名的檔案的, 這似乎跟Dropbox不一樣, 它真正獨一無二的識別是id不是檔名, 所以要更新某個檔案還得先找到它的id, 有點小麻煩</li></ol>第一項的解法還蠻簡單, 只要使用app data就好, 這目錄比較單純, 它的id就叫做&quot;appdata&quot;(真是夠怪了, 這個id是固定的, 但使用者的根目錄的id卻不是, 還得先用about去取得), 我用它實作了一個放設定的(<a href="http://bit.ly/1d1GImX" target="_blank">參考這, AppConfig</a>), 放在這目錄的好處是不會被使用者看到並刪除掉, 但要注意的一點是, 取得auth token時所做的認證用的scope必須包含&quot;http://bit.ly/18JQG6D&quot;<br/><br/>至於第二項的作法就是建立一個public folder, 並取得這目錄的webViewLink, 比如說是&quot;http://bit.ly/1d1GH2a&quot;, 這樣你在這目錄下建的檔案, 例如 julianshen.rss 就可以用 &ldquo;http://bit.ly/18JQHaw&rdquo; 這連結來存取 <br/><br/>
+via Blogger <a href="http://bit.ly/1d1GH2c">http://bit.ly/1d1GH2c</a>

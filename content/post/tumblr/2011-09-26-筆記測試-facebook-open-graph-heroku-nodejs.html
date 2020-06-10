@@ -1,0 +1,12 @@
+---
+date: "2011-09-26T01:28:43Z"
+tags:
+- Facebook
+- javascript
+- node.js
+- open graph
+- Social network
+title: '[筆記][測試] Facebook Open graph + Heroku + node.js'
+tumblr_url: http://blog.jln.co/post/10648765801/筆記測試-facebook-open-graph-heroku-nodejs
+---
+<div class="posterous_autopost"><p>Open graph的確是個好物, 雖然說早在去年的f8就已經推出了, 但現在更加完備了, 其實也等不及看會有啥應用推出了, 當然自己也想來玩看看,  本想照<a href="https://developers.facebook.com/docs/beta/opengraph/tutorial/">Tutorial</a>依樣畫葫蘆抄一個體驗看看, 又覺這樣太無聊, 又想說試看看heroku + node.js, 沒真的玩過node.js, 就拿這題目試試</p>  <p>今天剛好在Facebook上講到拉麵, 所以就拿我最愛吃的拉麵來當題目了.. :P</p>  <p><a href="https://github.com/julianshen/OpenGraphTest"><strong><span style="font-size: medium;">web.js和兩個views(index.ejs, men.js)的sources放在這</span></strong></a></p>  <p>實作筆記:</p>  <ol><li>Tutorial裡的範例是拿Heroku + PHP, 但其實這跟拿哪一種來實作沒太大差異, 裡面的範例幾乎全部都是javascript辦到的, 所以就算把範例放到其他平台也適用</li>  <li>Tutorial裡的範例比較靜態, 全部實作在html內就好, 我把它改成&quot;/ramen/id&quot;當一個物件, 但每一個物件都還是透過&quot;men.ejs&quot;去render</li>  <li>heroku提供的node.js連結Facebook的範本是透過server side的everyauth+facebook-client, 我把這些都拿掉, 純用Facebook javascript api</li>  <li>在web.js裡實作兩個uri, &ldquo;/&rdquo; (index.ejs) 和 &ldquo;/ramen/id&rdquo; (men.ejs), 拉麵資料由web.js在render時傳給template, 目前先寫死</li>  <li><a href="https://developers.facebook.com/tools/debug">Object debugger</a>是蠻好用的東西, meta data寫錯一直post不出去, 剛開始沒用這抓錯還真不知道錯哪</li>  <li>Social plugin的activity feed似乎不包含自己的</li>  </ol><p>最後在Timeline上呈現的樣子:</p>  <p><img src="http://i.imgur.com/ehxZs.png" alt=""/></p>  <p><strong>用Graph API取得自己的Activities:</strong></p>  <blockquote class="posterous_short_quote">  <p><em><a href="https://graph.facebook.com/me/">https://graph.facebook.com/me/</a><strong>[name_space]:[action_type]</strong>/ramen</em></p>  <p><em>ex. <a href="https://graph.facebook.com/me/soulogramen:eat/ramen">https://graph.facebook.com/me/soulogramen:eat/ramen</a></em></p>  </blockquote>    <p> </p></div>

@@ -1,0 +1,11 @@
+---
+date: "2012-11-05T22:13:04Z"
+tags:
+- IFTTT
+- Blogger
+- nodejs
+title: '[node.js] 用npm安裝放在github上的module'
+tumblr_url: http://blog.jln.co/post/35055672728/nodejs-用npm安裝放在github上的module
+---
+<p>剛剛為了想要做一個東西, 需要用到Flickr API, 本想要拿<a href="http://passport.js/">Passport.js</a>來處理Flickr OAuth的部份,但卻發現, FLickr Strategy的部份不但年久, 而且permission這部份居然是hard code &ldquo;read&rdquo;, 由於我想做的東西是要write, 其實是可以靠overwrite &ldquo;userAuthorizationURL&quot;來達到這目的, 不過這樣不好看, 所以就乾脆自己fork一版來改 (Github真是好物來改)<br/><br/>改完後的一個問題是, 原本可以用&quot;npm install passport-flickr&quot;來安裝這module, 但由於我fork出來的並未註冊在npm, 所以就得用另一個方式:<br/></p><blockquote class="tr_bq"><i>npm install git://github.com/julianshen/passport-flickr.git#master</i></blockquote>這方式是直接把git url給npm, 不過要deploy上heroku就麻煩了, 還好寫在package.json裡也是沒問題的<br/><blockquote class="tr_bq"><i>&quot;dependencies&rdquo;: {</i><i>    &ldquo;passport-flickr&rdquo;: &ldquo;git://github.com/julianshen/passport-flickr.git#master&rdquo;</i><i>}</i></blockquote>這還蠻簡單的, 只是把原先寫version的地方換成git URL就好, 在Heroku上也是沒問題的<br/><br/>題外話: 剛deply到heroku上時發現express 3.0.1無法安裝, 原因是我忘了在package.json裡註名我node.js的版本, 這種狀況下, <a href="http://bit.ly/YviOq0">Heroku會自動幫你挑v0.4.7版</a><br/><br/><br/><br/>
+via Blogger <a href="http://bit.ly/St4Ksd">http://bit.ly/St4Ksd</a>

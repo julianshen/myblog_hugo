@@ -1,0 +1,24 @@
+---
+date: "2016-02-25T01:13:36Z"
+tags: []
+title: '[筆記] 移植Parse Push'
+tumblr_url: http://blog.jln.co/post/139916925802/筆記-移植parse-push
+---
+<p>今天追完了綠箭, 該來點功課, 不過今天忘了買啤酒了:(</p>
+
+<p>Parse Push, 這功能無疑應該是Parse本身比較受歡迎的部分, 既然Parse明年要關門大吉了,這部份也是必須要搬家的, 但搬家比較麻煩的不是要搬到哪去, 而是之前累積的使用者, 總不希望一搬了就找不到他們了, Parse Push支援了包含了Google的GCM和Apple的APNS,以及他們自己的PPNS,以GCM來說, 在_Installation裡面, Parse是有儲存了GCM的deviceToken, 如果你之前用的是自己的GCM Sender ID, 那這部份直接搬了就可以用了, 但如果不是, 那預設用的是Parse自己的, 這樣這些deviceToken就不能夠使用自己的Sender ID來送, 必須要用用下面的方法來補救:</p>
+
+<ul><li>從Google的<a href="https://console.developers.google.com/">Developer console</a>取的Sender ID跟API Key</li>
+<li>在AndroidManifest.xml加入 <code>&lt;meta-data android:name="com.parse.push.gcm_sender_id" android:value="id:12345678"&gt;</code> (必須要以&quot;id:&ldquo;加上你的sender id)</li>
+<li>發布新的升級到Play store</li>
+<li>使用者更新後至少發送一次Push (如果你在Application中有去儲存Installation, 這時候因為有了新的sender, 所以deviceToken會被更新)</li>
+<li>可以用你自己的API key送給新的device token了(可以不用透過Parse console去送, 也可以用其他程式)</li>
+</ul><p>這個Go的範例可以用來試驗送PUSH到你的手機上:</p>
+
+<script src="https://gist.github.com/julianshen/90a7b5c4a24eb13f41fa.js"></script><p>找出你手機的deviceToken後即可用這個來驗證是否能夠成功送出push</p>
+
+<p>但這樣還不夠, 我們還需要一個負責幫我們送push的server, 在之前那篇<a href="http://blog.jln.co/post/139174339467/%E7%AD%86%E8%A8%98-parse-%E8%87%AA%E6%95%91%E6%96%B9%E6%A1%88%E4%B9%8B%E4%B8%80-pushd">Parse自救方案</a>裡有提到一個Pushd, 這是其中一個作法, 不過需要改一些東西才可以符合Parse Android SDK接收的格式, 另一個作法是透過open source的<a href="https://github.com/ParsePlatform/parse-server/">Parse Server</a>, 原本它剛一出來時, 並沒支援Push, 但後來有其他人幫它加了上去了, 但它的方式是提供了API給你送PUSH, 但一來把API server跟PUSH server放一起並不是件好事, 二來當送大量的PUSH這樣的設計並不保險(並沒有queue, 送到一半server死了就麻煩了)</p>
+
+<p>不過要以Parse server的為基礎拆出push的部分也不是很難, 做了一個簡單的範例: <a href="https://github.com/julianshen/parse_push_js">github.com/julianshen/parse_push_js</a></p>
+
+<p>在這範例裡, 使用了Parse Server的ParsePushAdapter, 並且利用了Redis當作queue來做成的簡單的push server, 這樣應該就加減堪用了, 不過這邊有一個還需要再改的是, ParsePushAdapter 並不會把產生的push id回傳到上一層, 這樣要做追蹤紀錄其實有點比較不方便, 這邊還需要再加強一下</p>

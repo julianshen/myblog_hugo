@@ -1,0 +1,10 @@
+---
+date: "2012-08-26T22:21:11Z"
+tags:
+- IFTTT
+- Blogger
+title: node.js for Android
+tumblr_url: http://blog.jln.co/post/30241618865/nodejs-for-android
+---
+<p>這是我給自己練習NDK的作業,選擇node.js的原因是, 沒啥, 就只是覺得應該會蠻好玩的, 之前就有念頭想po, 加上node.js所需要的像是openssl, v8等等, 在Android上早就有了, 想說porting應該也不會有太大的困難吧, 應該也不用改太多code才對<br/><br/>實際是,還是有點問題, 需要改些東西, ndk的build system可以說是原本Android的簡化版, 所以有些東西並沒有, 所以並不是把原本的Android.mk copy過來就沒問題了, 比如說v8, LOCAL_GENERATED_SOURCES, intermediates 這些東西雖然有在原本aosp的build system內, 但在NDK就完全不存在, 但由於v8和node都有需要把js lib轉成CPP一起build進去, 所以這時候就要借助這類的東西:<br/><i>$(shell python $(JS2C_PY) $(GEN1) CORE off $(LOCAL_JS_LIBRARY_FILES))</i><br/><br/>起初我並沒注意到js2c這部份, 結果最後link不過, 缺了一堆東西, trace之後才發現少這部份<br/><br/>此外, 在uv的部份, 由於uv是node的native library的部份, 有一些OS相關的code, 但由於Andorid的bionic比起libc是算簡化版本, 有些API並不存在, 因此除了為android產生一些專屬的config.h (我從linux的版本去改的), 還要改一些code<br/><br/>目前的進度是, 可以用ndk-r8b build出Android可用的可執行檔(還沒完全測過, 應該有些bug代解), 先全用static link的<br/><br/>Source codes放在GitHub : <a href="http://bit.ly/ODaijv">http://bit.ly/ODaijv</a><br/><br/>還有一些想做的還沒做:<br/></p><ol><li>接上NativeActivity</li><li>OpenGL ES api</li><li>其他?</li></ol><br/><br/>
+via Blogger <a href="http://bit.ly/ODaijB">http://bit.ly/ODaijB</a>

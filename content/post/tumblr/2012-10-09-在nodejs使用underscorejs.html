@@ -1,0 +1,10 @@
+---
+date: "2012-10-09T06:39:53Z"
+tags:
+- IFTTT
+- Blogger
+title: 在node.js使用underscore.js
+tumblr_url: http://blog.jln.co/post/33190354506/在nodejs使用underscorejs
+---
+太早起床,只好隨便研究點東西 :P<br/>  <br/><a href="http://bit.ly/R10QWB">underscore.js</a>對javascript來說是一個蠻好用的工具, 在前端應用程式的開發中也很常被利用到,但同樣以javascript為基礎開發的node.js, 能否直接使用underscore.js呢?<br/><br/>嘗試以下面的程式碼用node.js跑:<br/><br/><pre class="prettyprint lang-js">require('./underscore.js');                                                                <br/><br/>var a = [1, 23, 6, 11, 25, 12, 33, 11, 4];<br/><br/> _.forEach(a, function(v) {<br/>     console.log(v);<br/>});<br/></pre><br/><br/>執行結果會得到<i><b>&ldquo;ReferenceError: _ is not defined&rdquo; </b></i><br/>打開underscore.js的原始碼一看, 發現了這一段, 其實它是有針對node.js做手腳的:<br/><br/><br/><pre class="prettyprint lang-js">// Export the Underscore object for **Node.js**, with<br/>// backwards-compatibility for the old `require()` API. If we're in<br/>// the browser, add `_` as a global object via a string identifier,                     <br/>// for Closure Compiler "advanced" mode.<br/>if (typeof exports !== 'undefined') {<br/>     if (typeof module !== 'undefined' &amp;&amp; module.exports) {<br/>       exports = module.exports = _;<br/>     }<br/>     exports._ = _;<br/> } else {<br/>      root['_'] = _;<br/> } <br/></pre><br/>也就是, 在browser時, &ldquo;_&quot;是一個global object, 但在node.js則不是, 原本的範例如果改成這樣就可以了:<br/><br/><br/><pre class="prettyprint lang-js">var _us = require('./underscore.js');                                                                <br/><br/>var a = [1, 23, 6, 11, 25, 12, 33, 11, 4];<br/><br/> _us.forEach(a, function(v) {<br/>     console.log(v);<br/>});<br/></pre><br/><br/>這樣一來, 前後端也可以共用同一份underscore.js了<br/><br/>補充: 類似的工具還有<a href="http://bit.ly/tq8zi7">async</a>這個, 也是前後端都可以應用 <br/><br/>
+via Blogger <a href="http://bit.ly/R10QWD">http://bit.ly/R10QWD</a>

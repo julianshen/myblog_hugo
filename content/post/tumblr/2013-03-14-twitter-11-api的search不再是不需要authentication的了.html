@@ -1,0 +1,10 @@
+---
+date: "2013-03-14T00:47:39Z"
+tags:
+- IFTTT
+- Blogger
+title: Twitter 1.1 API的Search不再是不需要Authentication的了
+tumblr_url: http://blog.jln.co/post/45274128403/twitter-11-api的search不再是不需要authentication的了
+---
+<p>以往Twitter的search API是不需要任何認證, 也不需要設定啥App ID或啥consumer key的, 不過, 在API 1.1之後, 這就改了<br/><br/>因為1.1, search也列入rate limit的追蹤囉, 所以使用search API也要做認證(Authentication), 但由於search api的使用情境, 不見得一定需要使用者登入, 有些做資料分析的應用也有可能會用到, 所以強制用OAuth就有點不是很合理, 所幸, 除了用OAuth以外, 這類的API也可以使用<a href="http://bit.ly/XDV7N4" target="_blank">Application-only authentication</a>:<br/><br/></p><div class="separator" style="clear: both; text-align: center;"><a href="http://bit.ly/Wb0AuX" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="239" src="http://bit.ly/Wb0AuX" width="320"/></a></div><br/><ol><li>首先必須要用Basic Auth的方式取得token, 用consumer key當user name, consumer secret當password去呼叫/oauth2/token的API</li><ol><li>使用POST</li><li>必須要有grant_type=client_credentials</li></ol><li>成功的話就會得到access_token (注意token type為bearer)</li><li>使用這個token去呼叫API (search或其他不需要user login的API)</li><ol><li>把token加在HTTP的Authentication header (像是: Authorization: Bearer AAAAAAAAAAAAAAAA )</li><li>一定要走SSL (https), 如果是非SSL會碰到&quot;Bad Authentication data&quot;的錯誤</li></ol></ol><div>以下是Sample code (使用Go):</div><div><br/></div><div><br/></div><br/><script src="http://bit.ly/Wb0CD3"></script><br/><br/><br/>
+via Blogger <a href="http://bit.ly/X79jKT">http://bit.ly/X79jKT</a>

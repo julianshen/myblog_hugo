@@ -1,0 +1,34 @@
+---
+date: "2015-05-05T21:35:09Z"
+tags: []
+title: '[iOS開發生手筆記] 初試ReactiveCocoa'
+tumblr_url: http://blog.jln.co/post/118198663527/ios開發生手筆記-初試reactivecocoa
+---
+<p>對FRP跟Swift還沒很熟, 直接玩<a href="https://github.com/ReactiveCocoa/ReactiveCocoa">ReactiveCocoa</a> 有點苦手, 不過, 還挺好玩的</p>
+<p>狀況設計: 畫面上有一個輸入框, 和一個文字標籤, 在輸入框輸入文字後, 標籤要同步顯示一樣的文字, 文字框輸入不滿三個字母時背景要顯示紅色,像這樣:
+<img src="http://66.media.tumblr.com/f1c851fbc75ebffca37e7656a2f3791a/tumblr_inline_nnvikzOMn21qzg4zq_540.png" alt=""/><img src="http://67.media.tumblr.com/db637264f9db9135387840229ad35f96/tumblr_inline_nnvilcyh921qzg4zq_540.png" alt=""/></p>
+<p>所以會有一個標籤(myLabel)和一個輸入框(myInput):</p>
+<pre>
+    @IBOutlet weak var myLabel: UILabel!
+    @IBOutlet weak var myInput: UITextField!
+</pre>
+<p>要做到這樣的功能, 不只有一種作法, 像是也可以用KVO去observe一個變數由那個來改變myLabel的值,但KVO的缺點是, 被observe的那個必須是dynamic的, 所以沒辦法直接observer <code>myInput.text</code></p>
+<p>但用ReactiveCocoa來做的話就簡單的有趣, 首先如果要達到第一個需求, 只需要</p>
+<pre>
+    var text_signal = myInput.rac_textSignal()
+    text_signal.setKeyPath("text", onObject: myLabel)
+</pre>
+<p>這還真是么壽簡單, 只是把myInput.text跟myLabel.text抓條線連一起就好了!</p>
+<p>那第二項呢?</p>
+
+<pre>
+
+text_signal.map({
+  (textObj:AnyObject!)-&gt;AnyObject in
+    var text = textObj as! String
+    return count(text) &lt; 3 ? UIColor.redColor():UIColor.whiteColor()
+}).setKeyPath("backgroundColor", onObject: myInput)
+
+</pre>
+
+<p>這也是簡單的不行, 把輸入的Signal用map轉換成UIColor, 而轉換的條件就是以text的長度來計算, 最後連到myInput.backgroundColor去, 挺有趣的(雖然也不是很好懂)</p>
