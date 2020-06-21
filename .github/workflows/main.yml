@@ -29,3 +29,6 @@ jobs:
         hugo-version: latest
         # Download (if necessary) and use Hugo extended version. Example: true
         extended: false
+    
+    - name: Build pages
+      run: hugo --minify
