@@ -32,6 +32,5 @@ jobs:
         go-version: 1.14
         # Whether to download only stable versions
         stable: true
-    - run:
-      - go get 
-      - go test ./...
+    - run: go get 
+    - run: go test ./...
