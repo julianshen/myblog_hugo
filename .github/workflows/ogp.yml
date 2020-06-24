@@ -33,6 +33,8 @@ jobs:
         # Whether to download only stable versions
         stable: true
     - run: go get 
+      with:
+        workdir: ogp
     - run: go test ./...
       with:
         workdir: ogp
