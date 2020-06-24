@@ -34,3 +34,5 @@ jobs:
         stable: true
     - run: go get 
     - run: go test ./...
+      with:
+        workdir: ogp
