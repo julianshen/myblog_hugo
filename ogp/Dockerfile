@@ -7,4 +7,3 @@ RUN apk add --update \
 COPY . /app
 WORKDIR /app
 RUN go build .
-
