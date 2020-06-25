@@ -7,4 +7,4 @@ RUN apk add --update \
 COPY . /app
 WORKDIR /app
 RUN go build .
-ENTRYPOINT [ "/app/ogp", "-b", "/content", "-f" ]
+ENTRYPOINT [ "/app/ogp", "-b", "/blog", "-f" ]
