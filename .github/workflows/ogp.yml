@@ -45,4 +45,5 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
         repository: julianshen/ogpp
+        path: ogp/
         tags: latest
