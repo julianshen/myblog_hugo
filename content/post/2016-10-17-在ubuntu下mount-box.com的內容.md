@@ -1,5 +1,7 @@
 ---
 date: "2016-10-17T20:38:54Z"
+images:
+- /images/posts/2016-10-17-在ubuntu下mount-box.com的內容.md.jpg
 tags:
 - box.com
 - Ubuntu

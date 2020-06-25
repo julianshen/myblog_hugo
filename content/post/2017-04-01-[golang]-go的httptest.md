@@ -1,5 +1,7 @@
 ---
 date: "2017-04-01T10:00:58Z"
+images:
+- /images/posts/2017-04-01-[golang]-go的httptest.md.jpg
 tags:
 - golang
 title: '[Golang] Go的httptest'

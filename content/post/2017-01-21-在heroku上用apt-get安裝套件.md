@@ -1,5 +1,7 @@
 ---
 date: "2017-01-21T00:22:49Z"
+images:
+- /images/posts/2017-01-21-在heroku上用apt-get安裝套件.md.jpg
 tags:
 - server
 - heroku

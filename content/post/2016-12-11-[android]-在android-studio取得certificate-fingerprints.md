@@ -1,5 +1,7 @@
 ---
 date: "2016-12-11T21:27:45Z"
+images:
+- /images/posts/2016-12-11-[android]-在android-studio取得certificate-fingerprints.md.jpg
 tags:
 - Android
 - mobiledev

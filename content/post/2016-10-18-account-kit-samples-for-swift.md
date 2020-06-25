@@ -1,5 +1,7 @@
 ---
 date: "2016-10-18T21:01:31Z"
+images:
+- /images/posts/2016-10-18-account-kit-samples-for-swift.md.jpg
 tags:
 - Swift
 - Facebook

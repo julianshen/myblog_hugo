@@ -1,5 +1,7 @@
 ---
 date: "2017-04-15T12:46:27Z"
+images:
+- /images/posts/2017-04-15-[筆記]利用axios-mock-adapter為axios提供測試用的假資料.md.jpg
 tags:
 - javascript
 - axios

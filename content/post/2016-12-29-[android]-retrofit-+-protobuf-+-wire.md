@@ -1,5 +1,7 @@
 ---
 date: "2016-12-29T15:33:25Z"
+images:
+- /images/posts/2016-12-29-[android]-retrofit-+-protobuf-+-wire.md.jpg
 tags:
 - Retrofit
 - Android

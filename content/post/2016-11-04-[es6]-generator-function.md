@@ -1,5 +1,7 @@
 ---
 date: "2016-11-04T15:11:58Z"
+images:
+- /images/posts/2016-11-04-[es6]-generator-function.md.jpg
 tags:
 - javascript
 - ES6

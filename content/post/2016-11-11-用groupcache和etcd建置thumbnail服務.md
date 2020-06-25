@@ -1,5 +1,7 @@
 ---
 date: "2016-11-11T14:53:03Z"
+images:
+- /images/posts/2016-11-11-用groupcache和etcd建置thumbnail服務.md.jpg
 tags:
 - Golang
 title: 用Groupcache和etcd建置thumbnail服務

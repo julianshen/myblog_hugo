@@ -1,5 +1,7 @@
 ---
 date: "2016-09-28T02:17:12Z"
+images:
+- /images/posts/2016-09-28-使用aws-lambda和github來提供中華職棒賽程資料.md.jpg
 tags:
 - Golang
 - Github

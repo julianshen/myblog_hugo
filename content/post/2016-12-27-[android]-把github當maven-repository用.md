@@ -1,5 +1,7 @@
 ---
 date: "2016-12-27T15:39:59Z"
+images:
+- /images/posts/2016-12-27-[android]-把github當maven-repository用.md.jpg
 tags:
 - Android
 - Github

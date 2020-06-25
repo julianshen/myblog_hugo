@@ -1,5 +1,7 @@
 ---
 date: "2016-10-31T08:49:18Z"
+images:
+- /images/posts/2016-10-31-淺談social-feed---多服務彙整式的social-feed-[client].md.jpg
 tags:
 - concept
 - idea

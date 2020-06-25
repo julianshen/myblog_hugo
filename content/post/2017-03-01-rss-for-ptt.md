@@ -1,5 +1,7 @@
 ---
 date: "2017-03-01T17:08:32Z"
+images:
+- /images/posts/2017-03-01-rss-for-ptt.md.jpg
 tags:
 - golang
 - Ptt

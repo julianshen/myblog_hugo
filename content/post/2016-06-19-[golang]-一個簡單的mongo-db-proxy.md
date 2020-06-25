@@ -1,5 +1,7 @@
 ---
 date: "2016-06-19T13:17:04Z"
+images:
+- /images/posts/2016-06-19-[golang]-一個簡單的mongo-db-proxy.md.jpg
 tags:
 - golang
 - mongodb

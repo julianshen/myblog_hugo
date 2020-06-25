@@ -1,5 +1,7 @@
 ---
 date: "2017-03-12T12:07:35Z"
+images:
+- /images/posts/2017-03-12-[java]-關於retofit的一些奇技.md.jpg
 tags:
 - Retrofit
 - Java

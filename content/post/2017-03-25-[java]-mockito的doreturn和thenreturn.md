@@ -1,5 +1,7 @@
 ---
 date: "2017-03-25T20:55:24Z"
+images:
+- /images/posts/2017-03-25-[java]-mockito的doreturn和thenreturn.md.jpg
 tags:
 - java
 - mockito

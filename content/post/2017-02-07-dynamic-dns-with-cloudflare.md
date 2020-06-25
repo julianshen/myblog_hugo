@@ -1,5 +1,7 @@
 ---
 date: "2017-02-07T15:40:05Z"
+images:
+- /images/posts/2017-02-07-dynamic-dns-with-cloudflare.md.jpg
 tags:
 - DNS
 - Cloudflare
