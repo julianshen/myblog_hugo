@@ -34,6 +34,7 @@ jobs:
         # Whether to download only stable versions
         stable: true
     - run: |
+           sudo apt-get install libvips-dev
            cd ogp
            go get 
            go test ./...
