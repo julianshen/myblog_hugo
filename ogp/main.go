@@ -160,5 +160,5 @@ func main() {
 	d, _ := yaml.Marshal(&page.FrontMatter)
 	fmt.Print(string(d))
 	fmt.Println("---")
-	fmt.Println(string(page.Content))
+	fmt.Print(string(page.Content))
 }
