@@ -30,3 +30,11 @@ jobs:
     
     - name: Build pages
       run: hugo --minify
+
+    - name: Deploy
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+        external_repository: julianshen/testbloggen
+        publish_branch: master
+        publish_dir: ./public
