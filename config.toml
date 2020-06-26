@@ -1,4 +1,4 @@
-baseURL= "http://blog.jln.co"
+baseURL= "https://blog.jln.co"
 disablePathToLower= true
 languageCode="zh-tw"
 title= "Le murmure de Julian"
