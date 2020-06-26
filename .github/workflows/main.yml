@@ -35,7 +35,7 @@ jobs:
       uses: peaceiris/actions-gh-pages@v3
       with:
         personal_token: ${{ secrets.PERSONAL_TOKEN }}
-        external_repository: julianshen/testbloggen
+        external_repository: julianshen/julianshen.github.com
         publish_branch: master
         publish_dir: ./public
         cname: blog.jln.co
