@@ -38,3 +38,5 @@ jobs:
         external_repository: julianshen/testbloggen
         publish_branch: master
         publish_dir: ./public
+        allow_empty_commit: true
+        cname: blog.jln.co
