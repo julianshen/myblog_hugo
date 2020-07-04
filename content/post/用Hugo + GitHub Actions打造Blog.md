@@ -334,24 +334,33 @@ G --> H[結束]
 
 要使用[git-hooks](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks)的話, 要把你要執行的寫成腳本(script)放到 ```.git/hooks/``` 目錄下, 例如, pre-commit的腳本的檔名就是 ```.git/hooks/pre-commit```, 記得要把這檔案用 ```chmod +x``` 把權限改成可執行, 下面就是我用的pre-commit
 
-```bash
-#!/bin/bash
-echo "Run precommit"
-newfiles=`git diff --cached --name-status | awk '$1!="D" { print $2 }'`
-ll=${#newfiles[@]}
-for ((i=0;i<$ll,i++))
-do
-   n=${newfiles[i]}
-   if [[ $n =~ content/post/.*\.md$ ]]; then
-       f=`basename $n`
-       docker run -v `pwd`:/blog julianshen/ogpp $f > /tmp/$f
-       mv /tmp/$f content/post/$f
-       rm /tmp/$f
-       touch .commit
-   fi
-done
-exit 0
+```perl
+#!/usr/bin/perl 
+use File::Basename;
+use File::Copy;
+use Cwd;
+use utf8;
+
+open(FH,"git diff --cached --name-status |") or die $!;
+
+while (my $line = <FH>) {
+   $line =~ /^(\w)\s+(.+)/;
+   if ($1 ne "D"){
+      my $f = $2;
+      $f =~ tr/"//d;
+      ($name,$path,$suffix) = fileparse($f,  ,qr"\..[^.]*$");
+      if($suffix =~ /\.md|\.MD/) {
+          my $dir = getcwd;
+          print "$f\n";
+          system("docker run -v $dir:/blog julianshen/ogpp '$name$suffix' > '/tmp/$name$suffix'");
+          copy("/tmp/$name$suffix", "$dir/$f") or die "error moving file from /tmp/$name$suffix to $dir/$f:$!";
+      }
+   }
+}
+close(FH)
 ```
+
+(更新: 後來因為有檔名處理問題, 改寫了這個perl的版本)
 
 這邊所做的動作是找到這次有變更的文章(副檔名.md), 然後針對每個檔去跑ogp產生 ```og:image``` (我這邊把ogp包成docker image方便使用)
 
