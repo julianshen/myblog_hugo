@@ -212,7 +212,7 @@ textarea {
 
 /* makes the font 33% larger relative to the icon container */
 .fa-lg {
-  font-size: 1.33333em;
+  font-size: 1.3333333333em;
   line-height: 0.75em;
   vertical-align: -15%; }
 
@@ -229,24 +229,24 @@ textarea {
   font-size: 5em; }
 
 .fa-fw {
-  width: 1.28571em;
+  width: 1.2857142857em;
   text-align: center; }
 
 .fa-ul {
   padding-left: 0;
-  margin-left: 2.14286em;
+  margin-left: 2.1428571429em;
   list-style-type: none; }
   .fa-ul > li {
     position: relative; }
 
 .fa-li {
   position: absolute;
-  left: -2.14286em;
-  width: 2.14286em;
-  top: 0.14286em;
+  left: -2.1428571429em;
+  width: 2.1428571429em;
+  top: 0.1428571429em;
   text-align: center; }
   .fa-li.fa-lg {
-    left: -1.85714em; }
+    left: -1.8571428571em; }
 
 .fa-border {
   padding: .2em .25em .15em;
@@ -2443,7 +2443,7 @@ button::-moz-focus-inner {
   padding: 0;
   width: 90px;
   height: 110px;
-  -webkit-tap-highlight-color: transparent; }
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0); }
   .mfp-arrow:active {
     margin-top: -54px; }
   .mfp-arrow:hover, .mfp-arrow:focus {
@@ -2743,14 +2743,14 @@ h1 {
    ========================================================================== */
 a {
   text-decoration: none;
-  color: rgba(34, 34, 34, 0.8); }
+  color: rgba(51, 17, 34, 0.7); }
   a:visited {
-    color: rgba(85, 85, 85, 0.8); }
+    color: rgba(128, 43, 85, 0.7); }
   a:hover {
-    color: rgba(0, 0, 0, 0.8); }
+    color: rgba(0, 0, 0, 0.7); }
   a:focus {
     outline: thin dotted;
-    color: rgba(0, 0, 0, 0.8); }
+    color: rgba(0, 0, 0, 0.7); }
   a:hover, a:active {
     outline: 0; }
 
@@ -3571,7 +3571,7 @@ svg:not(:root) {
     background: #fff;
     top: 10px;
     left: 16%;
-    box-shadow: 0 10px 0 #fff,  0 20px 0 #fff; }
+    box-shadow: 0 10px 0 #fff, 0 20px 0 #fff; }
   .dl-menuwrapper ul {
     padding: 0;
     list-style: none;
@@ -3792,10 +3792,10 @@ body {
   margin-bottom: 1.625rem; }
   .entry-content p > a,
   .entry-content li > a {
-    border-bottom: 1px dotted rgba(162, 162, 162, 0.8); }
+    border-bottom: 2px dotted rgba(208, 115, 162, 0.7); }
     .entry-content p > a:hover,
     .entry-content li > a:hover {
-      border-bottom-style: solid; }
+      border-bottom: 1px solid rgba(0, 0, 0, 0.7); }
   .entry-content li {
     margin-bottom: 7px; }
   .entry-content .footnotes ol, .entry-content .footnotes li, .entry-content .footnotes p {
@@ -4080,7 +4080,7 @@ header .entry-meta {
   margin-bottom: 1.625rem; }
   .read-more-content p > a,
   .read-more-content li > a {
-    border-bottom: 1px dotted rgba(162, 162, 162, 0.8); }
+    border-bottom: 1px dotted rgba(208, 115, 162, 0.7); }
     .read-more-content p > a:hover,
     .read-more-content li > a:hover {
       border-bottom-style: solid; }
