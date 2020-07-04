@@ -1,6 +1,8 @@
 ---
-date: 2020-06-28T12:32:14+08:00
-title: "用Hugo + GitHub Actions打造Blog"
+date: "2020-06-28T12:32:14+08:00"
+images:
+- /images/posts/用Hugo + GitHub Actions打造Blog.md.jpg
+title: 用Hugo + GitHub Actions打造Blog
 ---
 
 大概有三年沒寫Blog了, 最近覺得年紀大了, 變得越來越會忘東忘西的, 是有必要強迫自己寫一些東西了
@@ -335,10 +337,11 @@ G --> H[結束]
 ```bash
 #!/bin/bash
 echo "Run precommit"
-newfiles=`git diff --cached --name-status | awk -vFPAT='([^]*)|("[^]+)' '$1!="D" { print $2 }'`
-
-for n in $newfiles
+newfiles=`git diff --cached --name-status | awk '$1!="D" { print $2 }'`
+ll=${#newfiles[@]}
+for ((i=0;i<$ll,i++))
 do
+   n=${newfiles[i]}
    if [[ $n =~ content/post/.*\.md$ ]]; then
        f=`basename $n`
        docker run -v `pwd`:/blog julianshen/ogpp $f > /tmp/$f
@@ -462,3 +465,4 @@ on:
 好就沒寫blog, 也好久沒寫長文了, 我發現我廢話一樣多, 不過這邊也花了很長時間弄, 所以也多了一點
 
 還有一些沒寫上, 例如說我現在是用vscode打這篇文章, 搭配hugoify這個plugin, 並且同時用瀏覽器預覽, 雖然整套工具很geek, 不過弄好後還蠻好玩的就是了 
+
