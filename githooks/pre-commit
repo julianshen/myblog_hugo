@@ -16,7 +16,7 @@ while (my $line = <FH>) {
           my $dir = getcwd;
           print "$f\n";
           system("docker run -v $dir:/blog julianshen/ogpp '$name$suffix' > '/tmp/$name$suffix'");
-          copy("/tmp/$name$suffix", "$dir/$f") or die "error moving file from /tmp/$name$suffix to $dir/$f:$!";	  
+          copy("/tmp/$name$suffix", "$dir/$f") or die "error moving file from /tmp/$name$suffix to $dir/$f:$!";
       }
    }
 }

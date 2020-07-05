@@ -1,0 +1,10 @@
+#!/bin/bash
+echo "Post commit"
+if [ -e .commit ]
+    then
+    echo "Add rest files"
+    rm .commit
+    git add .
+    git commit --amend -C HEAD --no-verify
+fi
+exit 0
