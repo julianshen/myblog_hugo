@@ -11,7 +11,8 @@ while (my $line = <FH>) {
    if ($1 ne "D"){
       my $f = $2;
       $f =~ tr/"//d;
-      ($name,$path,$suffix) = fileparse($f,  ,qr"\..[^.]*$");
+      print "$f\n";
+      ($name,$path,$suffix) = fileparse(qw($f),  ,qr"\..[^.]*$") or ("","","");
       if($suffix =~ /\.md|\.MD/) {
           my $dir = getcwd;
           print "$f\n";
