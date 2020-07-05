@@ -222,3 +222,4 @@ import extra "github.com/json-iterator/go/extra"
 ```
 
 然後在開始使用前, 註冊 ```FuzzyDecoders``` 即可(```extra.RegisterFuzzyDecoders()```), 這樣, 不管有沒雙引號都不會有問題了!!
+
