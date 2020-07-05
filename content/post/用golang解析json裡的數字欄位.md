@@ -1,6 +1,8 @@
 ---
-date: 2020-07-05T14:54:23+08:00
-title: "用golang解析json裡的數字欄位"
+date: "2020-07-05T14:54:23+08:00"
+images:
+- /images/posts/用golang解析json裡的數字欄位.md.jpg
+title: 用golang解析json裡的數字欄位
 ---
 
 在寫網路相關應用的時候, 應該常常會碰到需要去解析JSON格式的資料, 而Go在這邊也已經內建了一個蠻方便的套件 - **"encoding/json"** 可以讓我們輕易地來處理這類型的資料
