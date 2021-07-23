@@ -1,6 +1,6 @@
 module ogp
 
-go 1.14
+go 1.16
 
 require (
 	github.com/gohugoio/hugo v0.79.1
