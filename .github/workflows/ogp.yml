@@ -30,7 +30,7 @@ jobs:
       uses: actions/setup-go@v2.0.3
       with:
         # The Go version to download (if necessary) and use. Supports semver spec and ranges.
-        go-version: 1.14
+        go-version: 1.16
         # Whether to download only stable versions
         stable: true
     - run: |
