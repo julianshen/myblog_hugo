@@ -1,7 +1,7 @@
 ---
 date: 2021-08-02T00:52:04+08:00
 images: 
-- "https://og.jln.co/jlns1/5Zyobm9kZWpz5L2/55SoIFR5cGVzY3JpcHQg5ZG85Y+rdGhyaWZ0IENsaWVudA"
+- "https://og.jln.co/jlns1/5Zyobm9kZWpz5L2_55SoIFR5cGVzY3JpcHQg5ZG85Y-rdGhyaWZ0IENsaWVudA"
 title: "在nodejs使用typescript呼叫thrift client"
 ---
 
