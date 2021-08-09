@@ -164,7 +164,7 @@ func Capture(encodedurl string) ([]byte, error) {
 }
 ```
 
-這邊要擷取的URL一樣是透過base64編碼完放在url傳過來的, 因為我們要的圖大小是1200x630, 所以這邊的View port就設定成那個大小, 有一個比較要特別注意的是, 跟原本chromdp範例不同的地方是, 這邊要用`ctx, _ := chromedp.NewExecAllocator(context.Background(), chromedp.NoSandbox)` ** "NoSandbox" ** 的模式來初始chrome, 要不然無法在heroku下跑
+這邊要擷取的URL一樣是透過base64編碼完放在url傳過來的, 因為我們要的圖大小是1200x630, 所以這邊的View port就設定成那個大小, 有一個比較要特別注意的是, 跟原本chromdp範例不同的地方是, 這邊要用`ctx, _ := chromedp.NewExecAllocator(context.Background(), chromedp.NoSandbox)` **"NoSandbox"** 的模式來初始chrome, 要不然無法在heroku下跑
 
 這邊並不是使用`chrome.FullScreenshot`來擷取畫面, 取而代之的是用自己寫的`FullScreenshotInViewport`
 
