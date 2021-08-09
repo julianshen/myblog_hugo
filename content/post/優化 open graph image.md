@@ -199,7 +199,7 @@ func FullScreenshotInViewport(res *[]byte, quality int) chromedp.EmulateAction {
 
 其實這支是抄自`chrome.FullScreenshot`, 但不一樣的是`WithClip`這邊的寬高用的是1200x630, 這是因為原本`chrome.FullScreenshot`會抓整頁完整頁面, 要多長有多長, 結果寬度雖是1200, 但長度可能超長, 這樣的比例可能也會被Facebook視為要用小版面來顯示
 
-### 部屬到heroku
+### 佈署到heroku
 
 [chromedp](https://github.com/chromedp/chromedp)是沒辦法單獨運作的, 必須要有chrome才可以正常運作, 如果要部屬到heroku, heroku的環境上是沒裝chrome的, 這該怎麼辦?
 
