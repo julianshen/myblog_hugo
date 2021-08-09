@@ -29,7 +29,7 @@ images:
 
 ![Twitter card small Image](/images/posts/og/tc_sample_small.jpg)
 
-這邊Twitter card使用的是 **"summary_large_image"** , 因此可以看到結果(第二張), 版面是較大的版面, 但圖片的部分就糊的有點慘了, Facebook圖雖沒那麼糊, 但版面依然很小
+這邊Twitter card使用的是 **"summary_large_image"** , 因此可以看到結果(第二張), 版面是較大的版面, 但圖片的部分就糊的有點慘了, 而且, 重點被截到了, Facebook圖雖沒那麼糊, 但版面依然很小
 
 現在應該很多網站都有注意使用了大圖來做為og:image了, 效果就像是這樣:
 
