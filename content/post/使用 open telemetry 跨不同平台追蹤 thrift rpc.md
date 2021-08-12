@@ -36,11 +36,11 @@ images:
 
 也就是說除了追蹤資訊, 它也囊括了系統狀態跟Logs, 另外也支援很多不同語言, 算是野心蠻大的, 這邊來看一下它的架構:
 
-[](https://raw.github.com/open-telemetry/opentelemetry.io/main/iconography/Reference_Architecture.svg)
+![](https://raw.github.com/open-telemetry/opentelemetry.io/main/iconography/Reference_Architecture.svg)
 
 主要它包含了兩部分, 一個是各程式語言使用的程式庫 - OT Library, 另一個是蒐集資訊的Collector, 而Collector是這樣的:
 
-[](https://raw.github.com/open-telemetry/opentelemetry.io/main/iconography/Otel_Collector.svg)
+![](https://raw.github.com/open-telemetry/opentelemetry.io/main/iconography/Otel_Collector.svg)
 
 Collector包含了Receiver, Processor, Exporter, 這架構讓它有能力相容/支援不同的系統, 所以像是Finagle這種本來就有支援ZipKin的, 其實只要把原本倒到ZipKin的資料轉倒到OpenTelemetry的Collector就好, 這邊算是好解決, 如果系統是跑在K8S這類的環境上的話, 也可以考慮把Collector
 當成sidecar來佈署
