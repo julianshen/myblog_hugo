@@ -3,7 +3,6 @@ date: 2021-08-22T12:42:50+08:00
 title: "用Kubernetes ConfigMap實現配置的熱更新"
 images: 
 - "https://og.jln.co/jlns1/55SoS3ViZXJuZXRlcyBDb25maWdNYXDlr6bnj77phY3nva7nmoTnhrHmm7TmlrA"
-draft: true
 ---
 
 程式配置(Configuration)的熱更新(hot reload)應該是建置服務會常碰到一個題目, 常會有狀況需要在不動用release去調整程式配置的狀況, 比較常見的做法應該是將這些配置集中管理, 因此就有相關的解決方案產生像是:
