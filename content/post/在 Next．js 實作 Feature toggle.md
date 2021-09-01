@@ -1,6 +1,6 @@
 ---
 date: 2021-09-01T14:13:25+08:00
-title: "在 Next.js 實作 Feature Toggle"
+title: "在 Next.js 實作 Feature Toggles"
 images: 
 - "https://og.jln.co/jlns1/5ZyoIE5leHTvvI5qcyDlr6bkvZwgRmVhdHVyZSBUb2dnbGU"
 ---
@@ -11,7 +11,7 @@ images:
 
 先來介紹一下Feature toggle好了
 
-## Feature Toggle
+## Feature Toggles
 
 Feature Toggles (又名Feature Flags)是一個應該算是常見的軟體開發方式, 藉由開關旗標(flag)來開啟或隱藏程式中的功能, 土法一點, 你是可以自訂一個布林變數, 在release之前去打開或關閉它(true or false), 當然這樣彈性比較小, 理想上當然會希望可以彈性隨時開關
 
