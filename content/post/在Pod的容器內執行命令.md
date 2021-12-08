@@ -1,6 +1,8 @@
 ---
 title: "在Pod的容器內執行命令"
 date: 2021-12-08T10:13:18+08:00
+images: 
+- "https://og.jln.co/jlns1/5ZyoUG9k55qE5a655Zmo5YWn5Z-36KGM5ZG95Luk"
 ---
 
 一般來說, container通常會設計成只專注在它單一的任務上, 也就是通常不會把一個http server跟db server跑在同一個container內, Kubernetes 的Pod的設計, 讓我們可以在同一個Pod內放多個containers, 因此可以延伸出init container, sidecar container來輔助原本的container, 中間可以透過分享Volume或是直接透過loopback網路來共享資料, 但還是會有情境是, 你會希望可以在某個container空間內執行某個程式, docker的話, 你可以用 `docker exec` ,那在Kubernetes呢?
