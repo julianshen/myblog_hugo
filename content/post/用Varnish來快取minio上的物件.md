@@ -147,3 +147,5 @@ sub vcl_recv {
 ```
 
 上面這段就是把`/files/`後面的都到 `mmmbux`這bucket去抓, 然後其他目錄都回傳 `404 Not found`
+
+那如果我想要用docker跑也要有這VMod呢? 我把這Dockerfile的範例放在[https://github.com/julianshen/varnish-awsrest-docker](https://github.com/julianshen/varnish-awsrest-docker)
