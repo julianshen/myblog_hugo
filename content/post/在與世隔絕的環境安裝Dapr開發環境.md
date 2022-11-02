@@ -78,3 +78,9 @@ spec:
 ```
 
 這樣我們就有一個名叫mystore的state store了, 不只state store, 其他也可以如法炮製 
+
+#### 那如果想用podman取代docker呢?
+
+```sh
+dapr init --from-dir . -s --container-runtime podman
+```
