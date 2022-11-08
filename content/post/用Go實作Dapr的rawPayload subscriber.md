@@ -54,7 +54,7 @@ spec:
 ### 寫個subscriber來接收事件(event)吧
 [官方文件](https://docs.dapr.io/developing-applications/building-blocks/pubsub/pubsub-raw/)其實有寫如何寫一個接收raw payload的subscriber, 但不像其他文件一樣有多種語言範例, 只有Python, PHP兩種
 
-![](images/20221108224329.png)
+![](/post/images/20221108224329.png)
 
 但其實, 如上圖, Dapr用sidecar的作法, 簡化了寫pubsub的複雜度, 而且減低了對語言的依賴, 也不像是Istio是從系統的角度設計, 算是有點有趣的作法, 你不用理解pubsub, 也不用特別知道你是用Kafka, NATS, 或者是RabbitMQ, 寫法都一樣, 不囉嗦, 直接看code
 
