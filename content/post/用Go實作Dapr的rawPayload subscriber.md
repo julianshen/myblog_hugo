@@ -22,7 +22,7 @@ draft: false
 docker run -it --name kafka-zkless -p 9092:9092 -e LOG_DIR=/tmp/logs quay.io/strimzi/kafka:latest-kafka-2.8.1-amd64 /bin/sh -c 'export CLUSTER_ID=$(bin/kafka-storage.sh random-uuid) && bin/kafka-storage.sh format -t $CLUSTER_ID -c config/kraft/server.properties && bin/kafka-server-start.sh config/kraft/server.properties'
 ```
 
-這樣Kafka就可以順利活起來了, 完全不需要跑zoo keeper...開心...
+這樣Kafka就可以順利活起來了, 完全不需要跑zoo keeper...喔耶...
 
 建議也可以順便跑一下[Kafka map](https://github.com/dushixiang/kafka-map), 這樣待會可以直接發event來測試
 
