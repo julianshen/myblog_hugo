@@ -4,6 +4,9 @@ title: "用Go實作Dapr的rawPayload Subscriber"
 images: 
 - "https://og.jln.co/jlns1/55SoR2_lr6bkvZxEYXBy55qEcmF3UGF5bG9hZCBTdWJzY3JpYmVy"
 draft: false
+slug: dapr-raw-payload-pub-sub
+aliases: 
+- /用Go實作Dapr的rawPayload-Subscriber/
 ---
 
 本來沒預計寫這篇的, 不過後來想想, 本來想寫的篇幅太大, 先寫這篇幫後面內容暖身, 後續相關內容會再更新到下面連結:
