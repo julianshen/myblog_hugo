@@ -16,7 +16,7 @@ draft: false
 但有個東西同時支援了Pub sub, input binding, output binding, 一開始我是看Kafka這應用,才讓我覺得有點錯亂,[前一篇](dapr-raw-payload-pub-sub)有講過了怎實作Subscriber, 這邊來比較一下, 利用Input binding的話,會有什麼不一樣?
 
 ### 建立Binding元件
-![post/images/55875EA9-6C5C-48BB-8289-FF95B5CB5409.jpeg]()
+![/post/images/55875EA9-6C5C-48BB-8289-FF95B5CB5409.jpeg]()
 
 要用Kafka來觸發我們服務(如上圖),跟寫Subscriber一樣,我們需要在`~/.dapr/components`裡先建立好元件, 假設我們新增一個`kafka-binding.yaml`, 內容如下:
 
