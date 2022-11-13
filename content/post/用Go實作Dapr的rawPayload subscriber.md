@@ -11,7 +11,7 @@ aliases:
 
 本來沒預計寫這篇的, 不過後來想想, 本來想寫的篇幅太大, 先寫這篇幫後面內容暖身, 後續相關內容會再更新到下面連結:
 
-1. 待定
+1. [使用Dapr Input/Output Binding連接Kafka](Shi-Yong-Dapr-Input-Output-Bindinglian-Jie-Kafka)
 
 這篇並不是要寫怎用go實做Dapr的pubsub, 不完全是, 實做pubsub部分請參考[官方文件](https://docs.dapr.io/developing-applications/building-blocks/pubsub/howto-publish-subscribe/), 基本的Dapr的publisher跟subscriber是用所謂CloudEvent的格式在傳遞, 用CloudEvent的好處是, 由於CloudEvent會幫忙夾帶一些metadata, 因此也就可以實現分散式追蹤(Tracing)的功能, 但缺點就是無法支援一些原本寫好的legacy publisher或subscriber, 所幸Dapr的pubsub還是支援raw payload可以讓你自組你的訊息格式
 
