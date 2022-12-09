@@ -11,7 +11,7 @@ draft: false
 
 這個問題其實要滿足以下條件才可能發生:
 - MongoDB版本在 4.4.14, 5.3.0, 5.0.7, 4.2.20 之前, 這算是一個Mongodb在2022一月才fix的一個bug, 所以比這幾版舊是有可能的
-- MongoDB instance在K8S上有設memory limit (且這limit要小於host memory的一半?)
+- MongoDB instance在K8S上有設memory limit (且這limit要小於host node memory的一半?)
 - K8S所在的Host OS 的cgroup版本為V1, 可以[參考這文件](https://github.com/opencontainers/runc/blob/main/docs/cgroup-v2.md), Ubuntu 21.10, Fedora 31之後都開啟V2了, 不過如果你用的是WSL2, 由於WSL2的Kenel還是V1, 是試不出這問題的 (我是找了台Fedora來試)
 
 ### 問題是甚麼?
@@ -33,9 +33,9 @@ draft: false
 
 其實根據文件的補充說明, 它是有考慮到的, 它會以[hostInfo.system.memLimitMB](https://www.mongodb.com/docs/manual/reference/command/hostInfo/#mongodb-data-hostInfo.system.memLimitMB) 來計算
 
-```
+`
 In some instances, such as when running in a container, the database can have memory constraints that are lower than the total system memory. In such instances, this memory limit, rather than the total system memory, is used as the maximum RAM available.
-```
+`
 
 而它這資訊是透過cgroup去抓的, K8S也是用cgroup做資源管理的, 所以這值會等於你設定的limit
 
