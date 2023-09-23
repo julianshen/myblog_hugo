@@ -86,7 +86,7 @@ NATS也提供機制讓你達成這樣的結果, 雖然NATS的基本就是Pub Sub
 
 剛開始看到覺得, 頗酷的呀, 感覺就是在原本request/reply機制上再加上更多像是monitor和tracing的機制, 並讓它變得更像RPC call
 
-但為了寫這篇時, 做實驗後發現, 他講的東西目前也都還沒push到main trunk去的樣子, 像是schema, 還有`nats service`相關的指令也都還沒有, main裡面還沒找到相關的source code
+但為了寫這篇時, 做實驗後發現, 他講的東西目前也都還沒push到main trunk去的樣子, 像是schema, 說有支援typescript也還沒, 還有`nats service`相關的指令也都還沒有, main裡面還沒找到相關的source code
 
 所以這篇就沒打算寫太多了, 免得未來差異太大, 相關細節還是可以去看那段影片
 
