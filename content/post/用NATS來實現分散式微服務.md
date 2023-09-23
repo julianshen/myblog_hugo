@@ -62,19 +62,19 @@ NATS也提供機制讓你達成這樣的結果, 雖然NATS的基本就是Pub Sub
 ```
 
 上面則是相對於 **"requester"** 的 **"responder"** , 其實跟個subscriber差不多, 就是把訊息接回來處理,多一個回傳的動作(`msg.Respond([]byte(reply))`)而已, 從抽象角度來看, 跟我們直接拿REST API實作有點類似:
-![](/post/image/restapi.png)
+![](/images/posts/restapi.png)
 
 但實際上, 他的做法比較是這樣的:
 
-![](/post/image/reqresp.png)
+![](/images/posts/reqresp.png)
 
 好像不太意外, 但這樣有啥好處, 我不就直接寫rest不就好了? 我們先來看一下負載平衡的做法好了:
 
-![](/post/image/lbrrr.png)
+![](/images/posts/lbrrr.png)
 
 在這做法下, NATS其實就擔當起load balancer這角色了, 其實, 不知道你有沒注意到, 他也兼顧了service discovery的角色, 傳統你呼叫一個API service, 你必須先知道他的endpoint, 但在這邊你只要知道subject就好了, 因為responder是在監聽著那個subject, 因此, 還可以變形成這樣:
 
-![](/post/image/crosszoneee.png)
+![](/images/posts/crosszoneee.png)
 
 就可以簡單的實現到跨區呼叫或故障轉移(failover)
 
