@@ -3,7 +3,7 @@ date: 2023-09-24T12:02:37+08:00
 title: "大小重要嗎？你需要什麼樣的容器映像？distroless,chisel,pack"
 slug: "Da-Xiao-Zhong-Yao-Ma-Ni-Xu-Yao-Shi-Mo-Yang-De-Rong-Qi-Ying-Xiang-Distroless-Chisel-Pack"
 images: 
-- "https://og.jln.co/jlns1/5aSn5bCP6YeN6KaB5ZeO77yf5L2g6ZyA6KaB5LuA6bq85qij55qE5a655Zmo5pig5YOP77yfZGlzdHJvbGVzcyxjaGlzZWwscGFjaw"
+- "https://og.jln.co/jlns1/5aSn5bCP6YeN6KaB5ZeOP-S9oOmcgOimgeS7gOm6vOaoo-eahOWuueWZqOaYoOWDjz8"
 draft: false
 ---
 {{< youtube nFDAK8NY4JY >}}
