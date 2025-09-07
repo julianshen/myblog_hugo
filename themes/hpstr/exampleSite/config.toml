@@ -4,7 +4,7 @@ title = "HPSTR"
 theme = "hpstr"
 pluralizelisttitles = false
 PygmentsCodeFences = true
-Paginate = 5
+pagination.pagerSize = 5
 disqusShortname = "hpstrhugo"
 
 [params]

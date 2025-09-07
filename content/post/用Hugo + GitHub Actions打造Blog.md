@@ -80,7 +80,7 @@ title= "Le murmure de Julian"
 theme="hpstr"
 googleAnalytics = "UA-79243751-1"
 PygmentsCodeFences = true
-Paginate = 5
+Papagination.pagerSizeginate = 5
 hasCJKLanguage = true
 enableEmoji = true
 
